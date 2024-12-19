@@ -16,7 +16,7 @@ CREATE TABLE STUDENT (
     CONSTRAINT student_role_ck CHECK (role IN ('USER', 'ADMIN')) -- Role 제한
 );
 ALTER TABLE STUDENT ADD CONSTRAINT STUDENT_ID_PK PRIMARY KEY (id);
-
+SELECT COUNT(*) AS count FROM STUDENT WHERE ID = 'AAA';
 
 -- 주소 관리 테이블
 CREATE TABLE ZIPCODE (
@@ -89,6 +89,22 @@ CREATE SEQUENCE CART_SEQ START WITH 1 INCREMENT BY 1 NOMAXVALUE NOCACHE NOCYCLE;
 
 
 COMMIT;
+
+SELECT column_name, data_type, data_length, nullable
+FROM user_tab_columns
+WHERE table_name = 'STUDENT';
+SELECT column_name, data_type, data_length, nullable
+FROM user_tab_columns
+WHERE table_name = 'ZIPCODE';
+SELECT column_name, data_type, data_length, nullable
+FROM user_tab_columns
+WHERE table_name = 'LOGINBOARD';
+SELECT column_name, data_type, data_length, nullable
+FROM user_tab_columns
+WHERE table_name = 'LOGOUTBOARD';
+SELECT column_name, data_type, data_length, nullable
+FROM user_tab_columns
+WHERE table_name = 'CART';
 
 
 
