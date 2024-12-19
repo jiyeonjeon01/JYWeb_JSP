@@ -2,7 +2,9 @@
 JSP로 만든 JYWeb. 회원가입, 로그인, 글쓰기 등의 기능이 담긴 커뮤니티 사이트이다 
 
 <h2>SQL</h2>
+
 ```sql
+
 -- 회원 관리 테이블
 CREATE TABLE STUDENT (
     id         VARCHAR2(20),                  -- 사용자 ID (Primary Key)
