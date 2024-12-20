@@ -7,7 +7,9 @@
     padding: 0;
 }
 
+
 body {
+	width: 100%;
     margin: 0;
     font-family: Arial, sans-serif;
     display: flex;
@@ -19,4 +21,227 @@ body {
 a {
     text-decoration: none;
     color: inherit;
+}
+
+/* 헤더 */
+header {
+    margin: 0 auto; /* 중앙 정렬 */
+    /* width: 80%; /* 이거추가하면 화면의 80의 80퍼가됨!!! */
+    height: 70px;
+    overflow: hidden;
+    padding: 0;
+    box-sizing: border-box;
+        overflow: visible; /* 드롭다운 메뉴가 잘리지 않도록 설정 */
+    position: relative; /* 드롭다운의 기준점을 설정 */
+}
+
+body > header {
+    margin-top: 2%; /* 헤더 상단 여백 */
+}
+
+main > .footerDiv {
+	margin-top: 2%;
+}
+
+body > .footerDiv {
+    margin-bottom: 2%; /* header 상단 여백 */  
+}
+
+.headerTable {
+    width: 80%; /* 헤더 안에서 100% */
+    height: 70px;
+    background-color: #d2e5ee; 
+    table-layout: fixed; /* 셀 크기 균등 */
+    margin: 0 auto; /* 중앙 정렬 */
+}
+
+.logoTd {
+    margin: 0 auto;
+    text-align: center;
+    width: 10%;
+}    
+.menuTd  {
+    display: flex;
+    justify-content: space-between; /* 메뉴를 균등하게 배치 */
+    align-items: center; /* 수직 중앙 정렬 */
+    max-width: 800px; /* 최대 너비 지정 */
+    text-align: center;
+    line-height: 70px; /* 수직 정렬 */
+    margin: 0 auto;
+}
+
+
+.notiMenuLogout, .normalMenuLogout,.qnaMenuLogout, .shoppingMenuLogout,
+.notiMenuLogin, .normalMenuLogin,.qnaMenuLogin, .shoppingMenuLogin,
+.notiMenuAdmin, .normalMenuAdmin,.qnaMenuAdmin, .shoppingMenuAdmin{
+    margin: 0 auto;
+    width: 25%;
+    height: 70px;
+    text-align: center;
+    position: relative; /* 드롭다운 메뉴의 기준점 */
+    text-align: center; /* 메뉴 안의 텍스트를 가운데 정렬 */
+}
+
+
+
+/* 공통 드롭다운 메뉴 스타일 */
+.dropdownMenuLogin, .dropdownMenuLogout, .dropdownMenuAdmin{
+    display: none; /* 기본적으로 숨김 */
+    position: absolute;
+    top: 70px; /* 메뉴 아래 배치 */
+    left: 50%; /* 왼쪽 기준으로 50% 이동 */
+    transform: translateX(-50%); /* X축 기준 가운데 정렬 */
+    background-color: white;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1); /* 그림자 */
+
+    width: 120%; /* 드롭다운 메뉴 너비 */
+     z-index: 999; /* 다른 요소 위로 올리기 */
+}
+
+/* 링크 스타일 */
+.dropdownMenuLogin a, .dropdownMenuLogout a, .dropdownMenuAdmin a {
+    display: block;
+    height: 50px;
+    line-height: 50px;
+    padding: 0 10px;
+    color: #333;
+    text-decoration: none; /* 밑줄 제거 */
+    transition: background-color 0.3s ease;
+}
+
+/* 호버 시 배경색 */
+.dropdownMenuLogin a:hover, .dropdownMenuLogout a:hover , .dropdownMenuAdmin a:hover{
+    background-color: rgba(0, 0, 0, 0.1);
+}
+
+/* 로그인 상태 드롭다운 표시 */
+.notiMenuLogin:hover .dropdownMenuLogin,
+.normalMenuLogin:hover .dropdownMenuLogin,
+.qnaMenuLogin:hover .dropdownMenuLogin,
+.shoppingMenuLogin:hover .dropdownMenuLogin,
+.notiMenuLogout:hover .dropdownMenuLogout,
+.normalMenuLogout:hover .dropdownMenuLogout,
+.qnaMenuLogout:hover .dropdownMenuLogout,
+.shoppingMenuLogout:hover .dropdownMenuLogout,
+.notiMenuAdmin:hover .dropdownMenuAdmin,
+.normalMenuAdmin:hover .dropdownMenuAdmin,
+.qnaMenuAdmin:hover .dropdownMenuAdmin,
+.shoppingMenuAdmin:hover .dropdownMenuAdmin {
+    display: block; /* 로그인 상태 드롭다운 표시 */
+}
+
+
+
+
+.emptyTd {
+    margin: 0 auto;
+    width: 10%;
+    max-width: 100px; /* 최대 너비 지정 */
+}
+
+
+
+main {
+    margin: 0 auto; /* 이에 잇어야가운데 옴*/
+    margin-top: 3%; /* 헤더와의 여백 */
+    margin-bottom: 3%; /* 푸터와의 여백 */
+    width: 80%;
+    height: auto; /* 내용에 따라 높이 조정 */
+}
+
+
+/* 
+슬라이드쇼 스타일 */
+.slideShow {
+    width: 100%;
+    height: 300px;
+    position: relative;
+    overflow: hidden;
+    background-color: #776363;
+} 
+
+.slideShow .slidePic {
+    display: flex;
+    width: 100%;
+    height: 100%;
+    transition: transform 0.5s ease;
+}
+
+.slideShow .slidePic a {
+    flex: 0 0 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.slideShow .slidePic img {
+    width: 100%;
+    height: auto;
+    object-fit: cover;
+}
+
+.slideShow .slideSideIcon a {
+    position: absolute;
+    top: 50%;
+    color: rgba(222, 222, 222, 0.796);
+    font-size: 42px;
+    transform: translateY(-50%);
+    opacity: 0.5;
+}
+
+.slideShow .prev {
+    left: 10px;
+}
+
+.slideShow .next {
+    right: 10px;
+}
+
+.slideShow .slideFooterIcon {
+    position: absolute;
+    bottom: 20px;
+    left: 0;
+    right: 0;
+    text-align: center;
+}
+
+.slideShow .slideFooterIcon a {
+    display: inline-block;
+    color: rgba(255, 255, 255, 0.633);
+    padding: 7px;
+    font-size: 24px;
+}
+
+.slideShow .slideFooterIcon a.active {
+    color: rgb(222, 165, 165);
+} 
+
+
+section {
+    display: flex; /* 가로 배치 */
+    margin: 0 auto;
+    margin-top: 3%; /* 슬라이드쇼와의 여백 */
+    margin-bottom: 3%;
+    width: 100%;
+    height: auto; /* 높이 내용에 맞춤 */
+    border: 1px solid black; 
+    background-color: #f9f9f9;
+}
+
+
+
+ footer {
+    width: 100%; 
+    margin: 0 auto;
+    /* margin-top: 3%; 이거하면 안됨  */
+    height: 100px;
+    line-height: 100px;/*  텍스트 수직 정렬 */
+} 
+
+.footerDiv {
+	width: 80%;
+	background-color: #f4f4f4;
+	text-align: center;
+	margin: 0 auto;
+	
 }

@@ -10,7 +10,7 @@
 
 <!-- 푸터 -->
 	<footer>
-		<div>푸터입니다</div>
+		<div class="footerDiv">푸터입니다</div>
 	</footer>
 	
 </body>
