@@ -1,0 +1,113 @@
+@charset "UTF-8";
+
+
+/* 헤더 ----------------------------------------------------------------------------------------------------------------------------------*/
+header {
+    margin: 0 auto; /* 이게 잇어야 정가운데 옴 */
+    margin-top: 2%;
+    width: 80%;   
+    height: 70px;
+    
+}
+table { 
+    width: 100%;
+    height: 70px;
+    background-color: #d2e5ee;
+    table-layout: fixed; /* 셀 크기를 균등하게 유지 */
+}
+.logoTd {
+    margin: 0 auto;
+    text-align: center;
+    width: 10%;
+}    
+.menuTd  {
+    display: flex;
+    justify-content: space-between; /* 메뉴를 균등하게 배치 */
+    align-items: center; /* 수직 중앙 정렬 */
+    max-width: 800px; /* 최대 너비 지정 */
+    text-align: center;
+    line-height: 70px; /* 수직 정렬 */
+    margin: 0 auto;
+}
+.notiMenu, .normalMenu,.qnaMenu, .shoppingMenu{
+    margin: 0 auto;
+    width: 25%;
+    height: 70px;
+    text-align: center;
+}
+
+
+
+/* 공통 드롭다운 스타일 */
+.notiMenu, .normalMenu, .qnaMenu, .shoppingMenu {
+    position: relative; /* 드롭다운 메뉴의 기준점 */
+    text-align: center; /* 메뉴 안의 텍스트를 가운데 정렬 */
+}
+
+.dropdownMenu {
+    display: none; /* 기본적으로 숨김 */
+    position: absolute;
+    top: 70px; /* 메뉴 아래에 배치 */
+    left: 50%; /* 왼쪽 기준으로 50% 이동 */
+    transform: translateX(-50%); /* X축 기준 가운데 정렬 */
+    background-color: white; 
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1); /* 그림자 */
+    z-index: 10; /* 다른 요소 위에 표시 */
+    width: 110%; /* 메뉴 너비 조정 */
+}
+
+.dropdownMenu a {
+    display: block; /* 세로로 나열 */
+    height: 50px; /* 각 항목의 높이 설정 */
+    line-height: 50px; /* 텍스트 수직 중앙 정렬 */
+    padding: 0 10px; /* 좌우 패딩 */
+    color: #333;
+    text-decoration: none; /* 밑줄 제거 */
+    transition: background-color 0.3s ease;
+}
+
+.dropdownMenu a:hover {
+    background-color: rgba(0, 0, 0, 0.1); /* 호버 시 약간의 배경색 변경 */
+}
+
+/* 메뉴에 마우스를 올리면 드롭다운 표시 */
+.notiMenu:hover .dropdownMenu,
+.normalMenu:hover .dropdownMenu,
+.qnaMenu:hover .dropdownMenu,
+.shoppingMenu:hover .dropdownMenu {
+    display: block;
+}
+
+
+
+
+.emptyTd {
+    margin: 0 auto;
+    width: 10%;
+    max-width: 100px; /* 최대 너비 지정 */
+}
+
+
+
+/* 로그인 버튼 스타일 */
+.userNameBtnTd {
+	width: 10%;
+    text-align: center; /* 버튼을 가운데 정렬 */
+    vertical-align: middle; /* 수직 중앙 정렬 */
+}
+.userNameBtn {
+    width: 100%;
+    max-width: 150px; /* 최대 너비 설정 */
+    padding-right: 20px;
+    height: 40px; /* 높이 고정 */
+    padding: 0; /* 내부 여백 제거 */
+    background-color: transparent; /* 배경색을 투명으로 설정 */
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    text-align: center;
+    font-size: 1.3em;
+}
+
+
+

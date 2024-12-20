@@ -12,19 +12,27 @@ public class ZipcodeVO {
 	private String zipcode;
 	private String sido;
 	private String gugun;
-	private String fong;
+	private String dong;
 	private String bunji;
 	public ZipcodeVO() {
 		super();
 		// TODO Auto-generated constructor stub
 	}
-	public ZipcodeVO(int seq, String zipcode, String sido, String gugun, String fong, String bunji) {
+	public ZipcodeVO(int seq, String zipcode, String sido, String gugun, String dong, String bunji) {
 		super();
 		this.seq = seq;
 		this.zipcode = zipcode;
 		this.sido = sido;
 		this.gugun = gugun;
-		this.fong = fong;
+		this.dong = dong;
+		this.bunji = bunji;
+	}
+	public ZipcodeVO(String zipcode, String sido, String gugun, String dong, String bunji) {
+		super();
+		this.zipcode = zipcode;
+		this.sido = sido;
+		this.gugun = gugun;
+		this.dong = dong;
 		this.bunji = bunji;
 	}
 	public int getSeq() {
@@ -51,11 +59,11 @@ public class ZipcodeVO {
 	public void setGugun(String gugun) {
 		this.gugun = gugun;
 	}
-	public String getFong() {
-		return fong;
+	public String getDong() {
+		return dong;
 	}
-	public void setFong(String fong) {
-		this.fong = fong;
+	public void setFong(String dong) {
+		this.dong = dong;
 	}
 	public String getBunji() {
 		return bunji;
@@ -65,7 +73,7 @@ public class ZipcodeVO {
 	}
 	@Override
 	public String toString() {
-		return "ZipcodeVO [seq=" + seq + ", zipcode=" + zipcode + ", sido=" + sido + ", gugun=" + gugun + ", fong="
-				+ fong + ", bunji=" + bunji + "]";
+		return "ZipcodeVO [seq=" + seq + ", zipcode=" + zipcode + ", sido=" + sido + ", gugun=" + gugun + ", dong="
+				+ dong + ", bunji=" + bunji + "]";
 	}
 }

@@ -1,0 +1,22 @@
+@charset "UTF-8";
+
+/* 전체 */
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    display: flex;
+    flex-direction: column; /* 세로로 배치 */
+    min-height: 100vh; /* 화면 전체 높이를 기준 */
+}
+
+
+a {
+    text-decoration: none;
+    color: inherit;
+}
