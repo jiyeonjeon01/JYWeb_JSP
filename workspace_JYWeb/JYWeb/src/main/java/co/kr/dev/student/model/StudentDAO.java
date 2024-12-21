@@ -24,20 +24,19 @@ import co.kr.dev.common.ConnectionPool;
 
 public class StudentDAO {
 	// 전체 학생 정보 조회
-	private final String SELECT_ALL_SQL = "SELECT * FROM STUDENT";
-	// 해당 아이디 조회
-	private final String SELECT_ONE_SQL = "SELECT * FROM STUDENT WHERE ID = ?";
-	// 해당 아이디 유일한지 아이디로 조회
-	private final String SELECT_COUNT_ID_SQL = "SELECT COUNT(*) AS COUNT FROM STUDENT WHERE ID = ?";
-	// 로그인
-	private final String SELECT_LOGINCHECK_SQL = "SELECT COUNT(*) FROM STUDENT WHERE ID = ? AND PASS = ?";
-	// 회원가입하기
-	private final String INSERT_ALL_SQL = "INSERT INTO STUDENT VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ? ,? ,?)";
-	// 아이디로 회원수정하기
-	private final String UPDATE_SQL = "UPDATE STUDENT SET PASS = ?, NAME = ?, PHONE1 = ?, PHONE2 = ?, PHONE3 = ?"
-			+ "EMAIL = ?, ZIPCODE = ?, ADDRESS1 = ?, ADDRESS2 = ?, ORIGINFILE = ?, SYSFILE = ?, ROLE = ? WHERE ID = ?";
-	// 아이디로 회원 삭제하기
-	private final String DELETE_SQL = "DELETE FROM STUDENT WHERE ID = ?";
+    private final String SELECT_ALL_SQL = "SELECT * FROM STUDENT";
+    // 해당 아이디 조회
+    private final String SELECT_ONE_SQL = "SELECT * FROM STUDENT WHERE ID = ?";
+    // 해당 아이디 유일한지 아이디로 조회
+    private final String SELECT_COUNT_ID_SQL = "SELECT COUNT(*) AS COUNT FROM STUDENT WHERE ID = ?";
+    // 로그인
+    private final String SELECT_LOGINCHECK_SQL = "SELECT COUNT(*) FROM STUDENT WHERE ID = ? AND PASS = ?";
+    // 회원가입하기 (ROLE 제외)
+    private final String INSERT_ALL_SQL = "INSERT INTO STUDENT (ID, PASS, NAME, PHONE1, PHONE2, PHONE3, EMAIL, ZIPCODE, ADDRESS1, ADDRESS2, ORIGINFILE, SYSFILE) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+    // 아이디로 회원수정하기
+    private final String UPDATE_SQL = "UPDATE STUDENT SET PASS = ?, NAME = ?, PHONE1 = ?, PHONE2 = ?, PHONE3 = ?, EMAIL = ?, ZIPCODE = ?, ADDRESS1 = ?, ADDRESS2 = ?, ORIGINFILE = ?, SYSFILE = ? WHERE ID = ?";
+    // 아이디로 회원 삭제하기
+    private final String DELETE_SQL = "DELETE FROM STUDENT WHERE ID = ?";
 	// 회원가입시 동에 따른 우편번호 리스트 불러오기
 	private final String SELECT_ZIP_SQL = "SELECT * FROM ZIPCODE WHERE DONG LIKE ?";
 
@@ -113,29 +112,69 @@ public class StudentDAO {
 		}
 		return resultVO;
 	}
+	
+	
 
-	// 해당 아이디 유일한지 아이디로 조회
-	public boolean selectIdCheck(StudentVO svo) {
-		ConnectionPool cp = ConnectionPool.getInstance();
-		Connection con = cp.dbCon();
-		PreparedStatement pstmt = null;
-		ResultSet rs = null;
-		int count = 0;
+	// 새로운 selectOneDB 메서드 오버로드 (String id)
+	public StudentVO selectOneDB(String id) {
+	    ConnectionPool cp = ConnectionPool.getInstance();
+	    Connection con = cp.dbCon();
+	    PreparedStatement pstmt = null;
+	    ResultSet rs = null;
+	    StudentVO resultVO = null;
 
-		try {
-			pstmt = con.prepareStatement(SELECT_COUNT_ID_SQL);
-			pstmt.setString(1, svo.getId());
-			rs = pstmt.executeQuery();
-			if (rs.next()) {
-				count = rs.getInt("count");
-			}
-		} catch (SQLException e) {
-			e.printStackTrace();
-		} finally {
-			cp.dbClose(con, pstmt, rs);
-		}
-		return (count != 0) ? true : false;
+	    try {
+	        pstmt = con.prepareStatement(SELECT_ONE_SQL);
+	        pstmt.setString(1, id);
+	        rs = pstmt.executeQuery();
+	        if (rs.next()) {
+	            resultVO = new StudentVO(
+	                rs.getString("ID"),
+	                rs.getString("PASS"),
+	                rs.getString("NAME"),
+	                rs.getString("PHONE1"),
+	                rs.getString("PHONE2"),
+	                rs.getString("PHONE3"),
+	                rs.getString("EMAIL"),
+	                rs.getString("ZIPCODE"),
+	                rs.getString("ADDRESS1"),
+	                rs.getString("ADDRESS2"),
+	                rs.getString("ORIGINFILE"),
+	                rs.getString("SYSFILE"),
+	                rs.getString("ROLE")
+	            );
+	        }
+	    } catch (SQLException e) {
+	        e.printStackTrace();
+	    } finally {
+	        cp.dbClose(con, pstmt, rs);
+	    }
+	    return resultVO;
 	}
+
+	// 아이디 중복 체크
+    public boolean selectIdCheck(StudentVO svo) {
+        ConnectionPool cp = ConnectionPool.getInstance();
+        Connection con = cp.dbCon();
+        PreparedStatement pstmt = null;
+        ResultSet rs = null;
+        int count = 0;
+
+        try {
+            pstmt = con.prepareStatement(SELECT_COUNT_ID_SQL);
+            pstmt.setString(1, svo.getId());
+            rs = pstmt.executeQuery();
+            if (rs.next()) {
+                count = rs.getInt("count");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            cp.dbClose(con, pstmt, rs);
+        }
+        return (count > 0);
+    }
+
 
 	// 로그인
 	public int selectLoginCheck(StudentVO svo) {
@@ -165,36 +204,43 @@ public class StudentDAO {
 	}
 
 	// 회원가입하기
-	public Boolean insertDB(StudentVO svo) {
-		ConnectionPool cp = ConnectionPool.getInstance();
-		Connection con = cp.dbCon();
-		PreparedStatement pstmt = null;
-		int count = 0;
-		int rs = 0;
+    public Boolean insertDB(StudentVO svo) {
+        ConnectionPool cp = ConnectionPool.getInstance();
+        Connection con = cp.dbCon();
+        PreparedStatement pstmt = null;
+        int count = 0;
 
-		try {
-			pstmt = con.prepareStatement(INSERT_ALL_SQL);
-			pstmt.setString(1, svo.getId());
-			pstmt.setString(2, svo.getPass());
-			pstmt.setString(3, svo.getName());
-			pstmt.setString(4, svo.getPhone1());
-			pstmt.setString(5, svo.getPhone2());
-			pstmt.setString(6, svo.getPhone3());
-			pstmt.setString(7, svo.getEmail());
-			pstmt.setString(8, svo.getZipcode());
-			pstmt.setString(9, svo.getAddress1());
-			pstmt.setString(10, svo.getAddress2());
-			pstmt.setString(11, svo.getOriginFile());
-			pstmt.setString(12, svo.getSysFile());
-			pstmt.setString(13, svo.getRole());
-			count = pstmt.executeUpdate();
-		} catch (SQLException e) {
-			e.printStackTrace();
-		} finally {
-			cp.dbClose(con, pstmt);
-		}
-		return (count > 0) ? true : false;
-	}
+        try {
+            // 파일 업로드 기본값 처리
+            if (svo.getOriginFile() == null || svo.getOriginFile().isEmpty()) {
+                svo.setOriginFile("default-image.jpg");
+            }
+            if (svo.getSysFile() == null || svo.getSysFile().isEmpty()) {
+                svo.setSysFile("default-image.jpg");
+            }
+
+            pstmt = con.prepareStatement(INSERT_ALL_SQL);
+            pstmt.setString(1, svo.getId());
+            pstmt.setString(2, svo.getPass());
+            pstmt.setString(3, svo.getName());
+            pstmt.setString(4, svo.getPhone1());
+            pstmt.setString(5, svo.getPhone2());
+            pstmt.setString(6, svo.getPhone3());
+            pstmt.setString(7, svo.getEmail());
+            pstmt.setString(8, svo.getZipcode());
+            pstmt.setString(9, svo.getAddress1());
+            pstmt.setString(10, svo.getAddress2());
+            pstmt.setString(11, svo.getOriginFile());
+            pstmt.setString(12, svo.getSysFile());
+            count = pstmt.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            cp.dbClose(con, pstmt);
+        }
+        return (count > 0);
+    }
+
 
 	// 아이디로 회원수정하기 UPDATE_SQL
 	public Boolean updateDB(StudentVO svo) {
@@ -273,4 +319,29 @@ public class StudentDAO {
 		}
 		return zipList;
 	}
+	
+	
+	public boolean validateLogin(String id, String pass) {
+        boolean isValid = false;
+        Connection con = null;
+        PreparedStatement pstmt = null;
+        ResultSet rs = null;
+        try {
+            String sql = SELECT_LOGINCHECK_SQL; // 수정된 SQL
+            con = ConnectionPool.getInstance().dbCon();
+            pstmt = con.prepareStatement(sql);
+            pstmt.setString(1, id);
+            pstmt.setString(2, pass);
+            rs = pstmt.executeQuery();
+            if (rs.next()) {
+                int count = rs.getInt(1); // COUNT(*) 결과는 항상 숫자
+                isValid = (count > 0); // 0보다 크면 유효한 로그인
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            ConnectionPool.getInstance().dbClose(con, pstmt, rs);
+        }
+        return isValid;
+    }
 }

@@ -1,0 +1,105 @@
+@charset "UTF-8";
+.regFormArticle {
+	background-color: yellow;
+}
+/* 
+
+article {
+	display: block;
+    flex: 8; 2:8 비율에서 8
+    background-color: #fff;
+    border: 1px solid #ccc;
+    padding: 20px;
+    height: auto;
+    margin: 0 auto;
+    margin-left: 1%;
+    display: flex;
+    
+    margin-left: 10px; aside와의 간격
+}
+
+.artiLeft, .artiRight {
+    flex: 1; 너비를 동일하게 1:1로 설정
+    margin: 0 5px; 좌우 여백 추가
+    border: 1px solid black;
+} */
+
+
+
+/* .artiTop, .artiBottom {
+	width: 50%;
+	border: 1px solid green;
+}
+.boardTable th, .boardTable td {
+    border: none; 모든 셀의 테두리 제거
+    padding: 10px;
+    text-align: center;
+    word-break: break-word;
+}
+
+article 내부 div 요소 3줄 배치
+article > div {
+    margin-bottom: 20px; 각 div 사이 여백
+}
+
+article > .boardTitle {
+    text-align: center; 가운데 정렬
+    font-size: 1.8em;
+    font-weight: bold;
+    margin-bottom: 20px;
+}
+
+article > .boardHref {
+    text-align: right; 오른쪽 정렬
+    margin-top: 10px;
+}
+
+게시판 테이블 스타일
+.boardTable {
+    width: 100%; 부모 요소에 맞게 너비 확장
+    height: 100%;
+    border-collapse: collapse; 테두리 합치기
+    margin: 0 auto; 가운데 정렬
+}
+
+
+
+thead 아래에만 경계선 추가
+.boardTable thead {
+    background-color: #f4f4f4; 헤더 배경색
+    font-weight: bold;
+    border-bottom: 1px solid black; thead와 tbody 사이 경계선
+}
+
+
+
+.boardTable tbody {
+    display: table-row-group;
+}
+
+셀의 간격을 자연스럽게 하기
+.boardTable tbody tr {
+    border-bottom: 1px solid #ddd; 각 행에 약한 경계선 추가 (선택사항)
+}
+
+.boardTable tbody tr:last-child {
+    border-bottom: none; 마지막 행의 테두리 제거
+}
+
+boardHref를 오른쪽 배치
+.boardHref {
+    text-align: right;
+    margin-top: 10px;
+}
+
+.normalArti {
+	border: 1px solid red;
+	height: auto;
+	margin: 100px auto;
+	
+}
+
+.boardTitle {
+	text-align: center;
+}
+ */

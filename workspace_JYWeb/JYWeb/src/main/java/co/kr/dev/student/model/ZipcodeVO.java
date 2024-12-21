@@ -62,7 +62,7 @@ public class ZipcodeVO {
 	public String getDong() {
 		return dong;
 	}
-	public void setFong(String dong) {
+	public void setDong(String dong) {
 		this.dong = dong;
 	}
 	public String getBunji() {

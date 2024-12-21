@@ -23,7 +23,29 @@ a {
     color: inherit;
 }
 
-/* 헤더 */
+
+
+body > header {
+    margin-top: 2%; /* 헤더 상단 여백 */
+}
+
+.slideShow + section {
+    margin-top: 2%;
+}
+
+
+main > .footerDiv {
+	margin-top: 2%;
+}
+
+body > .footerDiv {
+    margin-bottom: 2%; /* header 상단 여백 */  
+}
+
+
+
+
+/* 헤더 ----------------------------------------------------------------- */
 header {
     margin: 0 auto; /* 중앙 정렬 */
     /* width: 80%; /* 이거추가하면 화면의 80의 80퍼가됨!!! */
@@ -33,18 +55,6 @@ header {
     box-sizing: border-box;
         overflow: visible; /* 드롭다운 메뉴가 잘리지 않도록 설정 */
     position: relative; /* 드롭다운의 기준점을 설정 */
-}
-
-body > header {
-    margin-top: 2%; /* 헤더 상단 여백 */
-}
-
-main > .footerDiv {
-	margin-top: 2%;
-}
-
-body > .footerDiv {
-    margin-bottom: 2%; /* header 상단 여백 */  
 }
 
 .headerTable {
@@ -81,7 +91,6 @@ body > .footerDiv {
     position: relative; /* 드롭다운 메뉴의 기준점 */
     text-align: center; /* 메뉴 안의 텍스트를 가운데 정렬 */
 }
-
 
 
 /* 공통 드롭다운 메뉴 스타일 */
@@ -132,7 +141,6 @@ body > .footerDiv {
 
 
 
-
 .emptyTd {
     margin: 0 auto;
     width: 10%;
@@ -140,7 +148,7 @@ body > .footerDiv {
 }
 
 
-
+/* 메인 ---------------------------------------------------------------*/
 main {
     margin: 0 auto; /* 이에 잇어야가운데 옴*/
     margin-top: 3%; /* 헤더와의 여백 */
@@ -151,7 +159,7 @@ main {
 
 
 /* 
-슬라이드쇼 스타일 */
+슬라이드쇼 ----------------------------------------- */
 .slideShow {
     width: 100%;
     height: 300px;
@@ -217,16 +225,65 @@ main {
 } 
 
 
+
 section {
     display: flex; /* 가로 배치 */
     margin: 0 auto;
-    margin-top: 3%; /* 슬라이드쇼와의 여백 */
-    margin-bottom: 3%;
-    width: 100%;
+    /* width: 100%; */
     height: auto; /* 높이 내용에 맞춤 */
     border: 1px solid black; 
     background-color: #f9f9f9;
 }
+
+
+/* ------------------------------------test 시작 */
+/* 슬라이드 아래부터 푸터위 공통 css넣어야함 */
+
+/* aside {
+	width: 100%; 절대주면 안됨
+	display: flex;
+	border: 1px solid blue;
+	margin: 0 auto;
+	
+}
+
+
+.asideLogout {
+	width: 20%; aside안에서 20%
+	border: 1px solid green;
+	height: auto;
+	background-color: #f2f2f2;
+	text-align: center;
+	table-layout: fixed;
+	padding: 0;
+	padding-top: 3%;
+	padding-bottom:20%;
+}
+
+
+
+article {
+	display: flex;
+	border: 1px solid red;
+	margin: 0 auto;
+	
+}
+
+.artiDiv {
+	width: 80%;
+	border: 1px solid yellow;
+}
+ */
+/* ------------------------------------test 끝 */
+
+
+
+
+
+
+
+
+
 
 
 

@@ -16,8 +16,7 @@ CREATE TABLE STUDENT (
     CONSTRAINT student_role_ck CHECK (role IN ('USER', 'ADMIN')) -- Role 제한
 );
 ALTER TABLE STUDENT ADD CONSTRAINT STUDENT_ID_PK PRIMARY KEY (id);
-SELECT COUNT(*) AS count FROM STUDENT WHERE ID = 'AAA';
-
+SELECT * FROM STUDENT;
 -- 주소 관리 테이블
 CREATE TABLE ZIPCODE (
     seq      NUMBER(10) PRIMARY KEY,          -- 우편번호 시퀀스 (Primary Key)
@@ -27,6 +26,9 @@ CREATE TABLE ZIPCODE (
     dong     VARCHAR2(50),                    -- 동/읍/면
     bunji    VARCHAR2(100)                    -- 번지
 );
+SELECT * 
+FROM ZIPCODE 
+WHERE DONG LIKE '방배%';
 
 -----------------------------------------------------------------------------------------
 

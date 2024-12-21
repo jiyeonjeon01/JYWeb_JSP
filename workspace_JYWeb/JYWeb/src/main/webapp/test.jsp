@@ -4,8 +4,8 @@
     String userId = (String) session.getAttribute("userId");
 
     
-/*     userId = "admin";  */
-	userId = "jiyeon";
+    /*  userId = "admin";   */
+/* 	userId = "jiyeon"; */
 %>
 <!DOCTYPE html>
 <html>
@@ -16,6 +16,7 @@
     <script language="javascript" src="<%=request.getContextPath()%>/common/common.js"></script>
 </head>
 <body>
+	<!-- 헤더 -->
     <header>
         <% 
             if ("admin".equals(userId)) { 
@@ -33,11 +34,40 @@
             } 
         %>
     </header>
+    
+    
+	<!-- 메인 : slideShow  + section(aside +  -->
     <main>
         <jsp:include page="/include/slideShow/slideShow.jsp" />
         
         <section>
-            <p>나는 섹션</p>
+        <!-- 
+        	<aside>
+        		¿<%
+        		 	if ("admin".equals(userId)) { 
+        		%>
+        			<jsp:include page="/include/aside/admin/adminAside.jsp" /> 
+        		<% 
+            		} else if (userId != null && !userId.isEmpty()) { 
+        		%>
+        			<jsp:include page="/include/aside/login/loginAside.jsp" /> 
+        		<%	
+            		} else { 
+            	%>
+                    <jsp:include page="/include/aside/logout/logoutAside.jsp" />
+                <% 
+            		}
+        		%>
+        		 
+        	</aside>
+        	
+        	<article>
+        	<div class="artiDiv">
+        	<jsp:include page="/student/register/registerForm/registerForm.jsp" />
+        	</div>
+        	</article>
+        	 -->
+            
         </section>
     </main>
     
