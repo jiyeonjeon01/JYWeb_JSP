@@ -1,0 +1,38 @@
+@charset "UTF-8";
+
+
+.my-posts-list {
+    margin: 20px;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    background-color: #f9f9f9;
+}
+
+.my-posts-list h3 {
+    font-size: 1.2em;
+    margin-bottom: 10px;
+    color: #333;
+}
+
+.my-posts-list ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.my-posts-list ul li {
+    padding: 10px;
+    border-bottom: 1px solid #ddd;
+}
+
+.my-posts-list ul li a {
+    text-decoration: none;
+    color: #1b1b1c;
+    font-weight: bold;
+    transition: color 0.3s ease;
+}
+
+.my-posts-list ul li a:hover {
+    color: #6f96bf;
+}

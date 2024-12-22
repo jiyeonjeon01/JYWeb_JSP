@@ -4,6 +4,9 @@
 <%@page import="java.net.URLEncoder"%>
 <%@ page contentType="text/html; charset=UTF-8"%>
 <%
+    String userId = (String) session.getAttribute("userId");
+%>
+<%
 request.setCharacterEncoding("UTF-8");
 
 // 게시글 번호와 현재 페이지 번호 가져오기
@@ -37,66 +40,89 @@ int depth = post != null ? post.getDepth() : 0;
 <html lang="ko">
 <head>
     <meta charset="UTF-8">
-    <title>자유게시판 글보기</title>
-    <style>
-        .attached-image {
-            max-width: 400px;
-            max-height: 300px;
-            display: block;
-            margin: 10px auto;
-        }
-    </style>
+    <title>게시글 상세보기</title>
+    
+    <link rel="stylesheet" href="<%=request.getContextPath()%>/common/common.css">
+    <link rel="stylesheet" href="<%=request.getContextPath()%>/custom/recentPosts.css">
+    <link rel="stylesheet" href="<%=request.getContextPath()%>/board/normal/normalShow.css">
 </head>
 <body>
+    <!-- 헤더 -->
+    <header>
+        <% 
+            if ("admin".equals(userId)) { 
+        %>
+            <jsp:include page="/include/header/admin/adminHeader.jsp" />
+        <% 
+            } else if (userId != null && !userId.isEmpty()) { 
+        %>
+            <jsp:include page="/include/header/login/loginHeader.jsp" />
+        <% 
+            } else { 
+        %>
+            <jsp:include page="/include/header/logout/logoutHeader.jsp" />
+        <% 
+            } 
+        %>
+    </header>
+    
+    <!-- 메인 -->
     <main>
-    <article>
-        <h2 style="text-align: center;">게시글 상세보기</h2>
-        <table width="500" border="1" cellspacing="0" cellpadding="10" align="center">
-            <tr>
-                <th width="125">글번호</th>
-                <td width="375"><%= post != null ? post.getNum() : "정보 없음" %></td>
-            </tr>
-            <tr>
-                <th>작성자</th>
-                <td><%= post != null ? post.getStudentId() : "정보 없음" %></td>
-            </tr>
-            <tr>
-                <th>조회수</th>
-                <td><%= post != null ? post.getReadCount() : 0 %></td>
-            </tr>
-            <tr>
-                <th>작성일</th>
-                <td><%= post != null ? sdf.format(post.getRegDate()) : "정보 없음" %></td>
-            </tr>
-            <tr>
-                <th>제목</th>
-                <td><%= post != null ? post.getTitle() : "정보 없음" %></td>
-            </tr>
-            <tr>
-                <th>내용</th>
-                <td><pre><%= post != null ? post.getContent() : "내용이 없습니다." %></pre></td>
-            </tr>
-            <tr>
-                <th>첨부파일</th>
-                <td>
-                    <% if (post != null && post.getSysFile() != null && !post.getSysFile().isEmpty()) { %>
-                        <img src="<%= filePath %>" alt="첨부된 이미지" class="attached-image">
-                    <% } else { %>
-                        첨부파일 없음
-                    <% } %>
-                </td>
-            </tr>
-            <tr>
-                <td colspan="2" align="center">
-                    <input type="button" value="수정하기" onclick="document.location.href='<%=request.getContextPath()%>/board/normal/update/updateForm.jsp?num=<%= num %>&pageNum=<%= pageNum %>'">
-                    <input type="button" value="삭제하기" onclick="document.location.href='<%=request.getContextPath()%>/board/normal/delete/deleteProc.jsp?num=<%= num %>&pageNum=<%= pageNum %>'">
-                    <input type="button" value="답글쓰기" 
-                        onclick="document.location.href='<%=request.getContextPath()%>/board/normal/write/normalForm.jsp?num=<%= num %>&ref=<%= ref %>&step=<%= step %>&depth=<%= depth %>'">
-                    <input type="button" value="목록으로" onclick="document.location.href='<%=request.getContextPath()%>/board/normal/normalList.jsp?pageNum=<%= pageNum %>'">
-                </td>
-            </tr>
-        </table>
-        </article>
+        <jsp:include page="/include/slideShow/slideShow.jsp" />
+        
+        <section>
+            <article class="show-board-article">
+                <h2 class="show-board-title">게시글 상세보기</h2>
+                <table class="show-board-table">
+                    <tr>
+                        <th class="show-board-th">글번호</th>
+                        <td class="show-board-td"><%= post != null ? post.getNum() : "정보 없음" %></td>
+                    </tr>
+                    <tr>
+                        <th class="show-board-th">작성자</th>
+                        <td class="show-board-td"><%= post != null ? post.getStudentId() : "정보 없음" %></td>
+                    </tr>
+                    <tr>
+                        <th class="show-board-th">조회수</th>
+                        <td class="show-board-td"><%= post != null ? post.getReadCount() : 0 %></td>
+                    </tr>
+                    <tr>
+                        <th class="show-board-th">작성일</th>
+                        <td class="show-board-td"><%= post != null ? sdf.format(post.getRegDate()) : "정보 없음" %></td>
+                    </tr>
+                    <tr>
+                        <th class="show-board-th">제목</th>
+                        <td class="show-board-td"><%= post != null ? post.getTitle() : "정보 없음" %></td>
+                    </tr>
+                    <tr>
+                        <th class="show-board-th">내용</th>
+                        <td class="show-board-td"><pre><%= post != null ? post.getContent() : "내용이 없습니다." %></pre></td>
+                    </tr>
+                    <tr>
+                        <th class="show-board-th">첨부파일</th>
+                        <td class="show-board-td">
+                            <% if (post != null && post.getSysFile() != null && !post.getSysFile().isEmpty()) { %>
+                                <img src="<%= filePath %>" alt="첨부된 이미지" class="attached-image">
+                            <% } else { %>
+                                첨부파일 없음
+                            <% } %>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="2" class="show-board-button-group">
+                            <button class="show-board-button" onclick="document.location.href='<%=request.getContextPath()%>/board/normal/update/updateForm.jsp?num=<%= num %>&pageNum=<%= pageNum %>'">수정하기</button>
+                            <button class="show-board-button" onclick="document.location.href='<%=request.getContextPath()%>/board/normal/delete/deleteProc.jsp?num=<%= num %>&pageNum=<%= pageNum %>'">삭제하기</button>
+                            <button class="show-board-button" onclick="document.location.href='<%=request.getContextPath()%>/board/normal/write/normalForm.jsp?num=<%= num %>&ref=<%= ref %>&step=<%= step %>&depth=<%= depth %>'">답글쓰기</button>
+                            <button class="show-board-button" onclick="document.location.href='<%=request.getContextPath()%>/board/normal/normalList.jsp?pageNum=<%= pageNum %>'">목록으로</button>
+                        </td>
+                    </tr>
+                </table>
+            </article>
+        </section>
     </main>
+    
+    <footer>
+        <jsp:include page="/include/footer/footer.jsp" />
+    </footer>
 </body>
 </html>

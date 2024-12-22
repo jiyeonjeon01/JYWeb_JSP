@@ -198,7 +198,7 @@ String userId = (String) session.getAttribute("userId");
         <h2><%=userName%>(<%=userId%>)님 안녕하세요</h2>
     </div>
     <ul class="menuList">
-        <li><a href="<%=request.getContextPath()%>/student/user/myPage/myBoardList.jsp" class="menuBtn">내가 작성한 글 보기</a></li>
+        <li><a href="<%=request.getContextPath()%>/board/myPosts.jsp" class="menuBtn">내가 작성한 글 보기</a></li>
         <li><a href="<%=request.getContextPath()%>/board/shopping/cart/cartList.jsp" class="menuBtn">장바구니 보기</a></li>
         <li><a href="<%=request.getContextPath()%>/student/user/modify/modifyForm.jsp" class="menuBtn">회원정보 수정하기</a></li>
         <li><a href="<%=request.getContextPath()%>/student/user/delete/deleteForm.jsp" class="menuBtn">회원 탈퇴하기</a></li>

@@ -390,6 +390,29 @@ public class LoginBoardDAO {
 
 
 
+ // 특정 사용자가 작성한 게시글 조회
+    public List<LoginBoardVO> getPostsByUserId(String userId) {
+        List<LoginBoardVO> posts = new ArrayList<>();
+        // STUDENT_ID를 기준으로 게시글 조회
+        String sql = "SELECT * FROM LOGINBOARD WHERE STUDENT_ID = ? ORDER BY REGDATE DESC";
+
+        try (Connection con = ConnectionPool.getInstance().dbCon();
+             PreparedStatement pstmt = con.prepareStatement(sql)) {
+            pstmt.setString(1, userId);
+
+            try (ResultSet rs = pstmt.executeQuery()) {
+                while (rs.next()) {
+                    posts.add(extractVO(rs));
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return posts;
+    }
+
+
+
 
     
     

@@ -72,11 +72,12 @@
 		                        for (LoginBoardVO post : recentPosts) { 
 		                %>
 		                    <li class="recentPostItem">
-		                        <a href="<%=request.getContextPath()%>/board/login/view.jsp?num=<%=post.getNum()%>" class="recentPostLink">
+		                        <a href="<%=request.getContextPath()%>/board/normal/normalShow.jsp?num=<%= post.getNum() %>">
 		                            <span class="postTitle"><%=post.getTitle()%></span>
-		                            <span class="postWriter"><%=post.getStudentId()%> |</span>
-		                            <span class="postDate"><%=post.getRegDate()%> | </span>
+		                            <span class="postWriter"><%=post.getStudentId()%></span>
+		                            <span class="postDate"><%=post.getRegDate()%> </span>
 		                            <span class="postViews"><%=post.getReadCount()%></span>
+		                            
 		                        </a>
 		                    </li>
 		                <% 

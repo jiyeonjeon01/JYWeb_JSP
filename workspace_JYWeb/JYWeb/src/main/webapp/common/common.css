@@ -337,7 +337,6 @@ article {
 
 .postTitle {
     font-weight: bold;
-    color: #007bff;
     flex: 3; /* 제목을 넓게 */
     text-overflow: ellipsis;
     white-space: nowrap;
