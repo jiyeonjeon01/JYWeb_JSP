@@ -41,9 +41,9 @@
         <jsp:include page="/include/slideShow/slideShow.jsp" />
         
         <section>
-        <!-- 
+        
         	<aside>
-        		¿<%
+        		<%
         		 	if ("admin".equals(userId)) { 
         		%>
         			<jsp:include page="/include/aside/admin/adminAside.jsp" /> 
@@ -63,10 +63,10 @@
         	
         	<article>
         	<div class="artiDiv">
-        	<jsp:include page="/student/register/registerForm/registerForm.jsp" />
+        	<jsp:include page="/student/user/register/registerForm.jsp" />
         	</div>
         	</article>
-        	 -->
+        	
             
         </section>
     </main>

@@ -1,37 +1,56 @@
 <%@page import="co.kr.dev.student.model.StudentVO"%>
 <%@page import="co.kr.dev.student.model.StudentDAO"%>
 <%@ page contentType="text/html; charset=UTF-8" %>
-<!-- 1.사용자정보를 가져온다  -->
-<!-- 2.curd  -->
 <%
-	request.setCharacterEncoding("UTF-8"); 
-	String id = request.getParameter("id");
-	String pass = request.getParameter("pass");
-	StudentDAO sdao = new StudentDAO();
-	StudentVO svo = new StudentVO();
-	svo.setId(id); 
-	svo.setPass(pass);
-	int check = sdao.selectLoginCheck(svo);  
+    // 요청 파라미터 인코딩 설정
+    request.setCharacterEncoding("utf-8");
+
+    // 로그인 검증
+    String id = request.getParameter("id");
+    String pass = request.getParameter("pass");
+
+    StudentDAO sdao = StudentDAO.getInstance();
+    boolean isValid = sdao.validateLogin(id, pass); // 로그인 검증 메서드
+    StudentVO svo = null;
+
+    if (isValid) {
+        // 로그인 성공 - 사용자 정보 가져오기
+        svo = sdao.selectOneDB(id);
+
+        // 세션에 사용자 정보 저장
+        session.setAttribute("userId", svo.getId());
+        session.setAttribute("userName", svo.getName());
+        session.setAttribute("profileImage", svo.getSysFile());
+
+        // 디버깅 로그
+        System.out.println("로그인 성공:");
+        System.out.println("User ID: " + svo.getId());
+        System.out.println("User Name: " + svo.getName());
+        System.out.println("Profile Image: " + svo.getSysFile());
+
+        // 메인 페이지로 이동
+        response.sendRedirect(request.getContextPath() + "/test.jsp");
+    } else {
+        // 로그인 실패
+        System.out.println("로그인 실패 - 잘못된 ID 또는 비밀번호");
+
+        // 세션 초기화
+        session.invalidate();
+
+        // 로그인 실패 페이지로 리다이렉트
+        response.sendRedirect(request.getContextPath() + "/student/user/login/loginForm.jsp?error=1");
+    }
 %>
-<!-- 3.화면설계(자바코드에 해야되는데 - > jsp service함수에서 진행한다. -->
-<%
-if(check == 1){//로그인 성공
-		session.setAttribute("id", id);
-		session.setAttribute("pass", pass);
-		response.sendRedirect("login.jsp");
-}else if(check == 0){//아이디는 있는데 비밀번호 오류
-%>
-<script>
-		alert("비밀번호가 틀렸습니다");
-		history.go(-1);
-</script>
-<% 
-} else{//아이디 자체가 존재하지 않는 경우
-%>
-	<script>
-		alert("아이디가 존재하지 않습니다");
-		history.go(-1);
-	</script>
-<%
-}
-%>
+
+
+
+
+ <% if (isValid) { %>
+            <h2 style="color: #58c170;">로그인 성공!</h2>
+            <p>메인 페이지로 이동합니다.</p>
+            <a href="<%=request.getContextPath()%>/test.jsp" class="loginBtn">메인 페이지</a>
+        <% } else { %>
+            <h2 style="color: #d57474;">로그인 실패!</h2>
+            <p>아이디와 비밀번호를 다시 확인해 주세요.</p>
+            <a href="<%=request.getContextPath()%>/student/user/login/loginForm.jsp" class="loginBtn grey">다시 로그인</a>
+        <% } %>

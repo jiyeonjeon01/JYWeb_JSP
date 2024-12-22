@@ -20,7 +20,7 @@
 						로그아웃된<br> 상태입니다
 					</p>
 					<br> <a
-						href="<%=request.getContextPath()%>/student/login/loginForm/loginForm.jsp">
+						href="<%=request.getContextPath()%>/student/user/login/loginForm.jsp">
 						<button class="asideLoginBtn">로그인</button>
 					</a>
 				</div>
@@ -30,7 +30,7 @@
 					혹은<br> 회원가입<br> 하시겠습니까?
 				</p>
 				<br> <a
-					href="<%=request.getContextPath()%>/student/register/registerForm/registerForm.jsp">
+					href="<%=request.getContextPath()%>/student/user/register/registerForm.jsp">
 					<button class="asideRegisterBtn">회원가입</button>
 				</a>
 
