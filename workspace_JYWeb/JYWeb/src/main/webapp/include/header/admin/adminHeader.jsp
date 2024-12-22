@@ -20,7 +20,7 @@
 		<table class="headerTable">
 			<tr>
 				<!-- 로고: 클릭 시 새로고침 -->
-				<td class="logoTd"><a href="javascript:location.reload();">
+				<td class="logoTd"><a href="<%=request.getContextPath()%>/index.jsp">
 						<!-- 새로고침 -->
 						<div class="logo">
 						<div class="logoPic">
@@ -45,7 +45,7 @@
 						</a>
 						<div class="dropdownMenuAdmin">
 							<a href="<%=request.getContextPath()%>/board/noti/notiList.jsp">목록보기</a>
-							<a href="<%=request.getContextPath()%>/board/notiForm.jsp">글작성하기</a>
+							<a href="<%=request.getContextPath()%>/board/noti/write/notiForm.jsp">글작성하기</a>
 						</div>
 					</div> 
 					<!-- 게시판 -->
@@ -57,7 +57,7 @@
 						<div class="dropdownMenuAdmin">
 							<a
 								href="<%=request.getContextPath()%>/board/normal/normalList.jsp">목록보기</a>
-							<a href="<%=request.getContextPath()%>/board/normal/normalForm.jsp">글작성하기</a>
+							<a href="<%=request.getContextPath()%>/board/normal/write/normalForm.jsp">글작성하기</a>
 						</div>
 					</div> 
 					<!-- Q&A -->
@@ -67,7 +67,7 @@
 						</a>
 						<div class="dropdownMenuAdmin">
 							<a href="<%=request.getContextPath()%>/board/qna/qnaList.jsp">목록보기</a>
-							<a href="<%=request.getContextPath()%>/board/qna/question/questionForm.jsp">질문작성하기</a>
+							<a href="<%=request.getContextPath()%>/board/qna/question/login/write/loginQForm.jsp">질문작성하기</a>
 						</div>
 					</div> 
 					<!-- 쇼핑 메뉴 -->
@@ -78,8 +78,8 @@
 						</a>
 						<!-- 드롭다운 메뉴 -->
 						<div class="dropdownMenuAdmin">
-							<a href="<%=request.getContextPath()%>/board/shopping/productList.jsp">상품보기</a>
-							<a href="<%=request.getContextPath()%>/board/shopping/cart.jsp">장바구니</a>
+							<a href="<%=request.getContextPath()%>/board/shopping/product/productList.jsp">상품보기</a>
+							<a href="<%=request.getContextPath()%>/board/shopping/cart/cartList.jsp">장바구니</a>
 						</div>
 					</div>
 				</td>
@@ -90,7 +90,7 @@
 				<!-- 로그아웃 버튼 --> 
 				<td class="logoutBtnTd"> 
 				    <div>
-				        <a href="<%=request.getContextPath()%>/student/logout/logout.jsp">
+				        <a href="<%=request.getContextPath()%>/student/user/logout/logoutProc.jsp">
 				            <button class="logoutBtn">Logout</button> 
 				        </a>
 				    </div>

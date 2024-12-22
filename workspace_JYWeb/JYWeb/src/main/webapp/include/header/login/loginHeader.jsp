@@ -20,7 +20,7 @@
 		<table class="headerTable">
 			<tr>
 				<!-- 로고: 클릭 시 새로고침 -->
-				<td class="logoTd"><a href="javascript:location.reload();">
+				<td class="logoTd"><a href="<%=request.getContextPath()%>/index.jsp">
 						<!-- 새로고침 -->
 						<div class="logo">
 						<div class="logoPic">
@@ -44,9 +44,7 @@
 							<span>공지사항</span>
 						</a>
 						<div class="dropdownMenuLogin">
-							<a href="<%=request.getContextPath()%>/board/noti/notiList.jsp">목록보기</a>
-							<!-- 공지사항 글작성은 admin 사용자만 -->
-							<%-- <a href="<%=request.getContextPath()%>/board/writeForm.jsp">글작성하기</a> --%>
+							<a href="<%=request.getContextPath()%>/board/noti/write/notiList.jsp">목록보기</a>
 						</div>
 					</div> 
 					<!-- 게시판 -->
@@ -68,7 +66,7 @@
 						</a>
 						<div class="dropdownMenuLogin">
 							<a href="<%=request.getContextPath()%>/board/qna/qnaList.jsp">목록보기</a>
-							<a href="<%=request.getContextPath()%>/board/qna/logoutForm.jsp">질문작성하기</a>
+							<a href="<%=request.getContextPath()%>/board/qna/question/login/write/loginQForm.jsp">질문작성하기</a>
 						</div>
 					</div> 
 					<!-- 쇼핑 메뉴 -->
@@ -79,8 +77,8 @@
 						</a>
 						<!-- 드롭다운 메뉴 -->
 						<div class="dropdownMenuLogin">
-							<a href="<%=request.getContextPath()%>/board/shopping/productList.jsp">상품보기</a>
-							<a href="<%=request.getContextPath()%>/board/shopping/cart.jsp">장바구니</a>
+							<a href="<%=request.getContextPath()%>/board/shopping/product/productList.jsp">상품보기</a>
+							<a href="<%=request.getContextPath()%>/board/shopping/cart/cartList.jsp">장바구니</a>
 						</div>
 					</div>
 				</td>
@@ -91,7 +89,7 @@
 				<!-- 로그아웃 버튼 --> 
 				<td class="logoutBtnTd"> 
 				    <div>
-				        <a href="<%=request.getContextPath()%>/student/logout/logout.jsp">
+				        <a href="<%=request.getContextPath()%>/student/user/logout/logoutProc.jsp">
 				            <button class="logoutBtn">Logout</button> 
 				        </a>
 				    </div>

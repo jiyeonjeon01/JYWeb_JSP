@@ -50,22 +50,24 @@
 <script src="https://kit.fontawesome.com/abb02b8c73.js"
 	crossorigin="anonymous"></script>
 <link rel="stylesheet"
-	href="<%=request.getContextPath()%>/include/aside/logout/logoutAside.css"></link>
+	href="<%=request.getContextPath()%>/include/aside/admin/adminAside.css"></link>
 </head>
 <body>
 
 	<aside>
+	<div class="asideDiv">
 			    <img src="<%=profileImagePath%>" alt="프로필 사진" class="profileImage">
 			    <h3><%=userName%>(<%=userId%>)님</h3>
 			    <br>
 			    <br>
 			    <ul>
 			        <li><a href="<%=request.getContextPath()%>/student/user/myPage/showMyPage.jsp">마이페이지</a></li>
-			        <li><a href="<%=request.getContextPath()%>/board/shoppingcart/cartList.jsp">장바구니</a></li>
+			        <li><a href="<%=request.getContextPath()%>/board/shopping/cart/cartList.jsp">장바구니</a></li>
 			        <li><a href="<%=request.getContextPath()%>/board/myPosts.jsp">내가 쓴 글</a></li>
-			        <li><a href="<%=request.getContextPath()%>/student/user/logout/logout.jsp">로그아웃</a></li>
+			        <li><a href="<%=request.getContextPath()%>/student/user/logout/logoutProc.jsp">로그아웃</a></li>
 			       
 			    </ul>
+			    </div>
 			</aside>
 
 </body>

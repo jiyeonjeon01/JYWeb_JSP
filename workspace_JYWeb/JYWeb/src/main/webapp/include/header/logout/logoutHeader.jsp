@@ -16,7 +16,7 @@
 		<table class="headerTable">
 			<tr>
 				<!-- 로고: 클릭 시 새로고침 -->
-				<td class="logoTd"><a href="javascript:location.reload();">
+				<td class="logoTd"><a href="<%=request.getContextPath()%>/index.jsp">
 						<!-- 새로고침 -->
 						<div class="logo">
 						<div class="logoPic">
@@ -61,18 +61,18 @@
 						</a>
 						<div class="dropdownMenuLogout">
 							<a href="<%=request.getContextPath()%>/board/qna/qnaList.jsp">목록보기</a>
-							<a href="<%=request.getContextPath()%>/board/qna/logoutForm.jsp">질문작성하기</a>
+							<a href="<%=request.getContextPath()%>/board/qna/logout/write/logoutForm.jsp">질문작성하기</a>
 						</div>
 					</div> 
 					<!-- 쇼핑 메뉴 -->
 					<div class="shoppingMenuLogout">
 						<a
-							href="<%=request.getContextPath()%>/board/shopping/productList.jsp">
+							href="<%=request.getContextPath()%>/board/shopping/product/productList.jsp">
 							<span>쇼핑</span>
 						</a>
 						<!-- 드롭다운 메뉴 -->
 						<div class="dropdownMenuLogout">
-							<a href="<%=request.getContextPath()%>/board/shopping/productList.jsp">상품보기</a>
+							<a href="<%=request.getContextPath()%>/board/shopping/product/productList.jsp">상품보기</a>
 						</div>
 					</div>
 				</td>
@@ -83,7 +83,7 @@
 				<!-- 로그인 버튼 -->
 				<td class="loginBtnTd">
 					<div>
-						<a href="<%=request.getContextPath()%>/student/login/loginForm.jsp">
+						<a href="<%=request.getContextPath()%>/student/user/login/loginForm.jsp">
 						<button class="loginBtn">Login</button> 
 						</a>
 					</div>

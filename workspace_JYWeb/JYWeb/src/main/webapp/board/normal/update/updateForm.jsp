@@ -7,7 +7,7 @@
 
     // 세션에서 로그인한 사용자 정보 가져오기
     String loggedInUser = (String) session.getAttribute("userId");
-    String userRole = (String) session.getAttribute("role"); // 사용자 역할 (e.g., 'admin')
+    String userRole = (String) session.getAttribute("role"); // 사용자 역할 (e.g., 'ADMIN')
 
     // 게시글 번호 가져오기
     int num = Integer.parseInt(request.getParameter("num"));
@@ -23,8 +23,8 @@
         return;
     }
 
-    // 로그인 여부 및 작성자 확인
-    if (loggedInUser == null || (!loggedInUser.equals(post.getStudentId()) && !"admin".equals(userRole))) {
+    // 권한 확인: role이 'ADMIN'이거나 작성자인 경우에만 접근 허용
+    if (loggedInUser == null || (!loggedInUser.equals(post.getStudentId()) && !"ADMIN".equals(userRole))) {
         out.println("<script>alert('권한이 없습니다.'); history.back();</script>");
         return;
     }
@@ -36,6 +36,7 @@
     <title>게시글 수정</title>
 </head>
 <body>
+<article>
     <h2 style="text-align: center;">게시글 수정</h2>
     <form action="<%=request.getContextPath()%>/board/normal/update/updateProc.jsp" method="post" enctype="multipart/form-data">
         <input type="hidden" name="num" value="<%= post.getNum() %>">
@@ -69,5 +70,6 @@
             </tr>
         </table>
     </form>
+    </article>
 </body>
 </html>

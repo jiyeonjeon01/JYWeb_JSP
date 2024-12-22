@@ -226,15 +226,6 @@ main {
 
 
 
-section {
-    display: flex; /* 가로 배치 */
-    margin: 0 auto;
-    /* width: 100%; */
-    height: auto; /* 높이 내용에 맞춤 */
-    border: 1px solid black; 
-    background-color: #f9f9f9;
-}
-
 
 /* ------------------------------------test 시작 */
 /* 슬라이드 아래부터 푸터위 공통 css넣어야함 */
@@ -260,21 +251,107 @@ section {
 	padding-bottom:20%;
 }
 
+----------------------------------------------------------
 
 
-article {
-	display: flex;
-	border: 1px solid red;
-	margin: 0 auto;
-	
+
+
+/* section 스타일 */
+section {
+    display: flex; /* 가로로 배치 */
+    width: 100%; /* 전체 너비 */
+    height: auto; /* 내용에 따라 높이 조정 */
+    margin: 0 auto;
+    /* border: 1px solid black; 임시 테두리 */
+    background-color: #f9f9f9;
 }
 
+/* aside 스타일 */
+aside {
+    flex: 1; /* 비율 1 (기존보다 좁게) */
+    background-color: #f2f2f2; /* 배경색 */
+    padding: 15px; /* 안쪽 여백 */
+    border-right: 1px solid #ddd; /* 구분선 */
+    box-sizing: border-box;
+}
+
+/* article 영역 스타일 */
+article {
+    flex: 4; /* 비율 4 (더 넓게 설정) */
+    padding: 20px;
+    background-color: #fff; /* 배경색 */
+    border-left: 1px solid #ddd; /* 구분선 */
+    box-sizing: border-box;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1); /* 그림자 효과 */
+}
+
+
+
+/* .asideDiv  {
+	flex: 2;
+	margin: 0 auto;
+	border: 1px solid blue;
+}
 .artiDiv {
-	width: 80%;
-	border: 1px solid yellow;
+	flex: 8;
+	margin: 0 auto;
+	border: 1px solid red;
 }
  */
-/* ------------------------------------test 끝 */
+
+
+ 
+
+/* 최근 게시물 리스트 */
+.recentPostsWrapper {
+    width: 100%; /* 부모 요소에 맞게 */
+    margin-top: 10px; /* 제목과의 여백 */
+    overflow-x: auto; /* 가로 스크롤 허용 */
+}
+
+.recentPosts {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    width: 100%; /* 리스트를 부모 요소에 맞춤 */
+}
+
+/* 리스트 아이템 스타일 */
+.recentPostItem {
+    border-bottom: 1px solid #ddd;
+    padding: 15px 10px;
+    transition: background-color 0.3s ease;
+}
+
+.recentPostItem:hover {
+    background-color: #e8f5ff;
+}
+
+.recentPostLink {
+    text-decoration: none;
+    color: #333;
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.95em;
+}
+
+.postTitle {
+    font-weight: bold;
+    color: #007bff;
+    flex: 3; /* 제목을 넓게 */
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+}
+
+.postWriter,
+.postDate,
+.postViews {
+    flex: 1;
+    text-align: center;
+    color: #555;
+    font-size: 0.9em;
+}
 
 
 
@@ -283,22 +360,44 @@ article {
 
 
 
-
-
-
-
- footer {
+footer {
     width: 100%; 
-    margin: 0 auto;
-    /* margin-top: 3%; 이거하면 안됨  */
-    height: 100px;
-    line-height: 100px;/*  텍스트 수직 정렬 */
-} 
+    margin: 0;
+    padding: 20px 0;
+    background-color: #88a5b2;
+    color: #fff; /* 흰색 텍스트 */
+    font-family: 'Arial', sans-serif; /* 깔끔한 폰트 */
+    font-size: 14px;
+}
 
 .footerDiv {
-	width: 80%;
-	background-color: #f4f4f4;
-	text-align: center;
-	margin: 0 auto;
-	
+    width: 90%;
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between; /* 좌우 배치 */
+    align-items: center; /* 수직 정렬 */
+    flex-wrap: wrap; /* 작은 화면에서는 줄바꿈 */
+}
+
+.footerLeft p {
+    font-size: 16px; /* 크기 키움 */
+    font-weight: bold; /* 강조 */
+    margin: 0;
+    text-align: left;
+}
+
+.footerRight p {
+    margin: 0;
+    text-align: right;
+    line-height: 1.6; /* 줄 간격 */
+}
+
+.footerRight a {
+    color: #d2e5ee;
+    text-decoration: none; /* 밑줄 제거 */
+    transition: color 0.3s ease;
+}
+
+.footerRight a:hover {
+    color:  #f2f2f2;
 }

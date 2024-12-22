@@ -1,0 +1,111 @@
+@charset "UTF-8";
+
+@charset "UTF-8";
+
+/* Article 스타일 */
+.productFormArticle {
+    max-width: 700px;
+    margin: 50px auto;
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    border: 1px solid #cdcdcd;
+}
+
+/* 제목 스타일 */
+.productTitle {
+    text-align: center;
+    color: #1b1b1c;
+    background-color: #d2e5ee;
+    padding: 15px;
+    margin-bottom: 20px;
+    border-radius: 10px;
+}
+
+/* 테이블 스타일 */
+.productTable {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.productTable th, .productTable td {
+    padding: 10px;
+    text-align: left;
+    border: 1px solid #cdcdcd;
+}
+
+.productTable th {
+    background-color: #d2e5ee;
+    font-weight: bold;
+    color: #1b1b1c;
+}
+
+.productTable td {
+    background-color: #f2f2f2;
+}
+
+/* Input, Textarea 스타일 */
+.inputField, .textArea {
+    width: 95%;
+    padding: 10px;
+    border: 1px solid #cdcdcd;
+    border-radius: 5px;
+    box-sizing: border-box;
+}
+
+.textArea {
+    resize: none;
+}
+
+/* 버튼 그룹 */
+.productButtonGroup {
+    text-align: center;
+    margin-top: 20px;
+}
+
+/* 버튼 스타일 */
+.productButton.submit {
+    padding: 10px 20px;
+    background-color: #d2e5ee;
+    color: black;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 1em;
+    transition: background-color 0.3s;
+}
+
+.productButton.submit:hover {
+    background-color: #8fb1d5;
+}
+
+.productButton.reset {
+    padding: 10px 20px;
+    background-color: #f2f2f2;
+    color: #1b1b1c;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 1em;
+    transition: background-color 0.3s;
+}
+
+.productButton.reset:hover {
+    background-color: #cdcdcd;
+}
+
+.productButton.list {
+    padding: 10px 20px;
+    background-color: #8fb1d5;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 1em;
+    transition: background-color 0.3s;
+}
+
+.productButton.list:hover {
+    background-color: #6f96bf;
+}

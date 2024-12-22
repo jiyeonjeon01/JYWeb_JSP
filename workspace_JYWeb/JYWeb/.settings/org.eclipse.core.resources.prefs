@@ -1,5 +1,8 @@
 eclipse.preferences.version=1
+encoding//src/main/webapp/board/normal/delete/deleteProc.jsp=UTF-8
 encoding//src/main/webapp/board/normal/write/normalProc.jsp=UTF-8
+encoding//src/main/webapp/board/shopping/cart/cartList.jsp=UTF-8
+encoding//src/main/webapp/board/shopping/product/write/productProc.jsp=UTF-8
 encoding//src/main/webapp/student/user/register/ex/zipCheck.jsp=UTF-8
 encoding//src/main/webapp/student/user/register/registerProc.jsp=UTF-8
 encoding/<project>=UTF-8

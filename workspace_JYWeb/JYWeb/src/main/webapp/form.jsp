@@ -1,22 +1,20 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ page import="co.kr.dev.board.login.LoginBoardDAO, java.util.List, co.kr.dev.board.login.LoginBoardVO" %>
+
 <%
     String userId = (String) session.getAttribute("userId");
-
-    
-    /*  userId = "admin";   */
-/* 	userId = "jiyeon"; */
 %>
 <!DOCTYPE html>
 <html>
 <head>
     <meta charset="UTF-8">
     <title>Test Page</title>
-    <link rel="stylesheet" href="<%=request.getContextPath()%>/common/common.css"></link>
-    <script language="javascript" src="<%=request.getContextPath()%>/common/common.js"></script>
+    <link rel="stylesheet" href="<%=request.getContextPath()%>/common/common.css">
+    <link rel="stylesheet" href="<%=request.getContextPath()%>/custom/recentPosts.css">
 </head>
 <body>
-	<!-- 헤더 -->
+    <!-- 헤더 -->
     <header>
         <% 
             if ("admin".equals(userId)) { 
@@ -35,39 +33,31 @@
         %>
     </header>
     
-    
-	<!-- 메인 : slideShow  + section(aside +  -->
+    <!-- 메인 -->
     <main>
         <jsp:include page="/include/slideShow/slideShow.jsp" />
         
         <section>
-        
-        	<aside>
-        		<%
-        		 	if ("admin".equals(userId)) { 
-        		%>
-        			<jsp:include page="/include/aside/admin/adminAside.jsp" /> 
-        		<% 
-            		} else if (userId != null && !userId.isEmpty()) { 
-        		%>
-        			<jsp:include page="/include/aside/login/loginAside.jsp" /> 
-        		<%	
-            		} else { 
-            	%>
+<%--             <aside>
+                <%
+                    if ("admin".equals(userId)) { 
+                %>
+                    <jsp:include page="/include/aside/admin/adminAside.jsp" /> 
+                <% 
+                    } else if (userId != null && !userId.isEmpty()) { 
+                %>
+                    <jsp:include page="/include/aside/login/loginAside.jsp" /> 
+                <%    
+                    } else { 
+                %>
                     <jsp:include page="/include/aside/logout/logoutAside.jsp" />
                 <% 
-            		}
-        		%>
-        		 
-        	</aside>
-        	
-        	<article>
-        	<div class="artiDiv">
-        	<jsp:include page="/student/user/register/registerForm.jsp" />
-        	</div>
-        	</article>
-        	
-            
+                    }
+                %>
+            </aside>
+             --%>
+
+
         </section>
     </main>
     

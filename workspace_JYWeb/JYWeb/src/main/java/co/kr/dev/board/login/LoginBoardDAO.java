@@ -6,6 +6,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.List;
 
 import co.kr.dev.common.ConnectionPool;
 
@@ -72,7 +73,7 @@ public class LoginBoardDAO {
         return boardList;
     }
 
-    // Select a single post by num
+ // Select a single post by num
     public LoginBoardVO selectOne(int num) {
         LoginBoardVO board = null;
         Connection con = null;
@@ -87,6 +88,10 @@ public class LoginBoardDAO {
 
             if (rs.next()) {
                 board = extractVO(rs);
+                // 디버깅: 게시글 정보를 출력
+                System.out.println("게시글 정보: " + board.toString());
+            } else {
+                System.out.println("게시글을 찾을 수 없습니다. num=" + num);
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -95,6 +100,7 @@ public class LoginBoardDAO {
         }
         return board;
     }
+
     
     
     public LoginBoardVO selectBoardDB(LoginBoardVO vo) {
@@ -363,6 +369,25 @@ public class LoginBoardDAO {
         }
         return list;
     }
+    
+    
+    public List<LoginBoardVO> selectRecentPosts(int limit) {
+        List<LoginBoardVO> list = new ArrayList<>();
+        String sql = "SELECT * FROM LOGINBOARD ORDER BY REGDATE DESC FETCH FIRST ? ROWS ONLY";
+        try (Connection conn = ConnectionPool.getInstance().dbCon();
+             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+            pstmt.setInt(1, limit);
+            try (ResultSet rs = pstmt.executeQuery()) {
+                while (rs.next()) {
+                    list.add(extractVO(rs));
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return list;
+    }
+
 
 
 

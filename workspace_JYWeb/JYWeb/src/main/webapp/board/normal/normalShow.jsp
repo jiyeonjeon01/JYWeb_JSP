@@ -49,6 +49,7 @@ int depth = post != null ? post.getDepth() : 0;
 </head>
 <body>
     <main>
+    <article>
         <h2 style="text-align: center;">게시글 상세보기</h2>
         <table width="500" border="1" cellspacing="0" cellpadding="10" align="center">
             <tr>
@@ -95,6 +96,7 @@ int depth = post != null ? post.getDepth() : 0;
                 </td>
             </tr>
         </table>
+        </article>
     </main>
 </body>
 </html>
