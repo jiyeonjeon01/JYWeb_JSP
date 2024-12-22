@@ -41,15 +41,17 @@
             for (FileItem item : items) {
                 if (!item.isFormField()) {
                     // 파일 처리
-                    String fileName = new File(item.getName()).getName();
-                    if (!fileName.isEmpty()) {
-                        String filePath = uploadPath + File.separator + fileName;
+                    String originalFileName = new File(item.getName()).getName();
+                    if (!originalFileName.isEmpty()) {
+                        // 고유한 파일 이름 생성
+                        String uniqueFileName = System.currentTimeMillis() + "_" + originalFileName;
+                        String filePath = uploadPath + File.separator + uniqueFileName;
                         File storeFile = new File(filePath);
                         item.write(storeFile);
 
                         // 파일 이름 및 경로 설정
-                        originFile = fileName;
-                        sysFile = filePath;
+                        originFile = originalFileName; // 원본 파일 이름
+                        sysFile = uniqueFileName;      // 저장된 파일 이름
                     }
                 } else {
                     // 폼 데이터 처리
@@ -94,7 +96,7 @@
         }
     }
 
-    // 업로드된 파일 경로 설정
+    // 업로드된 파일 이름만 설정
     svo.setOriginFile(originFile);
     svo.setSysFile(sysFile);
 
@@ -144,13 +146,13 @@
         %>
             <h2 style="color: green;">회원가입을 축하 드립니다!</h2>
             <p>로그인을 진행해 주세요.</p>
-            <a href="<%=request.getContextPath()%>/student/user/login/login.jsp" class="loginBtn">로그인</a>
+            <a href="<%=request.getContextPath()%>/student/user/login/loginForm.jsp" class="loginBtn">로그인</a>
         <%
             } else {
         %>
             <h2 style="color: red;">회원가입에 실패했습니다.</h2>
             <p>다시 입력하여 주십시오.</p>
-            <a href="<%=request.getContextPath()%>/student/user/register/regForm.jsp" class="loginBtn grey">다시 가입</a>
+            <a href="<%=request.getContextPath()%>/student/user/register/registerForm.jsp" class="loginBtn grey">다시 가입</a>
         <%
             }
         %>

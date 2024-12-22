@@ -1,3 +1,4 @@
+<%@page import="java.net.URLEncoder"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%
@@ -6,18 +7,32 @@
     String userName = (String) session.getAttribute("userName");
     String profileImage = (String) session.getAttribute("profileImage");
 
+
     // 디버깅용 로그
     System.out.println("User ID: " + userId);
     System.out.println("User Name: " + userName);
     System.out.println("Profile Image: " + profileImage);
 
-    // 기본 이미지 처리
+
+
+    // 기본 이미지 경로 설정
+    String defaultImagePath = request.getContextPath() + "/upload/default-image.jpg";
+
+    // 프로필 이미지 경로 설정
     String profileImagePath;
+
     if (profileImage == null || profileImage.isEmpty()) {
-        profileImagePath = request.getContextPath() + "/upload/default-image.jpg"; // 기본 이미지 경로
+        profileImagePath = defaultImagePath; // 기본 이미지 사용
     } else {
-        profileImagePath = request.getContextPath() + "/uploads/" + profileImage; // 사용자 업로드 이미지 경로
+        // sysfile에서 파일 이름만 추출
+        String fileName = profileImage.substring(profileImage.lastIndexOf("\\") + 1); // 윈도우 경로 처리
+        profileImagePath = request.getContextPath() + "/uploads/" + fileName; // 상대 경로 생성
     }
+
+    // 디버깅 로그
+    System.out.println("Generated Image Path: " + profileImagePath);
+    
+    
 
     // 로그인이 안 된 경우 로그인 페이지로 리다이렉트
     if (userId == null || userId.isEmpty()) {

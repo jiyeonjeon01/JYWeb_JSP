@@ -10,9 +10,9 @@
 <script language="javascript"
 	src="<%=request.getContextPath()%>/student/user/register/registerForm.js"></script>
 <script>
-        const contextPath = "<%=request.getContextPath()%>
-	";
+    const contextPath = '<%= request.getContextPath() %>';
 </script>
+
 <style>
 /* 회원가입 폼 전체 스타일 */
 .regFormArticle {
