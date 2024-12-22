@@ -20,6 +20,13 @@
         // 세션에 사용자 정보 저장
         session.setAttribute("userId", svo.getId());
         session.setAttribute("userName", svo.getName());
+        session.setAttribute("userPhone1", svo.getPhone1());
+        session.setAttribute("userPhone2", svo.getPhone2());
+        session.setAttribute("userPhone3", svo.getPhone3());
+        session.setAttribute("userEmail", svo.getEmail());
+        session.setAttribute("userZipcode", svo.getZipcode());
+        session.setAttribute("userAddress1", svo.getAddress1());
+        session.setAttribute("userAddress2", svo.getAddress2());
         session.setAttribute("profileImage", svo.getSysFile());
 
         // 디버깅 로그
@@ -27,6 +34,9 @@
         System.out.println("User ID: " + svo.getId());
         System.out.println("User Name: " + svo.getName());
         System.out.println("Profile Image: " + svo.getSysFile());
+        System.out.println("Phone: " + svo.getPhone1() + "-" + svo.getPhone2() + "-" + svo.getPhone3());
+        System.out.println("Email: " + svo.getEmail());
+        System.out.println("Address: " + svo.getAddress1() + " " + svo.getAddress2());
 
         // 메인 페이지로 이동
         response.sendRedirect(request.getContextPath() + "/test.jsp");
@@ -41,6 +51,7 @@
         response.sendRedirect(request.getContextPath() + "/student/user/login/loginForm.jsp?error=1");
     }
 %>
+
 
 
 

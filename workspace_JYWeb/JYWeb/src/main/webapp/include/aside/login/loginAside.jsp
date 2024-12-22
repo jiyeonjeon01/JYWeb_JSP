@@ -60,10 +60,10 @@
 			    <br>
 			    <br>
 			    <ul>
-			        <li><a href="<%=request.getContextPath()%>/myPage/myPage.jsp">마이페이지</a></li>
-			        <li><a href="<%=request.getContextPath()%>/cart/cartList.jsp">장바구니</a></li>
+			        <li><a href="<%=request.getContextPath()%>/student/user/myPage/showMyPage.jsp">마이페이지</a></li>
+			        <li><a href="<%=request.getContextPath()%>/board/shoppingcart/cartList.jsp">장바구니</a></li>
 			        <li><a href="<%=request.getContextPath()%>/board/myPosts.jsp">내가 쓴 글</a></li>
-			        <li><a href="<%=request.getContextPath()%>/board/myReplies.jsp">내가 쓴 댓글</a></li>
+			       <%--  <li><a href="<%=request.getContextPath()%>/board/myReplies.jsp">내가 쓴 댓글</a></li> --%>
 			    </ul>
 			</aside>
 

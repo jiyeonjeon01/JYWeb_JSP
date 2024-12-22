@@ -243,33 +243,38 @@ public class StudentDAO {
 
 
 	// 아이디로 회원수정하기 UPDATE_SQL
-	public Boolean updateDB(StudentVO svo) {
-		ConnectionPool cp = ConnectionPool.getInstance();
-		Connection con = cp.dbCon();
-		PreparedStatement pstmt = null;
-		int count = 0;
-		try {
-			pstmt = con.prepareStatement(UPDATE_SQL);
-			pstmt.setString(1, svo.getPass());
-			pstmt.setString(2, svo.getName());
-			pstmt.setString(3, svo.getPhone1());
-			pstmt.setString(4, svo.getPhone2());
-			pstmt.setString(5, svo.getPhone3());
-			pstmt.setString(6, svo.getEmail());
-			pstmt.setString(7, svo.getZipcode());
-			pstmt.setString(8, svo.getAddress1());
-			pstmt.setString(9, svo.getAddress2());
-			pstmt.setString(10, svo.getOriginFile());
-			pstmt.setString(11, svo.getSysFile());
-			pstmt.setString(12, svo.getRole());
-			count = pstmt.executeUpdate();
-		} catch (SQLException e) {
-			e.printStackTrace();
-		} finally {
-			cp.dbClose(con, pstmt);
-		}
-		return (count > 0) ? true : false;
-	}
+    public Boolean updateDB(StudentVO svo) {
+        ConnectionPool cp = ConnectionPool.getInstance();
+        Connection con = cp.dbCon();
+        PreparedStatement pstmt = null;
+        int count = 0;
+
+        try {
+            pstmt = con.prepareStatement(UPDATE_SQL);
+            pstmt.setString(1, svo.getPass());
+            pstmt.setString(2, svo.getName());
+            pstmt.setString(3, svo.getPhone1());
+            pstmt.setString(4, svo.getPhone2());
+            pstmt.setString(5, svo.getPhone3());
+            pstmt.setString(6, svo.getEmail());
+            pstmt.setString(7, svo.getZipcode());
+            pstmt.setString(8, svo.getAddress1());
+            pstmt.setString(9, svo.getAddress2());
+            pstmt.setString(10, svo.getOriginFile());
+            pstmt.setString(11, svo.getSysFile());
+            pstmt.setString(12, svo.getId()); // ID
+
+            // 디버깅 로그
+            System.out.println("Executing SQL: " + pstmt.toString());
+            count = pstmt.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            cp.dbClose(con, pstmt);
+        }
+        return (count > 0);
+    }
+
 
 	// 아이디로 회원 삭제하기
 	public Boolean deleteDB(StudentVO svo) {
@@ -344,4 +349,31 @@ public class StudentDAO {
         }
         return isValid;
     }
+	
+	
+	public boolean isPasswordCorrect(String id, String inputPass) {
+	    boolean isCorrect = false;
+	    Connection con = null;
+	    PreparedStatement pstmt = null;
+	    ResultSet rs = null;
+	    try {
+	        String sql = "SELECT PASS FROM STUDENT WHERE ID = ?";
+	        con = ConnectionPool.getInstance().dbCon();
+	        pstmt = con.prepareStatement(sql);
+	        pstmt.setString(1, id);
+	        rs = pstmt.executeQuery();
+	        if (rs.next()) {
+	            String storedPass = rs.getString("PASS");
+	            System.out.println("Stored Pass: " + storedPass);
+	            System.out.println("Input Pass: " + inputPass);
+	            isCorrect = storedPass.equals(inputPass);
+	        }
+	    } catch (SQLException e) {
+	        e.printStackTrace();
+	    } finally {
+	        ConnectionPool.getInstance().dbClose(con, pstmt, rs);
+	    }
+	    return isCorrect;
+	}
+
 }

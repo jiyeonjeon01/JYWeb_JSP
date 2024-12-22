@@ -123,6 +123,8 @@ function inputCheck() {
 	document.regForm.submit();
 }
 
+
+
 /*회원수정폼 패턴검색*/
 function updateCheck() {
 	if (document.regForm.pass.value == "") {
