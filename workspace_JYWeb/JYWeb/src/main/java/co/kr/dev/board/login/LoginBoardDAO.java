@@ -1,0 +1,372 @@
+package co.kr.dev.board.login;
+
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Timestamp;
+import java.util.ArrayList;
+
+import co.kr.dev.common.ConnectionPool;
+
+public class LoginBoardDAO {
+	// 싱글톤1
+	private static LoginBoardDAO instance;
+
+	// 싱글톤2
+	private LoginBoardDAO() {
+		}
+
+	// 싱글톤3
+	public static LoginBoardDAO getInstance() {
+		if (instance == null) {
+			synchronized (LoginBoardDAO.class) {
+				instance = new LoginBoardDAO();
+			}
+		}
+		return instance;
+	}
+	
+	
+	
+	private final String SELECT_SQL = "SELECT * FROM LOGINBOARD ORDER BY NUM DESC";
+	private final String SELECT_START_END_SQL = "SELECT * FROM "
+			+ "(SELECT ROWNUM AS RNUM, NUM, TYPE, STUDENT_ID, TITLE, READCOUNT, REGDATE, CONTENT, REF, STEP, DEPTH, IP, ORIGINFILE, SYSFILE"
+			+ "FROM (SELECT * FROM LOGINTBOARD ORDER BY REF DESC, STEP ASC)) WHERE NUM RNUM >= ? AND RNUM <= ?";
+	private final String SELECT_COUNT_SQL = "SELECT COUNT(*) AS COUNT FROM LOGINBOARD";
+	private final String SELECT_MAX_NUM_SQL = "SELECT MAX(NUM) AS NUM FROM LOGINBOARD";
+	private final String SELECT_ONE_SQL = "SELECT * FROM LOGINBOARD WHERE NUM = ?";
+	private final String SELECT_BY_ID_SQL = "SELECT COUNT(*) AS COUNT FROM STUDENT WHERE ID = ?";
+	private final String INSERT_SQL = "INSERT INTO LOGINBOARD(NUM, TYPE, STUDENT_ID, TITLE, READCOUNT, REGDATE, CONTENT, REF, STEP, DEPTH, IP, ORIGINFILE, SYSFILE )"
+			+ "VALUES (LOGINBOARD_SEQ.NEXTVAL, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+	private final String DELETE_SQL = "DELETE FROM LOGINBOARD WHERE NUM = ?";
+	private final String UPDATE_SQL = "UPDATE LOGINBOARD SET TITLE = ?, CONTENT = ?, ORIGINFILE = ?, SYSFILE = ? WHERE NUM = ?";
+	private final String UPDATE_STEP_SQL = "UPDATE LOGINBOARD SET STEP=STEP+1 WHERE REF = ? AND STEP > ? ";
+	private final String UPDATE_READCOUNT_SQL = "UPDATE LOGINBOARD SET READCOUNT = READCOUNT + 1 WHERE NUM = ?";
+	// SQL 선언 부분 (LoginBoardDAO 클래스 내부)
+//	private final String SELECT_ONE_SQL = "SELECT NUM, TYPE, STUDENT_ID, TITLE, READCOUNT, REGDATE, CONTENT, REF, STEP, DEPTH, IP, ORIGINFILE, SYSFILE " +
+//	                                      "FROM LOGINBOARD WHERE NUM = ?";
+//	private final String UPDATE_READCOUNT_SQL = "UPDATE LOGINBOARD SET READCOUNT = READCOUNT + 1 WHERE NUM = ?";
+
+
+	// Select all posts
+    public ArrayList<LoginBoardVO> selectAll() {
+        ArrayList<LoginBoardVO> boardList = new ArrayList<>();
+        Connection con = null;
+        PreparedStatement pstmt = null;
+        ResultSet rs = null;
+
+        try {
+            con = ConnectionPool.getInstance().dbCon();
+            pstmt = con.prepareStatement(SELECT_SQL);
+            rs = pstmt.executeQuery();
+
+            while (rs.next()) {
+                boardList.add(extractVO(rs));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            ConnectionPool.getInstance().dbClose(con, pstmt, rs);
+        }
+        return boardList;
+    }
+
+    // Select a single post by num
+    public LoginBoardVO selectOne(int num) {
+        LoginBoardVO board = null;
+        Connection con = null;
+        PreparedStatement pstmt = null;
+        ResultSet rs = null;
+
+        try {
+            con = ConnectionPool.getInstance().dbCon();
+            pstmt = con.prepareStatement(SELECT_ONE_SQL);
+            pstmt.setInt(1, num);
+            rs = pstmt.executeQuery();
+
+            if (rs.next()) {
+                board = extractVO(rs);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            ConnectionPool.getInstance().dbClose(con, pstmt, rs);
+        }
+        return board;
+    }
+    
+    
+    public LoginBoardVO selectBoardDB(LoginBoardVO vo) {
+        ConnectionPool cp = ConnectionPool.getInstance();
+        Connection con = cp.dbCon();
+        PreparedStatement pstmt = null;
+        ResultSet rs = null;
+        LoginBoardVO bvo = null;
+
+        try {
+            // 조회수 증가
+            pstmt = con.prepareStatement(UPDATE_READCOUNT_SQL);
+            pstmt.setInt(1, vo.getNum());
+            pstmt.executeUpdate();
+            pstmt.close(); // 이전 pstmt 닫기
+
+            // 게시글 데이터 가져오기
+            pstmt = con.prepareStatement(SELECT_ONE_SQL);
+            pstmt.setInt(1, vo.getNum());
+            rs = pstmt.executeQuery();
+
+            if (rs.next()) {
+                bvo = new LoginBoardVO();
+                bvo.setNum(rs.getInt("NUM"));
+                bvo.setType(rs.getString("TYPE"));
+                bvo.setStudentId(rs.getString("STUDENT_ID"));
+                bvo.setTitle(rs.getString("TITLE"));
+                bvo.setReadCount(rs.getInt("READCOUNT"));
+                bvo.setRegDate(rs.getTimestamp("REGDATE"));
+                bvo.setContent(rs.getString("CONTENT"));
+                bvo.setRef(rs.getInt("REF"));
+                bvo.setStep(rs.getInt("STEP"));
+                bvo.setDepth(rs.getInt("DEPTH"));
+                bvo.setIp(rs.getString("IP"));
+                bvo.setOriginFile(rs.getString("ORIGINFILE"));
+                bvo.setSysFile(rs.getString("SYSFILE"));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            cp.dbClose(con, pstmt, rs);
+        }
+
+        // 디버깅 메시지
+        if (bvo != null) {
+            System.out.println("bvo: " + bvo.toString());
+        } else {
+            System.out.println("게시글 데이터가 없습니다.");
+        }
+
+        return bvo;
+    }
+
+    
+    
+
+    // Insert a new post
+    public boolean insert(LoginBoardVO vo) {
+        Connection con = null;
+        PreparedStatement pstmt = null;
+        int count = 0;
+
+        try {
+            con = ConnectionPool.getInstance().dbCon();
+
+            // 답글인지 확인하고 ref, step, depth 설정
+            int ref = vo.getNum() == 0 ? getMaxNum() + 1 : vo.getRef();
+            int step = vo.getNum() == 0 ? 0 : vo.getStep() + 1;
+            int depth = vo.getNum() == 0 ? 0 : vo.getDepth() + 1;
+
+            if (vo.getNum() != 0) {
+                // 답글인 경우 step 업데이트
+                updateStep(ref, step);
+            }
+
+            pstmt = con.prepareStatement(INSERT_SQL);
+            pstmt.setString(1, vo.getType());                 // TYPE
+            pstmt.setString(2, vo.getStudentId());            // STUDENT_ID
+            pstmt.setString(3, vo.getTitle());                // TITLE
+            pstmt.setInt(4, 0);                               // READCOUNT (기본값 0)
+            pstmt.setTimestamp(5, new Timestamp(System.currentTimeMillis())); // REGDATE
+            pstmt.setString(6, vo.getContent());              // CONTENT
+            pstmt.setInt(7, ref);                             // REF
+            pstmt.setInt(8, step);                            // STEP
+            pstmt.setInt(9, depth);                           // DEPTH
+            pstmt.setString(10, vo.getIp());                  // IP
+            pstmt.setString(11, vo.getOriginFile());          // ORIGINFILE
+            pstmt.setString(12, vo.getSysFile());             // SYSFILE
+
+            count = pstmt.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            ConnectionPool.getInstance().dbClose(con, pstmt);
+        }
+        return count > 0;
+    }
+
+
+    // Update a post
+    public boolean update(LoginBoardVO vo) {
+        Connection con = null;
+        PreparedStatement pstmt = null;
+        int count = 0;
+
+        try {
+            con = ConnectionPool.getInstance().dbCon();
+            pstmt = con.prepareStatement(UPDATE_SQL);
+            pstmt.setString(1, vo.getTitle());
+            pstmt.setString(2, vo.getContent());
+            pstmt.setString(3, vo.getOriginFile());
+            pstmt.setString(4, vo.getSysFile());
+            pstmt.setInt(5, vo.getNum());
+
+            count = pstmt.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            ConnectionPool.getInstance().dbClose(con, pstmt);
+        }
+        return count > 0;
+    }
+
+    // Delete a post
+    public boolean delete(int num) {
+        Connection con = null;
+        PreparedStatement pstmt = null;
+        int count = 0;
+
+        try {
+            con = ConnectionPool.getInstance().dbCon();
+            pstmt = con.prepareStatement(DELETE_SQL);
+            pstmt.setInt(1, num);
+
+            count = pstmt.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            ConnectionPool.getInstance().dbClose(con, pstmt);
+        }
+        return count > 0;
+    }
+
+    // Update read count
+    public void updateReadCount(int num) {
+        Connection con = null;
+        PreparedStatement pstmt = null;
+
+        try {
+            con = ConnectionPool.getInstance().dbCon();
+            pstmt = con.prepareStatement(UPDATE_READCOUNT_SQL);
+            pstmt.setInt(1, num);
+            pstmt.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            ConnectionPool.getInstance().dbClose(con, pstmt);
+        }
+    }
+
+    // Update step for replies
+    private void updateStep(int ref, int step) {
+        Connection con = null;
+        PreparedStatement pstmt = null;
+
+        try {
+            con = ConnectionPool.getInstance().dbCon();
+            pstmt = con.prepareStatement(UPDATE_STEP_SQL);
+            pstmt.setInt(1, ref);
+            pstmt.setInt(2, step);
+            pstmt.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            ConnectionPool.getInstance().dbClose(con, pstmt);
+        }
+    }
+
+    // Get max num for new posts
+    private int getMaxNum() {
+        Connection con = null;
+        PreparedStatement pstmt = null;
+        ResultSet rs = null;
+        int maxNum = 0;
+
+        try {
+            con = ConnectionPool.getInstance().dbCon();
+            pstmt = con.prepareStatement("SELECT MAX(NUM) AS NUM FROM LOGINBOARD");
+            rs = pstmt.executeQuery();
+
+            if (rs.next()) {
+                maxNum = rs.getInt("NUM");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            ConnectionPool.getInstance().dbClose(con, pstmt, rs);
+        }
+        return maxNum;
+    }
+
+    // Extract VO from ResultSet
+    private LoginBoardVO extractVO(ResultSet rs) throws SQLException {
+        return new LoginBoardVO(
+            rs.getInt("NUM"),
+            rs.getString("TYPE"),
+            rs.getString("STUDENT_ID"),
+            rs.getString("TITLE"),
+            rs.getInt("READCOUNT"),
+            rs.getTimestamp("REGDATE"),
+            rs.getString("CONTENT"),
+            rs.getInt("REF"),
+            rs.getInt("STEP"),
+            rs.getInt("DEPTH"),
+            rs.getString("IP"),
+            rs.getString("ORIGINFILE"),
+            rs.getString("SYSFILE")
+        );
+    }
+    
+    
+    public int getPostCountByType(String type) {
+        String sql = "SELECT COUNT(*) FROM LOGINBOARD WHERE TYPE = ?";
+        try (Connection con = ConnectionPool.getInstance().dbCon();
+             PreparedStatement pstmt = con.prepareStatement(sql)) {
+            pstmt.setString(1, type);
+            ResultSet rs = pstmt.executeQuery();
+            if (rs.next()) {
+                return rs.getInt(1);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return 0;
+    }
+    
+    
+    public ArrayList<LoginBoardVO> getPostsByType(String type, int start, int end) {
+        String sql = "SELECT * FROM ("
+                   + "SELECT ROWNUM AS RNUM, A.* FROM ("
+                   + "SELECT * FROM LOGINBOARD WHERE TYPE = ? ORDER BY REF DESC, STEP ASC) A "
+                   + "WHERE ROWNUM <= ?) WHERE RNUM >= ?";
+        ArrayList<LoginBoardVO> list = new ArrayList<>();
+        try (Connection con = ConnectionPool.getInstance().dbCon();
+             PreparedStatement pstmt = con.prepareStatement(sql)) {
+            pstmt.setString(1, type);
+            pstmt.setInt(2, end);
+            pstmt.setInt(3, start);
+            ResultSet rs = pstmt.executeQuery();
+            while (rs.next()) {
+                LoginBoardVO vo = new LoginBoardVO();
+                vo.setNum(rs.getInt("NUM"));
+                vo.setTitle(rs.getString("TITLE"));
+                vo.setStudentId(rs.getString("STUDENT_ID"));
+                vo.setReadCount(rs.getInt("READCOUNT"));
+                vo.setRegDate(rs.getTimestamp("REGDATE"));
+                vo.setContent(rs.getString("CONTENT"));
+                vo.setRef(rs.getInt("REF"));
+                vo.setStep(rs.getInt("STEP"));
+                vo.setDepth(rs.getInt("DEPTH"));
+                vo.setIp(rs.getString("IP"));
+                list.add(vo);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return list;
+    }
+
+
+
+    
+    
+
+}

@@ -52,13 +52,13 @@
 					<!-- 게시판 -->
 					<div class="normalMenuLogin">
 						<a
-							href="<%=request.getContextPath()%>/board/free/freeList.jsp">
+							href="<%=request.getContextPath()%>/board/normal/normalList.jsp">
 							<span>자유게시판</span>
 						</a>
 						<div class="dropdownMenuLogin">
 							<a
-								href="<%=request.getContextPath()%>/board/free/freeList.jsp">목록보기</a>
-							<a href="<%=request.getContextPath()%>/board/writeForm.jsp">글작성하기</a>
+								href="<%=request.getContextPath()%>/board/normal/normalList.jsp">목록보기</a>
+							<a href="<%=request.getContextPath()%>/board/normal/write/normalForm.jsp">글작성하기</a>
 						</div>
 					</div> 
 					<!-- Q&A -->
@@ -88,14 +88,15 @@
 				<!-- 빈공간 -->
 				<td class="emptyTd"></td>
 
-				<!-- 유저이름 버튼 -->
-				<td class="userNameBtnTd">
-					<div>
-						<a href="<%=request.getContextPath()%>/student/myPage/myPage.jsp">
-						<button class="userNameBtn"><strong><%=userName%>님</strong></button> 
-						</a>
-					</div>
+				<!-- 로그아웃 버튼 --> 
+				<td class="logoutBtnTd"> 
+				    <div>
+				        <a href="<%=request.getContextPath()%>/student/logout/logout.jsp">
+				            <button class="logoutBtn">Logout</button> 
+				        </a>
+				    </div>
 				</td>
+
 			</tr>
 		</table>
 	</header>

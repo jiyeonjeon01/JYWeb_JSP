@@ -46,12 +46,12 @@
 					<!-- 게시판 -->
 					<div class="normalMenuLogout">
 						<a
-							href="<%=request.getContextPath()%>/board/free/freeList.jsp">
+							href="<%=request.getContextPath()%>/board/normal/normalList.jsp">
 							<span>자유게시판</span>
 						</a>
 						<div class="dropdownMenuLogout">
 							<a
-								href="<%=request.getContextPath()%>/board/free/freeList.jsp">목록보기</a>
+								href="<%=request.getContextPath()%>/board/normal/normalList.jsp">목록보기</a>
 						</div>
 					</div> 
 					<!-- Q&A -->
