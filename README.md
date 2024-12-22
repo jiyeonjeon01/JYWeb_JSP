@@ -23,8 +23,7 @@ CREATE TABLE STUDENT (
     CONSTRAINT student_role_ck CHECK (role IN ('USER', 'ADMIN')) -- Role 제한
 );
 ALTER TABLE STUDENT ADD CONSTRAINT STUDENT_ID_PK PRIMARY KEY (id);
-
-
+SELECT * FROM STUDENT;
 -- 주소 관리 테이블
 CREATE TABLE ZIPCODE (
     seq      NUMBER(10) PRIMARY KEY,          -- 우편번호 시퀀스 (Primary Key)
@@ -34,6 +33,9 @@ CREATE TABLE ZIPCODE (
     dong     VARCHAR2(50),                    -- 동/읍/면
     bunji    VARCHAR2(100)                    -- 번지
 );
+SELECT * 
+FROM ZIPCODE 
+WHERE DONG LIKE '방배%';
 
 -----------------------------------------------------------------------------------------
 
@@ -80,19 +82,32 @@ ALTER TABLE LOGOUTBOARD ADD CONSTRAINT LOGOUTBOARD_NUM_PK PRIMARY KEY (num);
 CREATE SEQUENCE LOGOUTBOARD_SEQ START WITH 1 INCREMENT BY 1 NOMAXVALUE NOCACHE NOCYCLE;
 
 
--- 장바구니 테이블
-CREATE TABLE CART (
-    id                  NUMBER(10),        -- 장바구니 ID
-    student_id          VARCHAR2(20) NOT NULL,         -- 사용자 ID (STUDENT 테이블 참조)
-    loginboard_num      NUMBER(7,0) NOT NULL,         -- 상품 ID (NormalBoard 테이블 참조)
-    quantity            NUMBER(3,0) DEFAULT 100          -- 수량
+-- PRODUCT 테이블
+CREATE TABLE PRODUCT (
+    num         NUMBER(7, 0), -- pk   
+    name        VARCHAR2(40) NOT NULL,
+    price       NUMBER(15) NOT NULL,
+    detail      VARCHAR2(300),
+    originfile  VARCHAR2(255), -- 첨부파일 원본 파일명
+    sysfile     VARCHAR2(255)  -- 첨부파일 저장 파일명
 );
-ALTER TABLE CART ADD CONSTRAINT CART_ID_PK PRIMARY KEY(id);
+ALTER TABLE PRODUCT ADD CONSTRAINT PRODUCT_NUM_PK PRIMARY KEY (num);
+CREATE SEQUENCE PRODUCT_SEQ START WITH 1 INCREMENT BY 1 NOMAXVALUE NOCACHE NOCYCLE;
+
+-- CART 테이블 
+CREATE TABLE CART (
+    num                 NUMBER(10),        -- 장바구니 ID
+    student_id          VARCHAR2(20) NOT NULL, -- 사용자 ID (STUDENT 테이블 참조)
+    product_num         NUMBER(7,0) NOT NULL, -- 상품 ID (PRODUCT 테이블 참조)
+    quantity            NUMBER(3,0) DEFAULT 1 -- 수량
+);
+ALTER TABLE CART ADD CONSTRAINT CART_ID_PK PRIMARY KEY(num);
 ALTER TABLE CART ADD CONSTRAINT CART_STUDENTID_FK FOREIGN KEY (student_id)
     REFERENCES STUDENT (id) ON DELETE CASCADE;
-ALTER TABLE CART ADD CONSTRAINT CART_LOGINBOARDNUM_FK FOREIGN KEY (loginboard_num)
-    REFERENCES LOGINBOARD (num) ON DELETE CASCADE;
+ALTER TABLE CART ADD CONSTRAINT CART_PRODUCTNUM_FK FOREIGN KEY (product_num)
+    REFERENCES PRODUCT (num) ON DELETE CASCADE;
 CREATE SEQUENCE CART_SEQ START WITH 1 INCREMENT BY 1 NOMAXVALUE NOCACHE NOCYCLE;
+
 
 
 COMMIT;
@@ -100,5 +115,7 @@ COMMIT;
 
 
 ```
-![image](https://github.com/user-attachments/assets/ad91e0f6-0584-4db2-877e-20f1c29fe081)
+
+![image](https://github.com/user-attachments/assets/7b14114a-f7ba-4e62-8250-bcc46419eccf)
+
 
