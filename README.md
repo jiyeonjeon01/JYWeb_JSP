@@ -5,9 +5,11 @@ JSP로 만든 JYWeb. 회원가입, 로그인, 글쓰기 등의 기능이 담긴 
 
 <h2>기능</h2>
 <summary><b>사용자</b></summary>
+<details>
 1) 어드민<br>
 2) 로그인 사용자 <br>
 3) 비로그인 사용자<br>
+</details>
 
 <summary><b>회원가입, 로그인</b></summary>
 1) 생성<br>
