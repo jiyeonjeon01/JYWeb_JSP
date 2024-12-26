@@ -61,6 +61,13 @@ function inputCheck() {
 		document.regForm.pass.focus();
 		return;
 	}
+	const passPattern = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{6,15}$/;
+	var pass = document.regForm.pass.value;
+	if (!passPattern.test(pass)) {
+		alert("비밀번호는 영어와 숫자를 포함하여 6~15자로 입력해 주세요.");
+		document.regForm.pass.focus();
+		return;
+	}
 	if (document.regForm.repass.value == "") {
 		alert("비밀번호를 확인해 주세요");
 		document.regForm.repass.focus();

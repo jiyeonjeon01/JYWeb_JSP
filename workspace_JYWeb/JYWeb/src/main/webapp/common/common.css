@@ -327,17 +327,17 @@ article {
     background-color: #e8f5ff;
 }
 
-.recentPostLink {
+/* .recentPostLink {
     text-decoration: none;
     color: #333;
     display: flex;
     justify-content: space-between;
     font-size: 0.95em;
-}
+} */
 
-.postTitle {
+/* .postTitle {
     font-weight: bold;
-    flex: 3; /* 제목을 넓게 */
+    flex: 3; 제목을 넓게
     text-overflow: ellipsis;
     white-space: nowrap;
     overflow: hidden;
@@ -351,6 +351,76 @@ article {
     color: #555;
     font-size: 0.9em;
 }
+ */
+.recentPostsTable {
+    width: 100%;
+    border: 1px solid #f2f2f2;
+    margin-top: 5%;
+    table-layout: fixed; 
+    border-collapse: collapse; 
+}
+.recentPostsTable td, .recentPostsTable th {
+    padding: 10px;
+    text-align: center;
+    overflow: hidden; /* 넘치는 내용 숨김 */
+    white-space: nowrap; /* 줄바꿈 방지 */
+    text-overflow: ellipsis; /* 말줄임표 추가 */
+}
+.recentPostsTable th {
+    color: #5b7183; 
+    text-align: center; 
+    padding: 10px; 
+    background-color:#d2e5ee;
+}
+.recentPostsTable td {
+	padding: 5px; 
+}
+.recentPostsTable tr:nth-child(even) {
+	background-color:#f1f8ff;
+}
+.recentPostsTable tr:nth-child(even):hover  {
+	background-color: #f2f2f2;
+	cursor: pointer;
+}
+.recentPostsTable tr:nth-child(odd):hover {
+	background-color:#f2f2f2;
+	cursor: pointer;
+}
+.emptyTd{
+	height: 20px;
+}
+ .postType {
+ 	color: #6f96bf;
+ 	width: 10%;
+ 	text-align: center;
+ }
+.postTitle {
+    font-weight: bold;
+    width: 30%; /* 고정 너비 */
+    font-size: 1.1em;
+    color: #1b1b1c;
+}
+
+ 
+ .postWriter{
+/*  font-weight: bold; */
+ font-size: 1.1em;
+ color:  #5b7183;
+ width: 20%;
+ 	text-align: center;
+ }
+ .postDate, .postViews {
+ color: #cdcdcd;
+ 
+ }
+ .postDate {
+ width: 30%;
+ 	text-align: center;
+ }
+ .postViews{
+ width: 10%;
+ 	text-align: center;
+ }
 
 
 

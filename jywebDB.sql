@@ -81,16 +81,20 @@ CREATE SEQUENCE LOGOUTBOARD_SEQ START WITH 1 INCREMENT BY 1 NOMAXVALUE NOCACHE N
 
 -- PRODUCT 테이블
 CREATE TABLE PRODUCT (
-    num         NUMBER(7, 0), -- pk   
-    name        VARCHAR2(40) NOT NULL,
-    price       NUMBER(15) NOT NULL,
-    detail      VARCHAR2(300),
-    originfile  VARCHAR2(255), -- 첨부파일 원본 파일명
-    sysfile     VARCHAR2(255)  -- 첨부파일 저장 파일명
+    num             NUMBER(7, 0), -- pk   
+    student_id      VARCHAR2(20),                  -- 작성자 (STUDENT 테이블의 ID와 연결)
+    name            VARCHAR2(40) NOT NULL,
+    price           NUMBER(15) NOT NULL,
+    detail          VARCHAR2(300),
+    originfile      VARCHAR2(255), -- 첨부파일 원본 파일명
+    sysfile         VARCHAR2(255)  -- 첨부파일 저장 파일명
 );
 ALTER TABLE PRODUCT ADD CONSTRAINT PRODUCT_NUM_PK PRIMARY KEY (num);
 CREATE SEQUENCE PRODUCT_SEQ START WITH 1 INCREMENT BY 1 NOMAXVALUE NOCACHE NOCYCLE;
+ALTER TABLE PRODUCT ADD CONSTRAINT PRODUCT_STUDENTID_FK FOREIGN KEY (student_id)
+    REFERENCES STUDENT (id);
 select * from product;
+
 
 -- CART 테이블 
 CREATE TABLE CART (

@@ -44,7 +44,7 @@
 							<span>공지사항</span>
 						</a>
 						<div class="dropdownMenuLogin">
-							<a href="<%=request.getContextPath()%>/board/noti/write/notiList.jsp">목록보기</a>
+							<a href="<%=request.getContextPath()%>/board/noti/notiList.jsp">목록보기</a>
 						</div>
 					</div> 
 					<!-- 게시판 -->

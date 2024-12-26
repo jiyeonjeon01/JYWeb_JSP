@@ -1,3 +1,4 @@
+<%@ page contentType="text/html; charset=UTF-8" %>
 <%@page import="java.sql.Timestamp"%>
 <%@page import="java.util.*"%>
 <%@page import="java.io.*"%>
@@ -83,10 +84,12 @@
             }
         } catch (Exception e) {
             e.printStackTrace();
+            
             out.println("<script>alert('파일 업로드 중 오류가 발생했습니다.'); history.back();</script>");
             return;
         }
     }
+    
 
     // 파일 정보 설정
     vo.setOriginFile(originFile);

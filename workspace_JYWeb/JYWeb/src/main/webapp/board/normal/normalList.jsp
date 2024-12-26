@@ -130,10 +130,10 @@
 
 
 
- <%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
-    <%@ page import="co.kr.dev.board.login.LoginBoardDAO, java.util.List, co.kr.dev.board.login.LoginBoardVO" %>
- <%@ page import="java.util.ArrayList" %>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+   pageEncoding="UTF-8"%>
+<%@ page import="co.kr.dev.board.login.LoginBoardDAO, java.util.List, co.kr.dev.board.login.LoginBoardVO" %>
+<%@ page import="java.util.ArrayList" %>
 <%@ page import="java.text.SimpleDateFormat" %>
 <%@ page import="co.kr.dev.board.login.LoginBoardDAO" %>
 <%@ page import="co.kr.dev.board.login.LoginBoardVO" %>
@@ -181,7 +181,7 @@ String userId = (String) session.getAttribute("userId");
     <title>Test Page</title>
     <link rel="stylesheet" href="<%=request.getContextPath()%>/common/common.css">
     <link rel="stylesheet" href="<%=request.getContextPath()%>/custom/recentPosts.css">
-        <link rel="stylesheet" href="<%=request.getContextPath()%>/board/normal/normalList.css"> 
+    <link rel="stylesheet" href="<%=request.getContextPath()%>/board/normal/normalList.css"> 
 <style>
 
 

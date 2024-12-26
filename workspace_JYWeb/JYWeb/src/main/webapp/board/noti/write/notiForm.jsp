@@ -1,14 +1,22 @@
-<%@ page contentType="text/html; charset=UTF-8" %>
-<%@ page import="java.util.*" %>
-<%@ page import="java.net.*" %>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<%@ page import="co.kr.dev.board.login.LoginBoardDAO, java.util.List, co.kr.dev.board.login.LoginBoardVO" %>
+<%@ page import="java.util.ArrayList" %>
+<%@ page import="java.text.SimpleDateFormat" %>
 <%@ page import="co.kr.dev.board.login.LoginBoardDAO" %>
 <%@ page import="co.kr.dev.board.login.LoginBoardVO" %>
 
 <%
     // 로그인 상태 확인
     String userId = (String) session.getAttribute("userId");
+	String userRole = (String) session.getAttribute("role");
+	
     if (userId == null || userId.isEmpty()) {
         response.sendRedirect(request.getContextPath() + "/student/user/login/loginForm.jsp");
+        return;
+    }
+    if(!"ADMIN".equals(userRole)) {
+        out.println("<script>alert('권한이 없습니다.'); history.back();</script>");
         return;
     }
 
@@ -25,11 +33,22 @@
         e.printStackTrace();
     }
 %>
+<%
+    // DAO 인스턴스 생성
+    LoginBoardDAO loginBoardDAO = LoginBoardDAO.getInstance();
+
+    // 최근 게시물 10개 불러오기
+    List<LoginBoardVO> recentPosts = loginBoardDAO.selectRecentPosts(10); 
+%>
+
 <!DOCTYPE html>
 <html lang="ko">
 <head>
     <meta charset="UTF-8">
-    <title>자유게시판 글쓰기</title>
+    <title>공지사항 게시판 글쓰기</title>
+    <link rel="stylesheet" href="<%=request.getContextPath()%>/common/common.css">
+    <link rel="stylesheet" href="<%=request.getContextPath()%>/custom/recentPosts.css">
+    <link rel="stylesheet" href="<%=request.getContextPath()%>/board/noti/notiForm.css"> 
     <script>
         function validateForm() {
             if (document.writeForm.title.value.trim() === "") {
@@ -47,10 +66,36 @@
     </script>
 </head>
 <body>
+<!-- 헤더 -->
+    <header>
+        <% 
+            if ("admin".equals(userId)) { 
+        %>
+            <jsp:include page="/include/header/admin/adminHeader.jsp" />
+        <% 
+            } else if (userId != null && !userId.isEmpty()) { 
+        %>
+            <jsp:include page="/include/header/login/loginHeader.jsp" />
+        <% 
+            } else { 
+        %>
+            <jsp:include page="/include/header/logout/logoutHeader.jsp" />
+        <% 
+            } 
+        %>
+
+    </header>
+     <!-- 메인 -->
+    <main>
+        <jsp:include page="/include/slideShow/slideShow.jsp" />
+        
+        <section>
+        <article class="noti-board-article">
+    
     <h2 style="text-align: center;">자유게시판 글쓰기</h2>
     <!-- enctype 설정 -->
-    <form name="writeForm" method="post" action="normalProc.jsp" enctype="multipart/form-data" onsubmit="return validateForm()">
-        <input type="hidden" name="type" value="NORMAL">
+    <form name="writeForm" method="post" action="notiProc.jsp" enctype="multipart/form-data" onsubmit="return validateForm()">
+        <input type="hidden" name="type" value="NOTI">
         <input type="hidden" name="studentId" value="<%= userId %>">
         <input type="hidden" name="num" value="<%= num %>">
         <input type="hidden" name="ref" value="<%= ref %>">
@@ -86,5 +131,15 @@
             </tr>
         </table>
     </form>
+</article>
+
+</section>
+
+    </main>
+    
+    <footer>
+        <jsp:include page="/include/footer/footer.jsp" />
+    </footer>
 </body>
 </html>
+ 

@@ -83,46 +83,28 @@ public final class ConnectionPool {
 		try {
 			con = DriverManager.getConnection(url, id, pw);
 			numCons++;
-			//System.out.println("current connection count : " + numCons);
+			System.out.println("current connection count : " + numCons);
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
 		return con;
 	}
 
-//	public synchronized Connection dbCon() {
-//		// 1. free ArrayList Connection 들어있는지 확인(현재 10개 있을거로 추정)
-//		Connection con = null;
-//		if (free.isEmpty()) {
-//			// 최종 max 20 개를 다시 만든다.
-//			while (numCons < maxCons) {
-//				addConnection();
-//			}
-//		}
-//		con = free.get(free.size() - 1);
-//		free.remove(con);
-//		used.add(con);
-//
-//		return con;
-//	}
-	
 	public synchronized Connection dbCon() {
-	    Connection con = null;
-	    if (free.isEmpty()) {
-	        if (numCons < maxCons) {
-	            addConnection();
-	        } else {
-	            System.out.println("No available connections.");
-	            return null; // 연결 반환 실패 시 null 처리
-	        }
-	    }
-	    con = free.get(free.size() - 1);
-	    free.remove(con);
-	    used.add(con);
-	    System.out.println("Connection provided: " + con);
-	    return con;
-	}
+		// 1. free ArrayList Connection 들어있는지 확인(현재 10개 있을거로 추정)
+		Connection con = null;
+		if (free.isEmpty()) {
+			// 최종 max 20 개를 다시 만든다.
+			while (numCons < maxCons) {
+				addConnection();
+			}
+		}
+		con = free.get(free.size() - 1);
+		free.remove(con);
+		used.add(con);
 
+		return con;
+	}
 
 	public void dbClose(Connection con, ResultSet rs, Statement... stmts) {
 		if (con != null) {
@@ -248,7 +230,6 @@ public final class ConnectionPool {
 		}		
 	}
 }
-
 
 
 

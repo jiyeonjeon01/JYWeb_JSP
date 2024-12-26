@@ -154,7 +154,7 @@ String userId = (String) session.getAttribute("userId"); */
 <html>
 <head>
     <meta charset="UTF-8">
-    <title>Test Page</title>
+    <title>자유 게시판 글쓰기</title>
     <link rel="stylesheet" href="<%=request.getContextPath()%>/common/common.css">
     <link rel="stylesheet" href="<%=request.getContextPath()%>/custom/recentPosts.css">
 
@@ -206,6 +206,7 @@ String userId = (String) session.getAttribute("userId"); */
         
 <section>
 <article class="write-board-article">
+
     <h2 class="write-board-title">자유게시판 글쓰기</h2>
     <form name="writeForm" method="post" action="normalProc.jsp" enctype="multipart/form-data" onsubmit="return validateForm()" class="write-board-form">
         <input type="hidden" name="type" value="NORMAL">
