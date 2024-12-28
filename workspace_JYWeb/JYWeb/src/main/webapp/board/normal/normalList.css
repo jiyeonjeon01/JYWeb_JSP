@@ -1,81 +1,134 @@
 @charset "UTF-8";
-
-/* 자유게시판 섹션 */
-.normal-board-section h2.normal-board-title {
-    text-align: center;
-    color: #1b1b1c;
-    background-color: #d2e5ee;
-    padding: 15px;
-    border-radius: 10px;
-    margin-bottom: 20px;
+.normalBoardTitle > .normalBoardTable {
+    margin-top: 2%; /* 헤더 상단 여백 */
 }
 
-.normal-board-section .normal-board-write-link {
-    text-align: right;
-    margin: 10px;
+.normalListDiv {
+	height: auto;
+	margin: 0 auto;
+}
+.normalBoardTitle {
+	text-align: center;
+	background-color: #d2e5ee;
+	padding: 5px;
+}
+.normalBoardTitleSpan {
+	font-size: 1.3em;
+	color: #1b1b1c;
+	border-bottom: #eee;
+	font-weight: bold;
+	height: 50px; 
+	line-height: 50px;
 }
 
-.normal-board-section .normal-board-table {
+
+.normalBoardTable {
     width: 100%;
-    border-collapse: collapse;
-    margin: 20px 0;
+    height: 80%;
+    border: 1px solid #f2f2f2;
+    margin-top: 5%;
+    table-layout: fixed; 
+    border-collapse: collapse; 
 }
-
-.normal-board-section .normal-board-table th,
-.normal-board-section .normal-board-table td {
-    padding: 15px;
-    text-align: left;
-    border: 1px solid #cdcdcd;
+.normalBoardTable td, .normalBoardTable th {
+    padding: 10px;
+    overflow: hidden; /* 넘치는 내용 숨김 */
+    white-space: nowrap; /* 줄바꿈 방지 */
+    text-overflow: ellipsis; /* 말줄임표 추가 */
 }
-
-.normal-board-section .normal-board-table th {
-    background-color: #d2e5ee;
-    color: #1b1b1c;
+.normalBoardTable th {
+    color: #5b7183; 
+    padding: 10px; 
+    background-color:#d2e5ee;
+    font-size: 1em;
+}
+.normalBoardTable td {
+	padding: 5px; 
+}
+.normalBoardTable td:hover{
+	text-decoration: underline;
+}
+.normalBoardTable tr:nth-child(even) {
+	background-color: #f2f2f2;
+}
+.normalBoardTable tr:nth-child(even):hover  {
+	background-color: #f2f6fa;
+	cursor: pointer;
+}
+.normalBoardTable tr:nth-child(odd):hover {
+	background-color:#f2f6fa;
+	cursor: pointer;
+}
+.emptyTd{
+	height: 20px;
+}
+ .postNum {
+ 	color: #6f96bf;
+ 	width: 10%;
+ 	text-align: center;
+ }
+.postTitle {
     font-weight: bold;
-    text-align: center;
-}
-
-.normal-board-section .normal-board-table td {
-    background-color: #f2f2f2;
+    width: 30%; /* 고정 너비 */
+    font-size: 1.1em;
     color: #1b1b1c;
 }
 
-.normal-board-section .normal-board-table tr:nth-child(even) td {
-    background-color: #ffffff;
+ 
+ .postWriter{
+/*  font-weight: bold; */
+ font-size: 1.1em;
+ color:  #5b7183;
+ width: 15%;
+ 	text-align: center;
+ }
+ .postDate, .postViews, .postIp{
+ color: #cdcdcd;
+ 
+ }
+ .postDate {
+ width: 15%;
+ 	text-align: center;
+ }
+ .postViews{
+ width: 10%;
+ 	text-align: center;
+ }
+ .postIp {
+ width: 10%;
+ text-align: center;
+ }
+ 
+ 
+ 
+
+
+.normalBorderWriteLinkDiv {
+    text-align: right;
+    margin-top: 10px; 
+}
+ 
+.normalBoardWriteLink{
+	height: 10%;
+	margin-top: 10px;
+	text-align: right;
+	font-size: 1.2em;
+	color: #5b7183;
+	font-weight: bold;
+}
+.normalBoardWriteLink:hover {
+	text-decoration: underline;
+	cursor: pointer;
 }
 
-.normal-board-section .normal-board-table .normal-board-empty {
-    text-align: center;
-    font-style: italic;
-    color: #888888;
+
+ 
+.normalBoardTitle {
+	margin-bottom: 2%; 
 }
 
-.normal-board-section .normal-board-pagination {
-    text-align: center;
-    margin: 20px 0;
+.normalBoardPage {
+   text-align: center;
+   margin-top: 20px; 
 }
 
-.normal-board-section .normal-board-pagination a {
-    display: inline-block;
-    margin: 0 5px;
-    padding: 10px 15px;
-    background-color: #f2f2f2;
-    color: #1b1b1c;
-    border: 1px solid #cdcdcd;
-    border-radius: 5px;
-    text-decoration: none;
-    transition: background-color 0.3s ease;
-}
-
-.normal-board-section .normal-board-pagination a:hover {
-    background-color: #d2e5ee;
-}
-
-.normal-board-section .normal-board-pagination strong {
-    display: inline-block;
-    margin: 0 5px;
-    padding: 10px 15px;
-    background-color: #8fb1d5;
-    color: #ffffff;
-    border-radius: 5px;
-}

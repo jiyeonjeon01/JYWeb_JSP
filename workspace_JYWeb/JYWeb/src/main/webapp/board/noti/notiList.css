@@ -1,1 +1,131 @@
 @charset "UTF-8";
+.notiBoardTitle > .notiBoardTable {
+    margin-top: 2%; /* 헤더 상단 여백 */
+}
+
+.notiListDiv {
+	height: auto;
+	margin: 0 auto;
+}
+.notiBoardTitle {
+	text-align: center;
+	background-color: #d2e5ee;
+	padding: 5px;
+}
+.notiBoardTitleSpan {
+	font-size: 1.3em;
+	color: #1b1b1c;
+	border-bottom: #eee;
+	font-weight: bold;
+	height: 50px; 
+	line-height: 50px;
+}
+
+
+.notiBoardTable {
+    width: 100%;
+    height: 80%;
+    border: 1px solid #f2f2f2;
+    margin-top: 5%;
+    table-layout: fixed; 
+    border-collapse: collapse; 
+}
+.notiBoardTable td, .normalBoardTable th {
+    padding: 10px;
+    overflow: hidden; /* 넘치는 내용 숨김 */
+    white-space: nowrap; /* 줄바꿈 방지 */
+    text-overflow: ellipsis; /* 말줄임표 추가 */
+}
+.notiBoardTable th {
+    color: #5b7183; 
+    padding: 10px; 
+    background-color:#d2e5ee;
+    font-size: 1em;
+}
+.notiBoardTable td {
+	padding: 5px; 
+}
+.notiBoardTable td:hover{
+	text-decoration: underline;
+}
+.notiBoardTable tr:nth-child(even) {
+	background-color: #f2f2f2;
+}
+.notiBoardTable tr:nth-child(even):hover  {
+	background-color: #f2f6fa;
+	cursor: pointer;
+}
+.notiBoardTable tr:nth-child(odd):hover {
+	background-color:#f2f6fa;
+	cursor: pointer;
+}
+.emptyTd{
+	height: 20px;
+}
+ .postNum {
+ 	color: #6f96bf;
+ 	width: 10%;
+ 	text-align: center;
+ }
+.postTitle {
+    font-weight: bold;
+    width: 30%; /* 고정 너비 */
+    font-size: 1.1em;
+    color: #1b1b1c;
+}
+
+ 
+ .postWriter{
+/*  font-weight: bold; */
+ font-size: 1.1em;
+ color:  #5b7183;
+ width: 15%;
+ 	text-align: center;
+ }
+ .postDate, .postViews, .postIp{
+ color: #cdcdcd;
+ 
+ }
+ .postDate {
+ width: 15%;
+ 	text-align: center;
+ }
+ .postViews{
+ width: 10%;
+ 	text-align: center;
+ }
+ .postIp {
+ width: 10%;
+ text-align: center;
+ }
+ 
+ 
+.notiBoardTitle {
+	margin-bottom: 2%; 
+}
+
+.notiBoardPage {
+   text-align: center;
+   margin-top: 20px; 
+}
+
+.notiBorderWriteLinkDiv {
+    text-align: right;
+    margin-top: 10px; 
+}
+ 
+ 
+ 
+ 
+.notiBoardWriteLink{
+	height: 10%;
+	margin-top: 10px;
+	text-align: right important;
+	font-size: 1.2em;
+	color: #5b7183;
+	font-weight: bold;
+}
+.notiBoardWriteLink:hover {
+	text-decoration: underline;
+	cursor: pointer;
+}

@@ -104,55 +104,48 @@ public class LoginBoardDAO {
     
     
     public LoginBoardVO selectBoardDB(LoginBoardVO vo) {
-        ConnectionPool cp = ConnectionPool.getInstance();
-        Connection con = cp.dbCon();
-        PreparedStatement pstmt = null;
-        ResultSet rs = null;
         LoginBoardVO bvo = null;
 
-        try {
+        try (Connection con = ConnectionPool.getInstance().dbCon()) {
             // 조회수 증가
-            pstmt = con.prepareStatement(UPDATE_READCOUNT_SQL);
-            pstmt.setInt(1, vo.getNum());
-            pstmt.executeUpdate();
-            pstmt.close(); // 이전 pstmt 닫기
+            try (PreparedStatement pstmt = con.prepareStatement(UPDATE_READCOUNT_SQL)) {
+                pstmt.setInt(1, vo.getNum());
+                pstmt.executeUpdate();
+            }
 
             // 게시글 데이터 가져오기
-            pstmt = con.prepareStatement(SELECT_ONE_SQL);
-            pstmt.setInt(1, vo.getNum());
-            rs = pstmt.executeQuery();
-
-            if (rs.next()) {
-                bvo = new LoginBoardVO();
-                bvo.setNum(rs.getInt("NUM"));
-                bvo.setType(rs.getString("TYPE"));
-                bvo.setStudentId(rs.getString("STUDENT_ID"));
-                bvo.setTitle(rs.getString("TITLE"));
-                bvo.setReadCount(rs.getInt("READCOUNT"));
-                bvo.setRegDate(rs.getTimestamp("REGDATE"));
-                bvo.setContent(rs.getString("CONTENT"));
-                bvo.setRef(rs.getInt("REF"));
-                bvo.setStep(rs.getInt("STEP"));
-                bvo.setDepth(rs.getInt("DEPTH"));
-                bvo.setIp(rs.getString("IP"));
-                bvo.setOriginFile(rs.getString("ORIGINFILE"));
-                bvo.setSysFile(rs.getString("SYSFILE"));
+            try (PreparedStatement pstmt = con.prepareStatement(SELECT_ONE_SQL)) {
+                pstmt.setInt(1, vo.getNum());
+                try (ResultSet rs = pstmt.executeQuery()) {
+                    if (rs.next()) {
+                        bvo = extractVO(rs);
+                    }
+                }
             }
         } catch (SQLException e) {
             e.printStackTrace();
-        } finally {
-            cp.dbClose(con, pstmt, rs);
+        }
+
+        // 데이터가 없는 경우 기본값 설정
+        if (bvo == null) {
+            bvo = new LoginBoardVO();
+            bvo.setTitle("게시글이 존재하지 않습니다.");
+            bvo.setContent("내용이 없습니다.");
+            bvo.setReadCount(0);
+            bvo.setStudentId("알 수 없음");
         }
 
         // 디버깅 메시지
+        System.out.println("[DEBUG] 게시글 번호: " + vo.getNum());
         if (bvo != null) {
-            System.out.println("bvo: " + bvo.toString());
+            System.out.println("[DEBUG] 게시글 데이터: " + bvo.toString());
         } else {
-            System.out.println("게시글 데이터가 없습니다.");
+            System.out.println("[DEBUG] 게시글 데이터가 존재하지 않습니다.");
         }
 
         return bvo;
     }
+
 
     
     

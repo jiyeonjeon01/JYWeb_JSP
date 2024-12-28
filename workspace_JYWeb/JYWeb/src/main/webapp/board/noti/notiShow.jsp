@@ -40,10 +40,9 @@ int depth = post != null ? post.getDepth() : 0;
 <html lang="ko">
 <head>
     <meta charset="UTF-8">
-    <title>게시글 상세보기</title>
+    <title>공지사항 상세보기</title>
     
     <link rel="stylesheet" href="<%=request.getContextPath()%>/common/common.css">
-    <link rel="stylesheet" href="<%=request.getContextPath()%>/custom/recentPosts.css">
     <link rel="stylesheet" href="<%=request.getContextPath()%>/board/noti/notiShow.css">
 </head>
 <body>
@@ -71,36 +70,38 @@ int depth = post != null ? post.getDepth() : 0;
         <jsp:include page="/include/slideShow/slideShow.jsp" />
         
         <section>
-            <article class="show-board-article">
-                <h2 class="show-board-title">게시글 상세보기</h2>
-                <table class="show-board-table">
+            <article class="notiShowArti">
+            <div class="notiShowDiv">
+            
+            
+                <h2 class="notiShowTableTitle">게시글 상세보기</h2>
+                
+                <table class="notiShowTableTop">
                     <tr>
-                        <th class="show-board-th">글번호</th>
-                        <td class="show-board-td"><%= post != null ? post.getNum() : "정보 없음" %></td>
+                        <th class="notiShowNum">글번호</th>
+                        <td class="notiShowNum2"><%= post != null ? post.getNum() : "정보 없음" %></td>
+                    	<th class="notiShowWriter">작성자</th>
+                        <td class="notiShowWriter2"><%= post != null ? post.getStudentId() : "정보 없음" %></td>	
                     </tr>
                     <tr>
-                        <th class="show-board-th">작성자</th>
-                        <td class="show-board-td"><%= post != null ? post.getStudentId() : "정보 없음" %></td>
+                        <th class="notiShowViews">조회수</th>
+                        <td class="notiShowViews2"><%= post != null ? post.getReadCount() : 0 %></td>
+                        <th class="notiShowDate">작성일</th>
+                        <td class="notiShowDate2"><%= post != null ? sdf.format(post.getRegDate()) : "정보 없음" %></td>
+                    </tr>
+                    </table>
+                    <table  class="notiShowTableBottom">
+                    <tr>
+                        <th class="notiShowTitle">제목</th>
+                        <td class="notiShowTitle2"> <%= post.getTitle() != null ? post.getTitle() : "게시글이 존재하지 않습니다." %></td>
                     </tr>
                     <tr>
-                        <th class="show-board-th">조회수</th>
-                        <td class="show-board-td"><%= post != null ? post.getReadCount() : 0 %></td>
+                        <th class="notiShowContent">내용</th>
+                        <td class="notiShowContent2"><pre><%= post.getContent() != null ? post.getContent() : "내용이 없습니다." %></pre></td>
                     </tr>
                     <tr>
-                        <th class="show-board-th">작성일</th>
-                        <td class="show-board-td"><%= post != null ? sdf.format(post.getRegDate()) : "정보 없음" %></td>
-                    </tr>
-                    <tr>
-                        <th class="show-board-th">제목</th>
-                        <td class="show-board-td"><%= post != null ? post.getTitle() : "정보 없음" %></td>
-                    </tr>
-                    <tr>
-                        <th class="show-board-th">내용</th>
-                        <td class="show-board-td"><pre><%= post != null ? post.getContent() : "내용이 없습니다." %></pre></td>
-                    </tr>
-                    <tr>
-                        <th class="show-board-th">첨부파일</th>
-                        <td class="show-board-td">
+                        <th class="notiShowFile">첨부파일</th>
+                        <td class="notiShowFile2">
                             <% if (post != null && post.getSysFile() != null && !post.getSysFile().isEmpty()) { %>
                                 <img src="<%= filePath %>" alt="첨부된 이미지" class="attached-image">
                             <% } else { %>
@@ -109,14 +110,19 @@ int depth = post != null ? post.getDepth() : 0;
                         </td>
                     </tr>
                     <tr>
-                        <td colspan="2" class="show-board-button-group">
-                            <button class="show-board-button" onclick="document.location.href='<%=request.getContextPath()%>/board/noti/update/updateForm.jsp?num=<%= num %>&pageNum=<%= pageNum %>'">수정하기</button>
-                            <button class="show-board-button" onclick="document.location.href='<%=request.getContextPath()%>/board/noti/delete/deleteProc.jsp?num=<%= num %>&pageNum=<%= pageNum %>'">삭제하기</button>
-                            <%-- <button class="show-board-button" onclick="document.location.href='<%=request.getContextPath()%>/board/normal/write/normalForm.jsp?num=<%= num %>&ref=<%= ref %>&step=<%= step %>&depth=<%= depth %>'">답글쓰기</button> --%>
-                            <button class="show-board-button" onclick="document.location.href='<%=request.getContextPath()%>/board/noti/notiList.jsp?pageNum=<%= pageNum %>'">목록으로</button>
+                        <td colspan="2" class="notiShowBtnTd">
+                         <div class="notiShowBtnWrapper">
+                            <button class="notiShowBtn" onclick="document.location.href='<%=request.getContextPath()%>/board/noti/update/updateForm.jsp?num=<%= num %>&pageNum=<%= pageNum %>'">수정하기</button>
+                            <button class="notiShowBtn" onclick="document.location.href='<%=request.getContextPath()%>/board/noti/delete/deleteProc.jsp?num=<%= num %>&pageNum=<%= pageNum %>'">삭제하기</button>
+                            <button class="notiShowBtn" onclick="document.location.href='<%=request.getContextPath()%>/board/noti/notiList.jsp?pageNum=<%= pageNum %>'">목록으로</button>
+                        	</div>
                         </td>
+                        
                     </tr>
                 </table>
+                
+                
+                </div>
             </article>
         </section>
     </main>

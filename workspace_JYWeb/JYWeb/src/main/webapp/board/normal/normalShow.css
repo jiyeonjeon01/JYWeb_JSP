@@ -4,7 +4,7 @@
 @charset "UTF-8";
 
 /* 전체 Article 스타일 */
-.show-board-article {
+.normalShowArti{
     max-width: 700px;
     margin: 50px auto;
     background-color: #fff;
@@ -15,7 +15,7 @@
 }
 
 /* 제목 스타일 */
-.show-board-title {
+.normalShowTableTitle {
     text-align: center;
     color: #1b1b1c;
     background-color: #d2e5ee;
@@ -26,46 +26,68 @@
 }
 
 /* 테이블 스타일 */
-.show-board-table {
+.normalShowTableTop {
+    width: 100%;
+    border-collapse: collapse;
+    border-bottom: hidden;
+}
+.normalShowTableBottom {
     width: 100%;
     border-collapse: collapse;
 }
 
-.show-board-th, .show-board-td {
+.normalShowTableTop th, .normalShowTableTop td,
+.normalShowTableBottom  th, .normalShowTableBottom  td  {
     padding: 10px;
     text-align: left;
     border: 1px solid #cdcdcd;
 }
 
-.show-board-th {
-    background-color: #d2e5ee;
-    font-weight: bold;
-    color: #1b1b1c;
-    text-align: center;
+.normalShowTableTop th,.normalShowTableBottom  th {
+	background-color: #d2e5ee;
 }
 
-.show-board-td {
-    background-color: #f2f2f2;
-    word-wrap: break-word;
+.normalShowNum, .normalShowWriter,
+.normalShowViews, .normalShowDate {
+	text-align: center;
+	width: 15%;
+}
+.normalShowNum2, .normalShowWriter2,
+.normalShowViews2, .normalShowDate2 {
+	width: 35%;
 }
 
-/* 첨부 이미지 스타일 */
+.normalShowTitle, .normalShowContent, .normalShowFile {
+	text-align: center;
+	width: 15%;
+}
+.normalShowTitle2, .normalShowContent2, .normalShowFile2 {
+	width: 85%;
+}
 .attached-image {
-    max-width: 400px;
-    max-height: 300px;
-    display: block;
-    margin: 10px auto;
-    border: 1px solid #cdcdcd;
-    border-radius: 5px;
+	width: 100%;
+	height: auto;
+	margin: 0 auto;
 }
+
+
 
 /* 버튼 그룹 스타일 */
-.show-board-button-group {
-    text-align: center;
+.normalShowBtnTd {
+    text-align: center; /* 텍스트 중앙 정렬 */
     margin-top: 20px;
 }
 
-.show-board-button {
+.normalShowBtnWrapper {
+    display: flex; /* 버튼들을 플렉스 컨테이너로 배치 */
+    justify-content: center; /* 수평 중앙 정렬 */
+    gap: 10px; /* 버튼 간 간격 */
+    flex-wrap: wrap; /* 필요 시 다음 줄로 이동 */
+    width: 100%; /* 부모 요소의 전체 너비 사용 */
+    text-align: center; /* 텍스트 정렬 */
+}
+  
+.normalShowBtn {
     padding: 10px 20px;
     background-color: #d2e5ee;
     color: black;
@@ -74,10 +96,9 @@
     cursor: pointer;
     font-size: 1em;
     transition: background-color 0.3s;
-    margin: 5px;
 }
 
-.show-board-button:hover {
+.normalShowBtn:hover {
     background-color: #8fb1d5;
     color: white;
 }

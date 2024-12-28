@@ -71,36 +71,38 @@ int depth = post != null ? post.getDepth() : 0;
         <jsp:include page="/include/slideShow/slideShow.jsp" />
         
         <section>
-            <article class="show-board-article">
-                <h2 class="show-board-title">게시글 상세보기</h2>
-                <table class="show-board-table">
+            <article class="normalShowArti">
+            <div class="normalShowDiv">
+            
+                <h2 class="normalShowTableTitle">게시글 상세보기</h2>
+
+                
+                <table class="normalShowTableTop">
                     <tr>
-                        <th class="show-board-th">글번호</th>
-                        <td class="show-board-td"><%= post != null ? post.getNum() : "정보 없음" %></td>
+                        <th class="normalShowNum">글번호</th>
+                        <td class="normalShowNum2"><%= post != null ? post.getNum() : "정보 없음" %></td>
+                    	<th class="normalShowWriter">작성자</th>
+                        <td class="normalShowWriter2"><%= post != null ? post.getStudentId() : "정보 없음" %></td>	
                     </tr>
                     <tr>
-                        <th class="show-board-th">작성자</th>
-                        <td class="show-board-td"><%= post != null ? post.getStudentId() : "정보 없음" %></td>
+                        <th class="normalShowViews">조회수</th>
+                        <td class="normalShowViews2"><%= post != null ? post.getReadCount() : 0 %></td>
+                        <th class="normalShowDate">작성일</th>
+                        <td class="normalShowDate2"><%= post != null ? sdf.format(post.getRegDate()) : "정보 없음" %></td>
+                    </tr>
+                    </table>
+                    <table  class="normalShowTableBottom">
+                    <tr>
+                        <th class="normalShowTitle">제목</th>
+                        <td class="normalShowTitle2"> <%= post.getTitle() != null ? post.getTitle() : "게시글이 존재하지 않습니다." %></td>
                     </tr>
                     <tr>
-                        <th class="show-board-th">조회수</th>
-                        <td class="show-board-td"><%= post != null ? post.getReadCount() : 0 %></td>
+                        <th class="normalShowContent">내용</th>
+                        <td class="normalShowContent2"><pre><%= post.getContent() != null ? post.getContent() : "내용이 없습니다." %></pre></td>
                     </tr>
                     <tr>
-                        <th class="show-board-th">작성일</th>
-                        <td class="show-board-td"><%= post != null ? sdf.format(post.getRegDate()) : "정보 없음" %></td>
-                    </tr>
-                    <tr>
-                        <th class="show-board-th">제목</th>
-                        <td class="show-board-td"><%= post != null ? post.getTitle() : "정보 없음" %></td>
-                    </tr>
-                    <tr>
-                        <th class="show-board-th">내용</th>
-                        <td class="show-board-td"><pre><%= post != null ? post.getContent() : "내용이 없습니다." %></pre></td>
-                    </tr>
-                    <tr>
-                        <th class="show-board-th">첨부파일</th>
-                        <td class="show-board-td">
+                        <th class="normalShowFile">첨부파일</th>
+                        <td class="normalShowFile2">
                             <% if (post != null && post.getSysFile() != null && !post.getSysFile().isEmpty()) { %>
                                 <img src="<%= filePath %>" alt="첨부된 이미지" class="attached-image">
                             <% } else { %>
@@ -109,14 +111,19 @@ int depth = post != null ? post.getDepth() : 0;
                         </td>
                     </tr>
                     <tr>
-                        <td colspan="2" class="show-board-button-group">
-                            <button class="show-board-button" onclick="document.location.href='<%=request.getContextPath()%>/board/normal/update/updateForm.jsp?num=<%= num %>&pageNum=<%= pageNum %>'">수정하기</button>
-                            <button class="show-board-button" onclick="document.location.href='<%=request.getContextPath()%>/board/normal/delete/deleteProc.jsp?num=<%= num %>&pageNum=<%= pageNum %>'">삭제하기</button>
-                            <button class="show-board-button" onclick="document.location.href='<%=request.getContextPath()%>/board/normal/write/normalForm.jsp?num=<%= num %>&ref=<%= ref %>&step=<%= step %>&depth=<%= depth %>'">답글쓰기</button>
-                            <button class="show-board-button" onclick="document.location.href='<%=request.getContextPath()%>/board/normal/normalList.jsp?pageNum=<%= pageNum %>'">목록으로</button>
+                        <td colspan="2" class="normalShowBtnTd">
+                         <div class="normalShowBtnWrapper">
+                            <button class="normalShowBtn" onclick="document.location.href='<%=request.getContextPath()%>/board/normal/update/updateForm.jsp?num=<%= num %>&pageNum=<%= pageNum %>'">수정하기</button>
+                            <button class="normalShowBtn" onclick="document.location.href='<%=request.getContextPath()%>/board/normal/delete/deleteProc.jsp?num=<%= num %>&pageNum=<%= pageNum %>'">삭제하기</button>
+                            <button class="normalShowBtn" onclick="document.location.href='<%=request.getContextPath()%>/board/normal/write/normalForm.jsp?num=<%= num %>&ref=<%= ref %>&step=<%= step %>&depth=<%= depth %>'">답글쓰기</button>
+                            <button class="normalShowBtn" onclick="document.location.href='<%=request.getContextPath()%>/board/normal/normalList.jsp?pageNum=<%= pageNum %>'">목록으로</button>
+                        	</div>
                         </td>
+                        
                     </tr>
                 </table>
+                
+                </div>
             </article>
         </section>
     </main>

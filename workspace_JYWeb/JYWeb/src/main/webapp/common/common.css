@@ -15,6 +15,7 @@ body {
     display: flex;
     flex-direction: column; /* 세로로 배치 */
     min-height: 100vh; /* 화면 전체 높이를 기준 */
+    /* background-color: #f2f4f5; */
 }
 
 
@@ -302,56 +303,10 @@ article {
 
  
 
-/* 최근 게시물 리스트 */
-.recentPostsWrapper {
-    width: 100%; /* 부모 요소에 맞게 */
-    margin-top: 10px; /* 제목과의 여백 */
-    overflow-x: auto; /* 가로 스크롤 허용 */
-}
 
-.recentPosts {
-    list-style: none;
-    padding: 0;
-    margin: 0;
-    width: 100%; /* 리스트를 부모 요소에 맞춤 */
-}
 
-/* 리스트 아이템 스타일 */
-.recentPostItem {
-    border-bottom: 1px solid #ddd;
-    padding: 15px 10px;
-    transition: background-color 0.3s ease;
-}
 
-.recentPostItem:hover {
-    background-color: #e8f5ff;
-}
 
-/* .recentPostLink {
-    text-decoration: none;
-    color: #333;
-    display: flex;
-    justify-content: space-between;
-    font-size: 0.95em;
-} */
-
-/* .postTitle {
-    font-weight: bold;
-    flex: 3; 제목을 넓게
-    text-overflow: ellipsis;
-    white-space: nowrap;
-    overflow: hidden;
-}
-
-.postWriter,
-.postDate,
-.postViews {
-    flex: 1;
-    text-align: center;
-    color: #555;
-    font-size: 0.9em;
-}
- */
 .recentPostsTable {
     width: 100%;
     border: 1px solid #f2f2f2;
@@ -371,19 +326,23 @@ article {
     text-align: center; 
     padding: 10px; 
     background-color:#d2e5ee;
+    font-size: 1em;
 }
 .recentPostsTable td {
 	padding: 5px; 
 }
+.recentPostsTable td:hover{
+	text-decoration: underline;
+}
 .recentPostsTable tr:nth-child(even) {
-	background-color:#f1f8ff;
+	background-color: #f2f2f2;
 }
 .recentPostsTable tr:nth-child(even):hover  {
-	background-color: #f2f2f2;
+	background-color: #f2f6fa;
 	cursor: pointer;
 }
 .recentPostsTable tr:nth-child(odd):hover {
-	background-color:#f2f2f2;
+	background-color:#f2f6fa;
 	cursor: pointer;
 }
 .emptyTd{

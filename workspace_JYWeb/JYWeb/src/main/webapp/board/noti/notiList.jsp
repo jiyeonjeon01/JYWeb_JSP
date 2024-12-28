@@ -7,10 +7,17 @@
 <%@ page import="co.kr.dev.board.login.LoginBoardVO" %>
 <%
     // 페이징 설정
-    int pageSize = 5; // 한 페이지에 보여줄 글 개수
+    int pageSize = 10; // 한 페이지에 보여줄 글 개수
     String pageNum = request.getParameter("pageNum");
-    if (pageNum == null) pageNum = "1"; // 페이지 번호가 없으면 기본값 1로 설정
-    int currentPage = Integer.parseInt(pageNum);
+    int currentPage = 1; // 기본값 1로 설정
+    if (pageNum != null && !pageNum.isEmpty()) {
+        try {
+            currentPage = Integer.parseInt(pageNum);
+        } catch (NumberFormatException e) {
+            currentPage = 1; // 잘못된 값이 들어온 경우 기본값 1로 설정
+        }
+    }
+
     int start = (currentPage - 1) * pageSize + 1; // 시작 번호 계산
     int end = currentPage * pageSize; // 끝 번호 계산
 
@@ -34,8 +41,8 @@
     // DAO 인스턴스 생성
     LoginBoardDAO loginBoardDAO = LoginBoardDAO.getInstance();
 
-    // 최근 게시물 10개 불러오기
-    List<LoginBoardVO> recentPosts = loginBoardDAO.selectRecentPosts(10); 
+    // 최근 게시물 5개 불러오기
+    List<LoginBoardVO> normalPosts = loginBoardDAO.selectRecentPosts(10); 
 %>
 <%
 String userName = (String) session.getAttribute("userName");
@@ -48,7 +55,6 @@ String userId = (String) session.getAttribute("userId");
 <meta charset="UTF-8">
 <title>Insert title here</title>
     <link rel="stylesheet" href="<%=request.getContextPath()%>/common/common.css">
-    <link rel="stylesheet" href="<%=request.getContextPath()%>/custom/recentPosts.css">
     <link rel="stylesheet" href="<%=request.getContextPath()%>/board/noti/notiList.css"> 
 </head>
 <body>

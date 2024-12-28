@@ -44,9 +44,9 @@
     color: #1b1b1c;
 }
 
-.write-board-td {
-    background-color: #f2f2f2;
-}
+/* .write-board-td {
+    background-color: white;
+}  */
 
 /* Input, Textarea 스타일 */
 .write-board-input, .write-board-textarea, .write-board-file {
