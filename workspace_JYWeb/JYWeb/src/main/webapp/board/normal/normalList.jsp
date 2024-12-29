@@ -185,7 +185,7 @@ String userId = (String) session.getAttribute("userId");
 <html lang="ko">
 <head>
     <meta charset="UTF-8">
-    <title>Normal Board List</title>
+    <title>자유게시판 목록</title>
     <link rel="stylesheet" href="<%=request.getContextPath()%>/common/common.css">
     <link rel="stylesheet" href="<%=request.getContextPath()%>/board/normal/normalList.css">
 </head>

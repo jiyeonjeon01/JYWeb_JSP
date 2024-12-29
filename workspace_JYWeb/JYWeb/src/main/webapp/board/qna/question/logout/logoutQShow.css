@@ -1,7 +1,7 @@
 @charset "UTF-8";
 
 /* 전체 Article 스타일 */
-.normalShowArti{
+.loginQShowArti{
     max-width: 700px;
     margin: 50px auto;
     background-color: #fff;
@@ -12,7 +12,7 @@
 }
 
 /* 제목 스타일 */
-.normalShowTableTitle {
+.loginQShowTableTitle {
     text-align: center;
     color: #1b1b1c;
     background-color: #d2e5ee;
@@ -23,42 +23,42 @@
 }
 
 /* 테이블 스타일 */
-.normalShowTableTop {
+.loginQShowTableTop {
     width: 100%;
     border-collapse: collapse;
     border-bottom: hidden;
 }
-.normalShowTableBottom {
+.loginQShowTableBottom {
     width: 100%;
     border-collapse: collapse;
 }
 
-.normalShowTableTop th, .normalShowTableTop td,
-.normalShowTableBottom  th, .normalShowTableBottom  td  {
+.loginQShowTableTop th, .loginQShowTableTop td,
+.loginQShowTableBottom  th, .loginQShowTableBottom  td  {
     padding: 10px;
     text-align: left;
     border: 1px solid #cdcdcd;
 }
 
-.normalShowTableTop th,.normalShowTableBottom  th {
+.loginQShowTableTop th,.loginQShowTableBottom  th {
 	background-color: #d2e5ee;
 }
 
-.normalShowNum, .normalShowWriter,
-.normalShowViews, .normalShowDate {
+.loginQShowNum, .loginQShowWriter,
+.loginQShowViews, .loginQShowDate {
 	text-align: center;
 	width: 15%;
 }
-.normalShowNum2, .normalShowWriter2,
-.normalShowViews2, .normalShowDate2 {
+.loginQShowNum2, .loginQShowWriter2,
+.loginQShowViews2, .loginQShowDate2 {
 	width: 35%;
 }
 
-.normalShowTitle, .normalShowContent, .normalShowFile {
+.loginQShowTitle, .loginQShowContent, .loginQShowFile {
 	text-align: center;
 	width: 15%;
 }
-.normalShowTitle2, .normalShowContent2, .normalShowFile2 {
+.loginQShowTitle2, .loginQShowContent2, .loginQShowFile2 {
 	width: 85%;
 }
 .attached-image {
@@ -70,12 +70,12 @@
 
 
 /* 버튼 그룹 스타일 */
-.normalShowBtnTd {
+.loginQShowBtnTd {
     text-align: center; /* 텍스트 중앙 정렬 */
     margin-top: 20px;
 }
 
-.normalShowBtnWrapper {
+.loginQShowBtnWrapper {
     display: flex; /* 버튼들을 플렉스 컨테이너로 배치 */
     justify-content: center; /* 수평 중앙 정렬 */
     gap: 10px; /* 버튼 간 간격 */
@@ -84,7 +84,7 @@
     text-align: center; /* 텍스트 정렬 */
 }
   
-.normalShowBtn {
+.loginQShowBtn {
     padding: 10px 20px;
     background-color: #d2e5ee;
     color: black;
@@ -95,7 +95,7 @@
     transition: background-color 0.3s;
 }
 
-.normalShowBtn:hover {
+.loginQShowBtn:hover {
     background-color: #8fb1d5;
     color: white;
 }

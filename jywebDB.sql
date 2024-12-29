@@ -39,7 +39,7 @@ WHERE DONG LIKE '방배%';
 -- 로그인 게시판 (LoginBoard)
 CREATE TABLE LOGINBOARD (
     num             NUMBER(7,0),                   -- 게시글 번호 (Primary Key)
-    type            VARCHAR2(20) NOT NULL,         -- 게시판 유형 (NOTI, NORMAL, SHOPPING)
+    type            VARCHAR2(20) NOT NULL,         -- 게시판 유형 (NOTI, NORMAL, QUESTION, ANSWER, SHOPPING)
     student_id      VARCHAR2(20),                  -- 작성자 (STUDENT 테이블의 ID와 연결)
     title           VARCHAR2(100) NOT NULL,        -- 게시글 제목
     readcount       NUMBER(5,0) DEFAULT 0,         -- 조회수
@@ -61,7 +61,8 @@ select * from loginboard;
 -- 비로그인 게시판 (LogoutBoard)
 CREATE TABLE LOGOUTBOARD (
     num         NUMBER(7,0),                   -- 게시글 번호 (Primary Key)
-    writer      VARCHAR2(20),                  -- 작성자 (STUDENT 테이블의 ID와 연결, 비로그인 사용자는 NULL 허용)
+    type        VARCHAR2(20) NOT NULL,         -- 게시판 유형 (QUESTION)
+    writer      VARCHAR2(20),                  -- 작성자 ()
     email       VARCHAR2(50),                  -- 비로그인 사용자의 이메일
     pass        VARCHAR2(30),                  -- 비로그인 사용자의 비밀번호
     title       VARCHAR2(100) NOT NULL,         -- 게시글 제목
@@ -77,7 +78,7 @@ CREATE TABLE LOGOUTBOARD (
 );
 ALTER TABLE LOGOUTBOARD ADD CONSTRAINT LOGOUTBOARD_NUM_PK PRIMARY KEY (num);
 CREATE SEQUENCE LOGOUTBOARD_SEQ START WITH 1 INCREMENT BY 1 NOMAXVALUE NOCACHE NOCYCLE;
-
+select * from logoutboard;
 
 -- PRODUCT 테이블
 CREATE TABLE PRODUCT (

@@ -314,6 +314,28 @@ public class LoginBoardDAO {
         );
     }
     
+ // 모든 게시글(질문 + 답변) 가져오기
+    public ArrayList<LoginBoardVO> getAllPosts(int start, int end) {
+        String sql = "SELECT * FROM ("
+                   + "SELECT ROWNUM AS RNUM, A.* FROM ("
+                   + "SELECT * FROM LOGINBOARD ORDER BY REF DESC, STEP ASC) A "
+                   + "WHERE ROWNUM <= ?) WHERE RNUM >= ?";
+        ArrayList<LoginBoardVO> list = new ArrayList<>();
+        try (Connection con = ConnectionPool.getInstance().dbCon();
+             PreparedStatement pstmt = con.prepareStatement(sql)) {
+            pstmt.setInt(1, end);
+            pstmt.setInt(2, start);
+            ResultSet rs = pstmt.executeQuery();
+            while (rs.next()) {
+                list.add(extractVO(rs));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return list;
+    }
+
+    
     
     public int getPostCountByType(String type) {
         String sql = "SELECT COUNT(*) FROM LOGINBOARD WHERE TYPE = ?";
@@ -405,6 +427,19 @@ public class LoginBoardDAO {
     }
 
 
+    public int getPostCount() {
+        String sql = "SELECT COUNT(*) FROM LOGINBOARD";
+        try (Connection con = ConnectionPool.getInstance().dbCon();
+             PreparedStatement pstmt = con.prepareStatement(sql);
+             ResultSet rs = pstmt.executeQuery()) {
+            if (rs.next()) {
+                return rs.getInt(1); // 총 게시글 수 반환
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return 0; // 오류 발생 시 0 반환
+    }
 
 
     

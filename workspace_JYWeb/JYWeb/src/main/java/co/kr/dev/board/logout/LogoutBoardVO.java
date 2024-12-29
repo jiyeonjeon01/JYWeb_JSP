@@ -3,6 +3,7 @@ package co.kr.dev.board.logout;
 import java.sql.Timestamp;
 
 //num         NUMBER(7,0),                   -- 게시글 번호 (Primary Key)
+//type        VARCHAR2(20) NOT NULL,         -- 게시판 유형 (QUESTION)
 //writer      VARCHAR2(20),                  -- 작성자 (STUDENT 테이블의 ID와 연결, 비로그인 사용자는 NULL 허용)
 //email       VARCHAR2(50),                  -- 비로그인 사용자의 이메일
 //pass        VARCHAR2(30),                  -- 비로그인 사용자의 비밀번호
@@ -19,6 +20,7 @@ import java.sql.Timestamp;
 
 public class LogoutBoardVO {
 	private int num;
+	private String type;
 	private String writer;
 	private String email;
 	private String pass;
@@ -36,11 +38,12 @@ public class LogoutBoardVO {
 		super();
 		// TODO Auto-generated constructor stub
 	}
-	public LogoutBoardVO(int num, String writer, String email, String pass, String title, int readCount,
+	public LogoutBoardVO(int num, String type, String writer, String email, String pass, String title, int readCount,
 			Timestamp regDate, String content, int ref, int step, int depth, String ip, String originFile,
 			String sysFile) {
 		super();
 		this.num = num;
+		this.type = type;
 		this.writer = writer;
 		this.email = email;
 		this.pass = pass;
@@ -60,6 +63,12 @@ public class LogoutBoardVO {
 	}
 	public void setNum(int num) {
 		this.num = num;
+	}
+	public String getType() {
+		return type;
+	}
+	public void setType(String type) {
+		this.type = type;
 	}
 	public String getWriter() {
 		return writer;
