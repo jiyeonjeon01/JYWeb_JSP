@@ -82,89 +82,90 @@ String userId = (String) session.getAttribute("userId");
     <main>
         <jsp:include page="/include/slideShow/slideShow.jsp" />
         
-<section class="noti-board-section">
-<article>
-    <h2 class="noti-board-title">공지사항 게시판 목록</h2>
-    <div class="noti-board-write-link">
-        <a href="<%=request.getContextPath()%>/board/noti/write/notiForm.jsp">글쓰기</a>
-    </div>
-    <%
-        if (count == 0) { // 게시글이 없을 경우
-    %>
-    <table class="noti-board-table">
-        <tr>
-            <td class="noti-board-empty" colspan="6">게시판에 저장된 글이 없습니다.</td>
-        </tr>
-    </table>
-    <% } else { // 게시글이 있을 경우 %>
-    <table class="noti-board-table">
-        <tr class="noti-board-header">
-            <th>번호</th>
-            <th>제목</th>
-            <th>작성자</th>
-            <th>작성일</th>
-            <th>조회</th>
-            <th>IP</th>
-        </tr>
-        <%
-            for (LoginBoardVO post : boardList) { // 게시글 리스트 출력
-        %>
-        <tr>
-            <td align="center"><%= number-- %></td>
-            <td>
-                <a href="<%=request.getContextPath()%>/board/noti/notiShow.jsp?num=<%= post.getNum() %>&pageNum=<%= currentPage %>">
-                    <%
-                        if (post.getDepth() > 0) { // 답글일 경우 들여쓰기
-                            int indentWidth = 5 * post.getDepth();
-                    %>
-                    <img src="<%=request.getContextPath()%>/board/images/level.gif" width="<%= indentWidth %>" height="16">
-                    <img src="<%=request.getContextPath()%>/board/images/re.gif">
-                    <% } %>
-                    <%= post.getTitle() %>
-                </a>
-                <% if (post.getReadCount() >= 20) { // 조회수가 20 이상이면 hot 표시 %>
-                <img src="<%=request.getContextPath()%>/board/images/hot.gif" height="16">
-                <% } %>
-            </td>
-            <td align="center"><%= post.getStudentId() %></td>
-            <td align="center"><%= sdf.format(post.getRegDate()) %></td>
-            <td align="center"><%= post.getReadCount() %></td>
-            <td align="center"><%= post.getIp() %></td>
-        </tr>
-        <% } %>
-    </table>
-    <% } %>
+		<section>
+            <article class="notiListArti">
+                <div class="notiListDiv">
+                    <div class="notiBoardTitle">
+                        <span class="notiBoardTitleSpan">자유게시판 목록</span>
+                    </div>
 
-    <br>
-    <div class="noti-board-pagination">
-        <%
-            if (count > 0) { // 페이징 처리
-                int pageBlock = 3; // 보여줄 페이지 수
-                int pageCount = (int) Math.ceil((double) count / pageSize); // 전체 페이지 수
-                int startPage = (currentPage - 1) / pageBlock * pageBlock + 1; // 시작 페이지 번호
-                int endPage = Math.min(startPage + pageBlock - 1, pageCount); // 끝 페이지 번호
+                    <table class="notiBoardTable">
+                        <thead>
+                            <tr>
+                                <th class="postNum">번호</th>
+                                <th class="postTitle">제목</th>
+                                <th class="postWriter">작성자</th>
+                                <th class="postDate">작성일</th>
+                                <th class="postViews">조회</th>
+                                <th class="postIp">IP</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <% 
+                                if (boardList != null && !boardList.isEmpty()) {
+                                    for (LoginBoardVO post : boardList) { 
+                            %>
+                            <tr class="notiPostsRow">
+                                <td class="postNum" align="center"><%= number-- %></td>
+                                <td class="postTitle">
+                                    <a href="<%=request.getContextPath()%>/board/noti/notiShow.jsp?num=<%= post.getNum() %>&pageNum=<%= currentPage %>">
+                                        <% if (post.getDepth() > 0) { %>
+                                            <img src="<%=request.getContextPath()%>/board/images/level.gif" width="<%= 10 * post.getDepth() %>" height="16">
+                                            <img src="<%=request.getContextPath()%>/board/images/re.gif">
+                                        <% } %>
+                                        <%= post.getTitle() %>
+                                    </a>
+                                    <% if (post.getReadCount() >= 20) { %>
+                                        <img src="<%=request.getContextPath()%>/board/images/hot.gif" height="16">
+                                    <% } %>
+                                </td>
+                                <td class="postWriter" align="center"><%= post.getStudentId() %></td>
+                                <td class="postDate" align="center"><%= sdf.format(post.getRegDate()) %></td>
+                                <td class="postViews" align="center"><%= post.getReadCount() %></td>
+                                <td class="postIp" align="center"><%= post.getIp() %></td>
+                            </tr>
+                            <% 
+                                    } 
+                                } else {
+                            %>
+                            <tr>
+                                <td colspan="6" class="noPostMessage">게시물이 없습니다.</td>
+                            </tr>
+                            <% } %>
+                        </tbody>
+                    </table>
+                    <div class="notiBorderWriteLinkDiv">
+                        <a href="<%=request.getContextPath()%>/board/noti/write/notiForm.jsp" class="notiBoardWriteLink">글쓰기</a>
+                    </div>
 
-                if (startPage > 1) { // 이전 페이지로 이동
-        %>
-        <a href="notiList.jsp?pageNum=<%= startPage - pageBlock %>">[이전]</a>
-        <% }
-                for (int i = startPage; i <= endPage; i++) { // 페이지 번호 출력
-                    if (i == currentPage) {
-        %>
-        <strong>[<%= i %>]</strong>
-        <% } else { %>
-        <a href="<%=request.getContextPath()%>/board/noti/notiList.jsp?pageNum=<%= i %>">[<%= i %>]</a>
-        <% }
-                }
-                if (endPage < pageCount) { // 다음 페이지로 이동
-        %>
-        <a href="<%=request.getContextPath()%>/board/noti/notiList.jsp?pageNum=<%= startPage + pageBlock %>">[다음]</a>
-        <% }
-            }
-        %>
-    </div>
-</article>
-</section>
+                    <div class="notiBoardPage">
+                        <% if (count > 0) { %>
+                            <% 
+                                int pageBlock = 3;
+                                int pageCount = (int) Math.ceil((double) count / pageSize);
+                                int startPage = (currentPage - 1) / pageBlock * pageBlock + 1;
+                                int endPage = Math.min(startPage + pageBlock - 1, pageCount);
+
+                                if (startPage > 1) { 
+                            %>
+                            <a href="notiList.jsp?pageNum=<%= startPage - pageBlock %>">[이전]</a>
+                            <% } %>
+                            <% for (int i = startPage; i <= endPage; i++) { %>
+                                <% if (i == currentPage) { %>
+                                    <strong>[<%= i %>]</strong>
+                                <% } else { %>
+                                    <a href="<%=request.getContextPath()%>/board/noti/notiList.jsp?pageNum=<%= i %>">[<%= i %>]</a>
+                                <% } %>
+                            <% } %>
+                            <% if (endPage < pageCount) { %>
+                                <a href="<%=request.getContextPath()%>/board/noti/notiList.jsp?pageNum=<%= startPage + pageBlock %>">[다음]</a>
+                            <% } %>
+                        <% } %>
+                    </div>
+
+                </div>
+            </article>
+        </section>
 
     </main>
     

@@ -1,1 +1,114 @@
 @charset "UTF-8";
+
+/* Article 스타일 */
+.write-board-article {
+    max-width: 700px;
+    margin: 50px auto;
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    border: 1px solid #cdcdcd;
+}
+
+/* 제목 스타일 */
+.write-board-title {
+    text-align: center;
+    color: #1b1b1c;
+    background-color: #d2e5ee;
+    padding: 15px;
+    margin-bottom: 20px;
+    border-radius: 10px;
+}
+
+/* Form 스타일 */
+.write-board-form {
+    width: 100%;
+}
+
+/* 테이블 스타일 */
+.write-board-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.write-board-th, .write-board-td {
+    padding: 10px;
+    text-align: left;
+    border: 1px solid #cdcdcd;
+}
+
+.write-board-th {
+    background-color: #d2e5ee;
+    font-weight: bold;
+    color: #1b1b1c;
+}
+
+/* .write-board-td {
+    background-color: white;
+}  */
+
+/* Input, Textarea 스타일 */
+.write-board-input, .write-board-textarea, .write-board-file {
+    width: 95%;
+    padding: 10px;
+    border: 1px solid #cdcdcd;
+    border-radius: 5px;
+    box-sizing: border-box;
+}
+
+.write-board-textarea {
+    resize: none;
+}
+
+/* 버튼 그룹 */
+.write-board-button-group {
+    text-align: center;
+    margin-top: 20px;
+}
+
+/* 버튼 스타일 */
+.write-board-submit {
+    padding: 10px 20px;
+    background-color: #d2e5ee;
+    color: black;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 1em;
+    transition: background-color 0.3s;
+}
+
+.write-board-submit:hover {
+    background-color: #8fb1d5;
+}
+
+.write-board-reset {
+    padding: 10px 20px;
+    background-color: #f2f2f2;
+    color: #1b1b1c;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 1em;
+    transition: background-color 0.3s;
+}
+
+.write-board-reset:hover {
+    background-color: #cdcdcd;
+}
+
+.write-board-list {
+    padding: 10px 20px;
+    background-color: #8fb1d5;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 1em;
+    transition: background-color 0.3s;
+}
+
+.write-board-list:hover {
+    background-color: #6f96bf;
+}

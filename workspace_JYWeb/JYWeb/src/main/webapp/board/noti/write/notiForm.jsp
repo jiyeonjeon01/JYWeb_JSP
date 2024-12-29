@@ -1,22 +1,15 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
-<%@ page import="co.kr.dev.board.login.LoginBoardDAO, java.util.List, co.kr.dev.board.login.LoginBoardVO" %>
-<%@ page import="java.util.ArrayList" %>
+pageEncoding="UTF-8"%>
+    <%@ page import="co.kr.dev.board.login.LoginBoardDAO, java.util.List, co.kr.dev.board.login.LoginBoardVO" %>
+ <%@ page import="java.util.ArrayList" %>
 <%@ page import="java.text.SimpleDateFormat" %>
 <%@ page import="co.kr.dev.board.login.LoginBoardDAO" %>
 <%@ page import="co.kr.dev.board.login.LoginBoardVO" %>
-
 <%
     // 로그인 상태 확인
     String userId = (String) session.getAttribute("userId");
-	String userRole = (String) session.getAttribute("role");
-	
     if (userId == null || userId.isEmpty()) {
         response.sendRedirect(request.getContextPath() + "/student/user/login/loginForm.jsp");
-        return;
-    }
-    if(!"ADMIN".equals(userRole)) {
-        out.println("<script>alert('권한이 없습니다.'); history.back();</script>");
         return;
     }
 
@@ -33,6 +26,7 @@
         e.printStackTrace();
     }
 %>
+
 <%
     // DAO 인스턴스 생성
     LoginBoardDAO loginBoardDAO = LoginBoardDAO.getInstance();
@@ -40,15 +34,18 @@
     // 최근 게시물 10개 불러오기
     List<LoginBoardVO> recentPosts = loginBoardDAO.selectRecentPosts(10); 
 %>
+<%
+/* String userName = (String) session.getAttribute("userName");
+String userId = (String) session.getAttribute("userId"); */
 
+%>    
 <!DOCTYPE html>
-<html lang="ko">
+<html>
 <head>
     <meta charset="UTF-8">
     <title>공지사항 게시판 글쓰기</title>
     <link rel="stylesheet" href="<%=request.getContextPath()%>/common/common.css">
-    <link rel="stylesheet" href="<%=request.getContextPath()%>/custom/recentPosts.css">
-    <link rel="stylesheet" href="<%=request.getContextPath()%>/board/noti/notiForm.css"> 
+
     <script>
         function validateForm() {
             if (document.writeForm.title.value.trim() === "") {
@@ -64,9 +61,14 @@
             return true;
         }
     </script>
-</head>
+    <link rel="stylesheet" href="<%=request.getContextPath()%>/board/noti/write/notiForm.css">
+<style>
+
+
+
+</style></head>
 <body>
-<!-- 헤더 -->
+    <!-- 헤더 -->
     <header>
         <% 
             if ("admin".equals(userId)) { 
@@ -85,16 +87,16 @@
         %>
 
     </header>
-     <!-- 메인 -->
+    
+    <!-- 메인 -->
     <main>
         <jsp:include page="/include/slideShow/slideShow.jsp" />
         
-        <section>
-        <article class="noti-board-article">
-    
-    <h2 style="text-align: center;">자유게시판 글쓰기</h2>
-    <!-- enctype 설정 -->
-    <form name="writeForm" method="post" action="notiProc.jsp" enctype="multipart/form-data" onsubmit="return validateForm()">
+<section>
+<article class="write-board-article">
+
+    <h2 class="write-board-title">공지사항 글쓰기</h2>
+    <form name="writeForm" method="post" action="notiProc.jsp" enctype="multipart/form-data" onsubmit="return validateForm()" class="write-board-form">
         <input type="hidden" name="type" value="NOTI">
         <input type="hidden" name="studentId" value="<%= userId %>">
         <input type="hidden" name="num" value="<%= num %>">
@@ -102,34 +104,31 @@
         <input type="hidden" name="step" value="<%= step %>">
         <input type="hidden" name="depth" value="<%= depth %>">
 
-        <table border="1" align="center" cellpadding="10">
+        <table class="write-board-table">
             <tr>
-                <th>제목</th>
-                <td>
-                    <input type="text" name="title" size="50" maxlength="100">
+                <th class="write-board-th">제목</th>
+                <td class="write-board-td">
+                    <input type="text" name="title" maxlength="100" class="write-board-input">
                 </td>
             </tr>
             <tr>
-                <th>내용</th>
-                <td>
-                    <textarea name="content" rows="15" cols="60"></textarea>
+                <th class="write-board-th">내용</th>
+                <td class="write-board-td">
+                    <textarea name="content" rows="10" maxlength="1000" class="write-board-textarea"></textarea>
                 </td>
             </tr>
             <tr>
-    <th>첨부파일</th>
-    <td>
-        <input type="file" name="originFile" accept="image/*">
-    </td>
-</tr>
-
-            <tr>
-                <td colspan="2" style="text-align: center;">
-                    <input type="submit" value="등록">
-                    <input type="reset" value="초기화">
-                    <input type="button" value="목록" onclick="window.location='normalList.jsp'">
+                <th class="write-board-th">첨부파일</th>
+                <td class="write-board-td">
+                    <input type="file" name="originFile" accept="image/*" class="write-board-file">
                 </td>
             </tr>
         </table>
+        <div class="write-board-button-group">
+            <input type="submit" value="등록" class="write-board-submit">
+            <input type="reset" value="초기화" class="write-board-reset">
+            <input type="button" value="목록" class="write-board-list" onclick="window.location='<%=request.getContextPath()%>/board/noti/notiList.jsp'">
+        </div>
     </form>
 </article>
 
@@ -143,3 +142,4 @@
 </body>
 </html>
  
+

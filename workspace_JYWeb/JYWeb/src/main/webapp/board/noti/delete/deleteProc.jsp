@@ -78,7 +78,7 @@
     if (flag) {
         out.println("<script>");
         out.println("alert('게시글이 성공적으로 삭제되었습니다.');");
-        out.println("location.href='" + request.getContextPath() + "/board/normal/normalList.jsp?pageNum=" + pageNum + "';");
+        out.println("location.href='" + request.getContextPath() + "/board/noti/notiList.jsp?pageNum=" + pageNum + "';");
         out.println("</script>");
     } else {
         out.println("<script>");

@@ -76,7 +76,7 @@
         if (flag) {
             out.println("<script>");
             out.println("alert('게시글이 성공적으로 수정되었습니다.');");
-            out.println("location.href='" + request.getContextPath() + "/board/normal/normalShow.jsp?num=" + vo.getNum() + "&pageNum=" + multi.getParameter("pageNum") + "';");
+            out.println("location.href='" + request.getContextPath() + "/board/noti/notiShow.jsp?num=" + vo.getNum() + "&pageNum=" + multi.getParameter("pageNum") + "';");
             out.println("</script>");
         } else {
             out.println("<script>");

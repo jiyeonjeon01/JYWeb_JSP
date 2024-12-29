@@ -36,10 +36,9 @@
 <html lang="ko">
 <head>
     <meta charset="UTF-8">
-    <title>게시글 수정</title>
+    <title>자유게시판 게시글 수정</title>
     
     <link rel="stylesheet" href="<%=request.getContextPath()%>/common/common.css">
-    <link rel="stylesheet" href="<%=request.getContextPath()%>/custom/recentPosts.css">
     <link rel="stylesheet" href="<%=request.getContextPath()%>/board/normal/update/updateForm.css">
 </head>
 <body>
