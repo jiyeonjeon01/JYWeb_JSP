@@ -40,7 +40,7 @@ int depth = post != null ? post.getDepth() : 0;
 <html lang="ko">
 <head>
     <meta charset="UTF-8">
-    <title>공지사항 상세보기</title>
+    <title>공지사항 게시글 상세보기</title>
     
     <link rel="stylesheet" href="<%=request.getContextPath()%>/common/common.css">
     <link rel="stylesheet" href="<%=request.getContextPath()%>/board/noti/notiShow.css">

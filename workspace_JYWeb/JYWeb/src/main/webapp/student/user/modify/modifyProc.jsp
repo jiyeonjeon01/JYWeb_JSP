@@ -111,7 +111,7 @@
 <html lang="ko">
 <head>
     <meta charset="UTF-8">
-    <title>회원정보 수정</title>
+    <title>회원정보 수정 진행</title>
    <%--  /<link href="<%=request.getContextPath()%>/style.css" rel="stylesheet" type="text/css"> --%>
     <style>
         main {

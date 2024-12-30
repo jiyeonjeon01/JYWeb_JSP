@@ -1,7 +1,7 @@
 @charset "UTF-8";
 
 /* Article 스타일 */
-.write-board-article {
+.update-board-article {
     max-width: 700px;
     margin: 50px auto;
     background-color: #fff;
@@ -12,7 +12,7 @@
 }
 
 /* 제목 스타일 */
-.write-board-title {
+.update-board-title {
     text-align: center;
     color: #1b1b1c;
     background-color: #d2e5ee;
@@ -22,34 +22,37 @@
 }
 
 /* Form 스타일 */
-.write-board-form {
+.update-board-form {
     width: 100%;
 }
 
 /* 테이블 스타일 */
-.write-board-table {
+.update-board-table {
     width: 100%;
     border-collapse: collapse;
 }
 
-.write-board-th, .write-board-td {
+.update-board-th,
+.update-board-td {
     padding: 10px;
     text-align: left;
     border: 1px solid #cdcdcd;
 }
 
-.write-board-th {
+.update-board-th {
     background-color: #d2e5ee;
     font-weight: bold;
     color: #1b1b1c;
 }
 
-/* .write-board-td {
+/* .update-board-td {
     background-color: white;
-}  */
+} */
 
 /* Input, Textarea 스타일 */
-.write-board-input, .write-board-textarea, .write-board-file {
+.update-board-input,
+.update-board-textarea,
+.update-board-file {
     width: 95%;
     padding: 10px;
     border: 1px solid #cdcdcd;
@@ -57,18 +60,18 @@
     box-sizing: border-box;
 }
 
-.write-board-textarea {
+.update-board-textarea {
     resize: none;
 }
 
 /* 버튼 그룹 */
-.write-board-button-group {
+.update-board-button-group {
     text-align: center;
     margin-top: 20px;
 }
 
 /* 버튼 스타일 */
-.write-board-submit {
+.update-board-submit {
     padding: 10px 20px;
     background-color: #d2e5ee;
     color: black;
@@ -79,11 +82,11 @@
     transition: background-color 0.3s;
 }
 
-.write-board-submit:hover {
+.update-board-submit:hover {
     background-color: #8fb1d5;
 }
 
-.write-board-reset {
+.update-board-cancel {
     padding: 10px 20px;
     background-color: #f2f2f2;
     color: #1b1b1c;
@@ -94,21 +97,6 @@
     transition: background-color 0.3s;
 }
 
-.write-board-reset:hover {
+.update-board-cancel:hover {
     background-color: #cdcdcd;
-}
-
-.write-board-list {
-    padding: 10px 20px;
-    background-color: #8fb1d5;
-    color: #fff;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    font-size: 1em;
-    transition: background-color 0.3s;
-}
-
-.write-board-list:hover {
-    background-color: #6f96bf;
 }

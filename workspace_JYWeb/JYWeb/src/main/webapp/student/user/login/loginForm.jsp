@@ -15,9 +15,8 @@
 <html>
 <head>
     <meta charset="UTF-8">
-    <title>Test Page</title>
+    <title>로그인</title>
     <link rel="stylesheet" href="<%=request.getContextPath()%>/common/common.css">
-    <link rel="stylesheet" href="<%=request.getContextPath()%>/custom/recentPosts.css">
     <style>
 /* 로그인 폼 전체 스타일 */
 .logFormArti {

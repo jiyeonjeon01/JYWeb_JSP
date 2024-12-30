@@ -31,7 +31,7 @@
 <html lang="ko">
 <head>
     <meta charset="UTF-8">
-    <title>사용자 정보</title>
+    <title>로그인 사이드바</title>
     <link rel="stylesheet" href="<%=request.getContextPath()%>/include/aside/login/loginAside.css">
 </head>
 <body>

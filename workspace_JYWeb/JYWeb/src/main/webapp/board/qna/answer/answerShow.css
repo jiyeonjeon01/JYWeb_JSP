@@ -1,0 +1,101 @@
+@charset "UTF-8";
+
+/* 전체 Article 스타일 */
+.answerShowArti{
+    max-width: 700px;
+    margin: 50px auto;
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    border: 1px solid #cdcdcd;
+}
+
+/* 제목 스타일 */
+.answerShowTableTitle {
+    text-align: center;
+    color: #1b1b1c;
+    background-color: #d2e5ee;
+    padding: 15px;
+    margin-bottom: 20px;
+    border-radius: 10px;
+    font-size: 1.2em;
+}
+
+/* 테이블 스타일 */
+.answerShowTableTop {
+    width: 100%;
+    border-collapse: collapse;
+    border-bottom: hidden;
+}
+.answerShowTableBottom {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.answerShowTableTop th, .answerShowTableTop td,
+.answerShowTableBottom  th, .answerShowTableBottom  td  {
+    padding: 10px;
+    text-align: left;
+    border: 1px solid #cdcdcd;
+}
+
+.answerShowTableTop th,.answerShowTableBottom  th {
+	background-color: #d2e5ee;
+}
+
+.answerShowNum, .answerShowWriter,
+.answerShowViews,.answerShowDate {
+	text-align: center;
+	width: 15%;
+}
+.answerShowNum2, .answerShowWriter2,
+.answerShowViews2,.answerShowDate2 {
+	width: 35%;
+}
+
+.answerShowTitle, .answerShowContent, .answerShowFile {
+	text-align: center;
+	width: 15%;
+}
+.answerShowTitle2, .answerShowContent2, .answerShowFile2 {
+	width: 85%;
+}
+.attached-image {
+	width: 100%;
+	height: auto;
+	margin: 0 auto;
+}
+
+
+
+/* 버튼 그룹 스타일 */
+.answerShowBtnTd {
+    text-align: center; /* 텍스트 중앙 정렬 */
+    margin-top: 20px;
+}
+
+.answerShowBtnWrapper {
+    display: flex; /* 버튼들을 플렉스 컨테이너로 배치 */
+    justify-content: center; /* 수평 중앙 정렬 */
+    gap: 10px; /* 버튼 간 간격 */
+    flex-wrap: wrap; /* 필요 시 다음 줄로 이동 */
+    width: 100%; /* 부모 요소의 전체 너비 사용 */
+    text-align: center; /* 텍스트 정렬 */
+}
+  
+.answerShowBtn {
+    padding: 10px 20px;
+    background-color: #d2e5ee;
+    color: black;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 1em;
+    transition: background-color 0.3s;
+}
+
+.answerShowBtn:hover {
+    background-color: #8fb1d5;
+    color: white;
+}

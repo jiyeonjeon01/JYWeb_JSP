@@ -36,10 +36,10 @@
 <html lang="ko">
 <head>
     <meta charset="UTF-8">
-    <title>질문게시판 로그인 게시글 수정</title>
+    <title>답변게시판 게시글 수정</title>
     
     <link rel="stylesheet" href="<%=request.getContextPath()%>/common/common.css">
-    <link rel="stylesheet" href="<%=request.getContextPath()%>/board/qna/question/login/update/updateForm.css">
+    <link rel="stylesheet" href="<%=request.getContextPath()%>/board/qna/answer/update/updateForm.css">
 </head>
 <body>
     <!-- 헤더 -->
@@ -68,7 +68,7 @@
         <section>
             <article class="update-board-article">
                 <h2 class="update-board-title">게시글 수정</h2>
-                <form action="<%=request.getContextPath()%>/board/qna/question/login/update/updateProc.jsp" method="post" enctype="multipart/form-data" class="update-board-form">
+                <form action="<%=request.getContextPath()%>/board/qna/answer/update/updateProc.jsp" method="post" enctype="multipart/form-data" class="update-board-form">
                     <input type="hidden" name="num" value="<%= post.getNum() %>">
                     <input type="hidden" name="pageNum" value="<%= pageNum %>">
 
@@ -99,7 +99,7 @@
                     </table>
                     <div class="update-board-button-group">
                         <button type="submit" class="update-board-submit">수정</button>
-                        <button type="button" class="update-board-cancel" onclick="location.href='<%=request.getContextPath()%>/board/qna/question/login/normalShow.jsp?num=<%= post.getNum() %>&pageNum=<%= pageNum %>'">취소</button>
+                        <button type="button" class="update-board-cancel" onclick="location.href='<%=request.getContextPath()%>/board/qna/answer/answerShow.jsp?num=<%= post.getNum() %>&pageNum=<%= pageNum %>'">취소</button>
                     </div>
                 </form>
             </article>

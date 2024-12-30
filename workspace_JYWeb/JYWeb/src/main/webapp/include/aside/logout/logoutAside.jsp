@@ -4,7 +4,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<title>로그아웃 사이드바</title>
 <script src="https://kit.fontawesome.com/abb02b8c73.js"
 	crossorigin="anonymous"></script>
 <link rel="stylesheet"

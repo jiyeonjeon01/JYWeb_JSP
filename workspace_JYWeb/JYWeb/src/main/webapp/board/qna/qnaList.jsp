@@ -9,7 +9,15 @@
     // 페이징 설정
     int pageSize = 10;
     String pageNum = request.getParameter("pageNum");
-    int currentPage = (pageNum == null) ? 1 : Integer.parseInt(pageNum);
+    int currentPage = 1; // 기본값 설정
+    if (pageNum != null) {
+        try {
+            currentPage = Integer.parseInt(pageNum);
+        } catch (NumberFormatException e) {
+            System.out.println("Invalid pageNum: " + pageNum); // 디버깅 메시지
+        }
+    }
+
 
     int start = (currentPage - 1) * pageSize + 1;
     int end = currentPage * pageSize;
@@ -123,7 +131,7 @@
                                 <td class="postNum"><%= number-- %></td>
                                 <td class="postTitle">
                                     <span style="color: green;">답변: </span>
-                                    <a href="<%=request.getContextPath()%>/board/qna/question/login/loginAShow.jsp?num=<%= post.getNum() %>">
+                                    <a href="<%=request.getContextPath()%>/board/qna/answer/answerShow.jsp?num=<%= post.getNum() %>">
                                         <%= post.getTitle() %>
                                     </a>
                                 </td>
@@ -155,27 +163,33 @@
                     <a href="<%=request.getContextPath()%>/board/qna/question/<%= (userId == null ? "logout" : "login") %>/write/<%= (userId == null ? "logoutQForm.jsp" : "loginQForm.jsp") %>" class="qnaBoardWriteLink">질문 작성</a>
                 </div>
                 <div class="qnaBoardPage">
-                    <% if (totalPosts > 0) { 
-                        int pageBlock = 3;
-                        int pageCount = (int) Math.ceil((double) totalPosts / pageSize);
-                        int startPage = (currentPage - 1) / pageBlock * pageBlock + 1;
-                        int endPage = Math.min(startPage + pageBlock - 1, pageCount);
+			    <% if (totalPosts > 0) { 
+			        int pageBlock = 3; // 페이지 블록의 크기
+			        int pageCount = (int) Math.ceil((double) totalPosts / pageSize); // 총 페이지 수
+			        int startPage = (currentPage - 1) / pageBlock * pageBlock + 1; // 블록 시작 페이지
+			        int endPage = Math.min(startPage + pageBlock - 1, pageCount); // 블록 종료 페이지
+			
+			        // 이전 블록으로 이동
+			        if (startPage > 1) { %>
+			            <a href="qnaList.jsp?pageNum=<%= startPage - 1 %>">[이전]</a>
+			        <% } 
+			
+			        // 현재 블록 내 페이지 번호 출력
+			        for (int i = startPage; i <= endPage; i++) { 
+			            if (i == currentPage) { %>
+			                <strong>[<%= i %>]</strong>
+			            <% } else { %>
+			                <a href="qnaList.jsp?pageNum=<%= i %>">[<%= i %>]</a>
+			            <% } 
+			        } 
+			
+			        // 다음 블록으로 이동
+			        if (endPage < pageCount) { %>
+			            <a href="qnaList.jsp?pageNum=<%= endPage + 1 %>">[다음]</a>
+			        <% } 
+			    } %>
+			</div>
 
-                        if (startPage > 1) { %>
-                            <a href="qnaList.jsp?pageNum=<%= startPage - 1 %>">[이전]</a>
-                        <% } 
-                        for (int i = startPage; i <= endPage; i++) { 
-                            if (i == currentPage) { %>
-                                <strong>[<%= i %>]</strong>
-                            <% } else { %>
-                                <a href="qnaList.jsp?pageNum=<%= i %>">[<%= i %>]</a>
-                            <% } 
-                        } 
-                        if (endPage < pageCount) { %>
-                            <a href="qnaList.jsp?pageNum=<%= endPage + 1 %>">[다음]</a>
-                        <% } 
-                    } %>
-                </div>
                 </div>
             </article>
         </section>

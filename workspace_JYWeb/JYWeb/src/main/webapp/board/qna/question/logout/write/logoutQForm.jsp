@@ -22,7 +22,7 @@
 <html>
 <head>
     <meta charset="UTF-8">
-    <title>QNA 질문하기</title>
+    <title>질문 게시판 로그아웃 질문하기</title>
     <link rel="stylesheet" href="<%=request.getContextPath()%>/common/common.css">
     <script>
         function validateForm() {

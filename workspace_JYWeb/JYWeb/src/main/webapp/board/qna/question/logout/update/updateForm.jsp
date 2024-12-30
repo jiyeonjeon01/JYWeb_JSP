@@ -42,7 +42,7 @@
 <html lang="ko">
 <head>
     <meta charset="UTF-8">
-    <title>자유게시판 게시글 수정</title>
+    <title>질문 게시판 로그아웃 게시글 수정</title>
     
     <link rel="stylesheet" href="<%=request.getContextPath()%>/common/common.css">
     <link rel="stylesheet" href="<%=request.getContextPath()%>/board/qna/question/login/update/updateForm.css">

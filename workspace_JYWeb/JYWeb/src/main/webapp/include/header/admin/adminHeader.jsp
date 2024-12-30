@@ -8,7 +8,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<title>어드민 헤더</title>
 <script src="https://kit.fontawesome.com/abb02b8c73.js" crossorigin="anonymous"></script>
 <link rel="stylesheet" href="<%=request.getContextPath()%>/include/header/admin/adminHeader.css"></link>
 </head>

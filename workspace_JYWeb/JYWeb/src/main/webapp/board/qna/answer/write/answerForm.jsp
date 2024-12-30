@@ -33,7 +33,7 @@
 <html lang="ko">
 <head>
     <meta charset="UTF-8">
-    <title>답변 작성</title>
+    <title>답변게시판 게시글 작성</title>
     <link rel="stylesheet" href="<%=request.getContextPath()%>/common/common.css">
     <script>
         function validateForm() {
@@ -50,7 +50,7 @@
             return true;
         }
     </script>
-    <link rel="stylesheet" href="<%=request.getContextPath()%>/board/qna/answer/answerForm.css">
+    <link rel="stylesheet" href="<%=request.getContextPath()%>/board/qna/answer/write/answerForm.css">
 </head>
 <body>
     <!-- 헤더 -->

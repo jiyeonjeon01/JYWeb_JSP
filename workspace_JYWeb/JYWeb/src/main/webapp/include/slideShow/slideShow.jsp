@@ -4,7 +4,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<title>회전목마</title>
 <script src="https://kit.fontawesome.com/abb02b8c73.js" crossorigin="anonymous"></script>
 <script language="javascript" src="<%=request.getContextPath()%>/include/slideShow/slideShow.js"></script>
 </head>

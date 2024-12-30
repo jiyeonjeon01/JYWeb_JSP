@@ -53,7 +53,7 @@ String userId = (String) session.getAttribute("userId");
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<title>공지사항 게시판 목록</title>
     <link rel="stylesheet" href="<%=request.getContextPath()%>/common/common.css">
     <link rel="stylesheet" href="<%=request.getContextPath()%>/board/noti/notiList.css"> 
 </head>

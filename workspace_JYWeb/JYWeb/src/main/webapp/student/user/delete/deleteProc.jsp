@@ -29,7 +29,7 @@
 <html lang="ko">
 <head>
     <meta charset="UTF-8">
-    <title>회원 탈퇴</title>
+    <title>회원 정보 삭제 진행</title>
     <meta http-equiv="Refresh" content="3;url=<%=request.getContextPath()%>/student/user/login/loginForm.jsp">
     <style>
         main {

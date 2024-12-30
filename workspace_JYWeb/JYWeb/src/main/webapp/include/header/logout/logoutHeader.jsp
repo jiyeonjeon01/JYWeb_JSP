@@ -4,7 +4,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<title>로그아웃 헤더</title>
 <script src="https://kit.fontawesome.com/abb02b8c73.js" crossorigin="anonymous"></script>
 <link rel="stylesheet" href="<%=request.getContextPath()%>/include/header/logout/logoutHeader.css"></link>
 </head>
@@ -61,7 +61,7 @@
 						</a>
 						<div class="dropdownMenuLogout">
 							<a href="<%=request.getContextPath()%>/board/qna/qnaList.jsp">목록보기</a>
-							<a href="<%=request.getContextPath()%>/board/qna/logout/write/logoutForm.jsp">질문작성하기</a>
+							<a href="<%=request.getContextPath()%>/board/qna/question/logout/write/logoutQForm.jsp">질문작성하기</a>
 						</div>
 					</div> 
 					<!-- 쇼핑 메뉴 -->

@@ -24,7 +24,7 @@ public final class ConnectionPool {
 	private ArrayList<Connection> free;
 	private ArrayList<Connection> used; // 사용중인 커넥션을 저장하는 변수
 	private int initialCons = 10; // 최초로 초기 커넥션수
-	private int maxCons = 20; // 최대 커넥션수
+	private int maxCons = 50; // 최대 커넥션수
 	private int numCons = 0; // 총 Connection 수
 	private String id = null;
 	private String pw = null;
@@ -107,24 +107,22 @@ public final class ConnectionPool {
 //	}
 	// 자꾸 오류가 나서 수정한 버전
 	public synchronized Connection dbCon() {
-	    Connection con = null;
-
-	    // Free 리스트가 비어 있으면 예외 처리
 	    if (free.isEmpty()) {
 	        if (numCons < maxCons) {
 	            addConnection();
 	        } else {
-	            throw new IllegalStateException("최댓값 초과로 연결 오류.");
+	            System.out.println("[ERROR] 최대 연결 수 초과! 현재 연결 상태:");
+	            System.out.println("free: " + free.size() + ", used: " + used.size());
+	            throw new IllegalStateException("최대 연결 수 초과! 연결을 해제해야 합니다.");
 	        }
 	    }
 
-	    // Free 리스트에서 Connection 가져오기
-	    con = free.get(free.size() - 1);
-	    free.remove(con);
+	    Connection con = free.remove(free.size() - 1);
 	    used.add(con);
-
+	    System.out.println("[DEBUG] Connection 대여됨. free: " + free.size() + ", used: " + used.size());
 	    return con;
 	}
+
 
 
 	public void dbClose(Connection con, ResultSet rs, Statement... stmts) {
@@ -210,23 +208,20 @@ public final class ConnectionPool {
 
 	//ConnectionPool 만들어지 Connection free ArrayList에 반납하고, 아니면 close 처리한다.
 	public synchronized void releaseConnection(Connection con) {
-		boolean flag = false;
-		if (used.contains(con) == true) {
-			used.remove(con);
-			numCons--;
-			free.add(con);
-			numCons++;
-			flag = true;
-		}
-
-		try {
-			if (flag == false) {
-				con.close();
-			}
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
+	    if (used.contains(con)) {
+	        used.remove(con);
+	        free.add(con);
+	        System.out.println("[DEBUG] Connection 반환됨. free: " + free.size() + ", used: " + used.size());
+	    } else {
+	        System.out.println("[WARN] 반환되지 않은 연결 시도!");
+	        try {
+	            con.close();
+	        } catch (SQLException e) {
+	            e.printStackTrace();
+	        }
+	    }
 	}
+
 	
 	//현재 ConnectionPool 있는 connection 모두 제거한다.
 	public void closeAll() {

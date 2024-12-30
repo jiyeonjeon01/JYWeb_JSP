@@ -51,10 +51,10 @@ int depth = post != null ? post.getDepth() : 0;
 <html lang="ko">
 <head>
     <meta charset="UTF-8">
-    <title>질문 게시글 로그인 상세보기</title>
+    <title>답변 게시글 상세보기</title>
     
     <link rel="stylesheet" href="<%=request.getContextPath()%>/common/common.css">
-    <link rel="stylesheet" href="<%=request.getContextPath()%>/board/qna/question/login/loginQShow.css">
+    <link rel="stylesheet" href="<%=request.getContextPath()%>/board/qna/answer/answerShow.css">
 </head>
 <body>
     <!-- 헤더 -->
@@ -81,38 +81,38 @@ int depth = post != null ? post.getDepth() : 0;
         <jsp:include page="/include/slideShow/slideShow.jsp" />
         
         <section>
-            <article class="loginQShowArti">
-            <div class="loginQShowDiv">
+            <article class="answerShowArti">
+            <div class="answerShowDiv">
             
-                <h2 class="loginQShowTableTitle">게시글 상세보기</h2>
+                <h2 class="answerShowTableTitle">게시글 상세보기</h2>
 
                 
-                <table class="loginQShowTableTop">
+                <table class="answerShowTableTop">
                     <tr>
-                        <th class="loginQShowNum">글번호</th>
-                        <td class="loginQShowNum2"><%= post != null ? post.getNum() : "정보 없음" %></td>
-                    	<th class="loginQShowWriter">작성자</th>
-                        <td class="loginQShowWriter2"><%= post != null ? post.getStudentId() : "정보 없음" %></td>	
+                        <th class="answerShowNum">글번호</th>
+                        <td class="answerShowNum2"><%= post != null ? post.getNum() : "정보 없음" %></td>
+                    	<th class="answerShowWriter">작성자</th>
+                        <td class="answerShowWriter2"><%= post != null ? post.getStudentId() : "정보 없음" %></td>	
                     </tr>
                     <tr>
-                        <th class="loginQShowViews">조회수</th>
-                        <td class="loginQShowViews2"><%= post != null ? post.getReadCount() : 0 %></td>
-                        <th class="loginQShowDate">작성일</th>
-                        <td class="loginQShowDate2"><%= post != null ? sdf.format(post.getRegDate()) : "정보 없음" %></td>
+                        <th class="answerShowViews">조회수</th>
+                        <td class="answerShowViews2"><%= post != null ? post.getReadCount() : 0 %></td>
+                        <th class="answerShowDate">작성일</th>
+                        <td class="answerShowDate2"><%= post != null ? sdf.format(post.getRegDate()) : "정보 없음" %></td>
                     </tr>
                     </table>
-                    <table  class="loginQShowTableBottom">
+                    <table  class="answerShowTableBottom">
                     <tr>
-                        <th class="loginQShowTitle">제목</th>
-                        <td class="loginQShowTitle2"> <%= post.getTitle() != null ? post.getTitle() : "게시글이 존재하지 않습니다." %></td>
+                        <th class="answerShowTitle">제목</th>
+                        <td class="answerShowTitle2"> <%= post.getTitle() != null ? post.getTitle() : "게시글이 존재하지 않습니다." %></td>
                     </tr>
                     <tr>
-                        <th class="loginQShowContent">내용</th>
-                        <td class="loginQShowContent2"><pre><%= post.getContent() != null ? post.getContent() : "내용이 없습니다." %></pre></td>
+                        <th class="answerShowContent">내용</th>
+                        <td class="answerShowContent2"><pre><%= post.getContent() != null ? post.getContent() : "내용이 없습니다." %></pre></td>
                     </tr>
                     <tr>
-                        <th class="loginQShowFile">첨부파일</th>
-                        <td class="loginQShowFile2">
+                        <th class="answerShowFile">첨부파일</th>
+                        <td class="answerShowFile2">
                             <% if (post != null && post.getSysFile() != null && !post.getSysFile().isEmpty()) { %>
                                 <img src="<%= filePath %>" alt="첨부된 이미지" class="attached-image">
                             <% } else { %>
@@ -121,9 +121,9 @@ int depth = post != null ? post.getDepth() : 0;
                         </td>
                     </tr>
 					<tr>
-					    <td colspan="2" class="loginQShowBtnTd">
-					        <div class="loginQShowBtnWrapper">
-					            <button class="loginQShowBtn" onclick="document.location.href='<%=request.getContextPath()%>/board/qna/question/login/update/updateForm.jsp?num=<%= num %>&pageNum=<%= pageNum %>'">수정하기</button>
+					    <td colspan="2" class="answerShowBtnTd">
+					        <div class="answerShowBtnWrapper">
+					            <button class="answerShowBtn" onclick="document.location.href='<%=request.getContextPath()%>/board/qna/answer/update/updateForm.jsp?num=<%= num %>&pageNum=<%= pageNum %>'">수정하기</button>
 					
 					            <% 
 					                // 삭제 버튼 조건: ADMIN이거나 studentId가 일치하는 경우
@@ -132,14 +132,11 @@ int depth = post != null ? post.getDepth() : 0;
 					
 					                if (isOwner || isAdmin) { 
 					            %>
-					                <button class="loginQShowBtn" onclick="document.location.href='<%=request.getContextPath()%>/board/qna/question/login/delete/deleteProc.jsp?num=<%= num %>&pageNum=<%= pageNum %>'">삭제하기</button>
+					                <button class="answerShowBtn" onclick="document.location.href='<%=request.getContextPath()%>/board/qna/answer/delete/deleteProc.jsp?num=<%= num %>&pageNum=<%= pageNum %>'">삭제하기</button>
 					            <% } %>
+				
 					
-					            <% if ("ADMIN".equals(role)) { %>
-					                <button class="loginQShowBtn" onclick="document.location.href='<%=request.getContextPath()%>/board/qna/answer/write/answerForm.jsp?num=<%= num %>&ref=<%= ref %>&step=<%= step %>&depth=<%= depth %>'">답변하기</button>
-					            <% } %>
-					
-					            <button class="loginQShowBtn" onclick="document.location.href='<%=request.getContextPath()%>/board/qna/qnaList.jsp?pageNum=<%= pageNum %>'">목록으로</button>
+					            <button class="answerShowBtn" onclick="document.location.href='<%=request.getContextPath()%>/board/qna/qnaList.jsp?pageNum=<%= pageNum %>'">목록으로</button>
 					        </div>
 					    </td>
 					</tr>

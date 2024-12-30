@@ -43,7 +43,7 @@ String userId = (String) session.getAttribute("userId"); */
 <html>
 <head>
     <meta charset="UTF-8">
-    <title>자유 게시판 글쓰기</title>
+    <title>질문 게시판 로그인 글쓰기</title>
     <link rel="stylesheet" href="<%=request.getContextPath()%>/common/common.css">
 
     <script>

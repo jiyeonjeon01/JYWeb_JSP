@@ -7,7 +7,7 @@
 <html lang="ko">
 <head>
     <meta charset="UTF-8">
-    <title>비밀번호 확인</title>
+    <title>질문 게시판 로그아웃 게시글 삭제 비밀번호 확인</title>
     <link rel="stylesheet" href="<%=request.getContextPath()%>/common/common.css">
     <style>
         /* 폼 스타일 */

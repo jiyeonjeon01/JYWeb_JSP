@@ -105,25 +105,30 @@ public class LoginBoardDAO {
     
     public LoginBoardVO selectBoardDB(LoginBoardVO vo) {
         LoginBoardVO bvo = null;
+        Connection con = null;
+        PreparedStatement pstmt = null;
+        ResultSet rs = null;
 
-        try (Connection con = ConnectionPool.getInstance().dbCon()) {
+        try {
+            con = ConnectionPool.getInstance().dbCon();
+
             // 조회수 증가
-            try (PreparedStatement pstmt = con.prepareStatement(UPDATE_READCOUNT_SQL)) {
-                pstmt.setInt(1, vo.getNum());
-                pstmt.executeUpdate();
-            }
+            pstmt = con.prepareStatement(UPDATE_READCOUNT_SQL);
+            pstmt.setInt(1, vo.getNum());
+            pstmt.executeUpdate();
+            pstmt.close(); // PreparedStatement 닫기
 
             // 게시글 데이터 가져오기
-            try (PreparedStatement pstmt = con.prepareStatement(SELECT_ONE_SQL)) {
-                pstmt.setInt(1, vo.getNum());
-                try (ResultSet rs = pstmt.executeQuery()) {
-                    if (rs.next()) {
-                        bvo = extractVO(rs);
-                    }
-                }
+            pstmt = con.prepareStatement(SELECT_ONE_SQL);
+            pstmt.setInt(1, vo.getNum());
+            rs = pstmt.executeQuery();
+            if (rs.next()) {
+                bvo = extractVO(rs);
             }
         } catch (SQLException e) {
             e.printStackTrace();
+        } finally {
+            ConnectionPool.getInstance().dbClose(con, pstmt, rs); // 연결 반환
         }
 
         // 데이터가 없는 경우 기본값 설정
@@ -135,16 +140,9 @@ public class LoginBoardDAO {
             bvo.setStudentId("알 수 없음");
         }
 
-        // 디버깅 메시지
-        System.out.println("[DEBUG] 게시글 번호: " + vo.getNum());
-        if (bvo != null) {
-            System.out.println("[DEBUG] 게시글 데이터: " + bvo.toString());
-        } else {
-            System.out.println("[DEBUG] 게시글 데이터가 존재하지 않습니다.");
-        }
-
         return bvo;
     }
+
 
 
     
@@ -339,18 +337,25 @@ public class LoginBoardDAO {
     
     public int getPostCountByType(String type) {
         String sql = "SELECT COUNT(*) FROM LOGINBOARD WHERE TYPE = ?";
-        try (Connection con = ConnectionPool.getInstance().dbCon();
-             PreparedStatement pstmt = con.prepareStatement(sql)) {
+        Connection con = null;
+        PreparedStatement pstmt = null;
+        ResultSet rs = null;
+        try {
+            con = ConnectionPool.getInstance().dbCon();
+            pstmt = con.prepareStatement(sql);
             pstmt.setString(1, type);
-            ResultSet rs = pstmt.executeQuery();
+            rs = pstmt.executeQuery();
             if (rs.next()) {
                 return rs.getInt(1);
             }
         } catch (SQLException e) {
             e.printStackTrace();
+        } finally {
+            ConnectionPool.getInstance().dbClose(con, pstmt, rs); // 연결 닫기
         }
         return 0;
     }
+
     
     
     public ArrayList<LoginBoardVO> getPostsByType(String type, int start, int end) {
