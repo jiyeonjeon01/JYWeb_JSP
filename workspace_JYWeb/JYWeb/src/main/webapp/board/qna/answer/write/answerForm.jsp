@@ -4,6 +4,7 @@
     // 세션에서 로그인 정보와 역할 확인
     String userId = (String) session.getAttribute("userId");
     String userRole = (String) session.getAttribute("role"); // 세션에 저장된 역할 이름 확인
+    
 
     // 역할 확인: admin이 아닌 경우 접근 제한
     if (userId == null || userId.isEmpty() || !"ADMIN".equals(userRole)) {
@@ -12,6 +13,7 @@
         return;
     }
 
+    String questionTitle = (String)session.getAttribute("title");
     // 질문글 관련 데이터 초기화
     int questionNum = 0, ref = 0, step = 0, depth = 0;
     try {
@@ -36,7 +38,7 @@
     <script>
         function validateForm() {
             if (document.answerForm.title.value.trim() === "") {
-                alert("제목을 입력하세요.");
+                /* alert("제목을 입력하세요."); */
                 document.answerForm.title.focus();
                 return false;
             }
@@ -70,14 +72,17 @@
                     <input type="hidden" name="ref" value="<%= ref %>">
                     <input type="hidden" name="step" value="<%= step + 1 %>">
                     <input type="hidden" name="depth" value="<%= depth + 1 %>">
+                    <input type="hidden" name="title" value="[<%= questionTitle%>] 답변">
 
                     <table class="write-board-table">
-                        <tr>
-                            <th class="write-board-th">제목</th>
-                            <td class="write-board-td">
-                                <input type="text" name="title" maxlength="100" class="write-board-input">
-                            </td>
-                        </tr>
+						<tr>
+						    <th class="write-board-th">제목</th>
+						    <td class="write-board-td">
+						        <input type="text" name="displayTitle" value="[<%= questionTitle %>]" class="write-board-input" readonly>
+						        <input type="hidden" name="title" value="[<%= questionTitle %>]">
+						    </td>
+						</tr>
+						
                         <tr>
                             <th class="write-board-th">내용</th>
                             <td class="write-board-td">

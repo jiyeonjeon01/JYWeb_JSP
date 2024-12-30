@@ -16,7 +16,7 @@
 <html>
 <head>
     <meta charset="UTF-8">
-    <title>Test Page</title>
+    <title>JY Web</title>
     <link rel="stylesheet" href="<%=request.getContextPath()%>/common/common.css">
     <link rel="stylesheet" href="<%=request.getContextPath()%>/custom/recentPosts.css">
 </head>
@@ -83,14 +83,20 @@
                         for (LoginBoardVO post : recentPosts) { 
                 %>
                 
+                
                 <%
                     String displayType = post.getType();
                     if ("NORMAL".equals(post.getType())) {
                         displayType = "자유"; 
                     } else if ("NOTI".equals(post.getType())) {
                         displayType = "공지"; 
+                    } else if ("QUESTION".equals(post.getType())) {
+                    	displayType ="질문";
+                    } else if ("ANSWER".equals(post.getType())) {
+                    	displayType = "답변";
                     }
                 %>
+  
              
                 <tr class="recentPostRow">
                     <td class="postType">[<%= displayType %>]</td>

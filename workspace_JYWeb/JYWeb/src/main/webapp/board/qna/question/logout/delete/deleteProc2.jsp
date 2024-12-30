@@ -2,17 +2,24 @@
 <%@page import="co.kr.dev.board.logout.LogoutBoardVO"%>
 <%@ page contentType="text/html; charset=UTF-8"%>
 <%
-    String userId = (String) session.getAttribute("userId");
-    String userRole = (String) session.getAttribute("role");
+    request.setCharacterEncoding("UTF-8");
 
-    if (!"ADMIN".equals(userRole)) {
-        out.println("<script>alert('관리자만 접근 가능합니다.'); history.back();</script>");
+    int num = Integer.parseInt(request.getParameter("num"));
+    String inputPassword = request.getParameter("pass");
+
+    LogoutBoardDAO dao = LogoutBoardDAO.getInstance();
+    LogoutBoardVO post = dao.selectOne(num);
+
+    if (post == null) {
+        out.println("<script>alert('게시글이 존재하지 않습니다.'); history.back();</script>");
         return;
     }
 
-    int num = Integer.parseInt(request.getParameter("num"));
+    if (inputPassword == null || !inputPassword.equals(post.getPass())) {
+        out.println("<script>alert('비밀번호가 일치하지 않습니다.'); history.back();</script>");
+        return;
+    }
 
-    LogoutBoardDAO dao = LogoutBoardDAO.getInstance();
     boolean flag = dao.delete(num);
 
     if (flag) {

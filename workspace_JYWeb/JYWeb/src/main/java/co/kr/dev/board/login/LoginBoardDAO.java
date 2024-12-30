@@ -442,6 +442,40 @@ public class LoginBoardDAO {
     }
 
 
+    public List<LoginBoardVO> getCombinedPosts(int start, int pageSize) {
+        List<LoginBoardVO> combinedPosts = new ArrayList<>();
+        String sql = "SELECT * " +
+                     "FROM LOGINBOARD " +
+                     "WHERE type IN ('QUESTION', 'ANSWER') " +
+                     "ORDER BY ref ASC, step ASC, depth ASC " +
+                     "OFFSET ? ROWS FETCH NEXT ? ROWS ONLY";
+        try (Connection con = ConnectionPool.getInstance().dbCon();
+             PreparedStatement pstmt = con.prepareStatement(sql)) {
+            pstmt.setInt(1, start);
+            pstmt.setInt(2, pageSize);
+            try (ResultSet rs = pstmt.executeQuery()) {
+                while (rs.next()) {
+                    LoginBoardVO post = new LoginBoardVO();
+                    post.setNum(rs.getInt("num"));
+                    post.setType(rs.getString("type"));
+                    post.setTitle(rs.getString("title"));
+                    post.setStudentId(rs.getString("student_id"));
+                    post.setRegDate(rs.getTimestamp("regdate"));
+                    post.setReadCount(rs.getInt("readcount"));
+                    post.setIp(rs.getString("ip"));
+                    post.setRef(rs.getInt("ref"));
+                    post.setStep(rs.getInt("step"));
+                    post.setDepth(rs.getInt("depth"));
+                    combinedPosts.add(post);
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return combinedPosts;
+    }
+
+
     
     
 

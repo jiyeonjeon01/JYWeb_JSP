@@ -7,14 +7,6 @@
 <%
     request.setCharacterEncoding("UTF-8");
 
-    // 세션에서 사용자 정보 가져오기
-    String userRole = (String) session.getAttribute("role");
-
-    if (!"ADMIN".equals(userRole)) {
-        out.println("<script>alert('관리자만 접근 가능합니다.'); history.back();</script>");
-        return;
-    }
-
     LogoutBoardDAO dao = LogoutBoardDAO.getInstance();
     LogoutBoardVO vo = new LogoutBoardVO();
 
@@ -30,6 +22,12 @@
         LogoutBoardVO existingPost = dao.selectOne(num);
         if (existingPost == null) {
             out.println("<script>alert('게시글이 존재하지 않습니다.'); history.back();</script>");
+            return;
+        }
+
+        String inputPassword = multi.getParameter("pass");
+        if (!existingPost.getPass().equals(inputPassword)) {
+            out.println("<script>alert('비밀번호가 일치하지 않습니다.'); history.back();</script>");
             return;
         }
 

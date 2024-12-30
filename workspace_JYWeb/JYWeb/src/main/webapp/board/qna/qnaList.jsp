@@ -25,6 +25,9 @@
     List<LoginBoardVO> loginPostsA = loginBoardDAO.getPostsByType("ANSWER", start, end);
     List<LogoutBoardVO> logoutPosts = logoutBoardDAO.getPostsByType("QUESTION", start, end);
 
+    List<LogoutBoardVO> combinedPostsOut = logoutBoardDAO.getCombinedPosts(start, end);
+    List<LoginBoardVO> combinedPostsIn = loginBoardDAO.getCombinedPosts(start, end);
+
     // 총 게시글 수 계산
     int loginQuestionCount = loginBoardDAO.getPostCountByType("QUESTION");
     int loginAnswerCount = loginBoardDAO.getPostCountByType("ANSWER");
@@ -36,11 +39,12 @@
     String userId = (String) session.getAttribute("userId");
 
     // 디버깅 메시지 출력
-    System.out.println("[DEBUG] Login 질문 수: " + loginQuestionCount);
-    System.out.println("[DEBUG] Login 답변 수: " + loginAnswerCount);
-    System.out.println("[DEBUG] Logout 질문 수: " + logoutPostCount);
-    System.out.println("[DEBUG] 총 게시글 수: " + totalPosts);
+    System.out.println("Login 질문: " + loginQuestionCount);
+    System.out.println("Login 답변: " + loginAnswerCount);
+    System.out.println("Logout 질문: " + logoutPostCount);
+    System.out.println("총 게시글: " + totalPosts);
 %>
+
 <!DOCTYPE html>
 <html lang="ko">
 <head>
@@ -52,24 +56,35 @@
 <body>
     <!-- Header -->
     <header>
-        <% if ("admin".equals(userId)) { %>
+        <% 
+            if ("admin".equals(userId)) { 
+        %>
             <jsp:include page="/include/header/admin/adminHeader.jsp" />
-        <% } else if (userId != null && !userId.isEmpty()) { %>
+        <% 
+            } else if (userId != null && !userId.isEmpty()) { 
+        %>
             <jsp:include page="/include/header/login/loginHeader.jsp" />
-        <% } else { %>
+        <% 
+            } else { 
+        %>
             <jsp:include page="/include/header/logout/logoutHeader.jsp" />
-        <% } %>
+        <% 
+            } 
+        %>
     </header>
     
     <!-- Main content -->
     <main>
         <jsp:include page="/include/slideShow/slideShow.jsp" />
+        
         <section>
             <article class="qnaListArti">
-                <h2 class="qnaBoardTitle">Q&A 게시판</h2>
-                <div class="qnaBorderWriteLinkDiv">
-                    <a href="<%=request.getContextPath()%>/board/qna/question/<%= (userId == null ? "logout" : "login") %>/write/<%= (userId == null ? "logoutQForm.jsp" : "loginQForm.jsp") %>" class="qnaBoardWriteLink">질문 작성</a>
-                </div>
+            	<div class="qnaListDiv">
+            	
+            	<div class="qnaBoardTitle">
+            		<span class="qnaBoardTitleSpan">Q&A 게시판 목록</span>
+            	</div>
+                
                 <table class="qnaBoardTable">
                     <thead>
                         <tr>
@@ -84,7 +99,7 @@
                     <tbody>
                         <% if (totalPosts == 0) { %>
                             <tr>
-                                <td colspan="6" class="noPostMessage">게시판에 게시글이 없습니다.</td>
+                                <td colspan="6" class="noPostMessage">게시글이 없습니다.</td>
                             </tr>
                         <% } else { 
                             // Login 질문
@@ -135,6 +150,10 @@
                         <% } } %>
                     </tbody>
                 </table>
+                
+                <div class="qnaBorderWriteLinkDiv">
+                    <a href="<%=request.getContextPath()%>/board/qna/question/<%= (userId == null ? "logout" : "login") %>/write/<%= (userId == null ? "logoutQForm.jsp" : "loginQForm.jsp") %>" class="qnaBoardWriteLink">질문 작성</a>
+                </div>
                 <div class="qnaBoardPage">
                     <% if (totalPosts > 0) { 
                         int pageBlock = 3;
@@ -156,6 +175,7 @@
                             <a href="qnaList.jsp?pageNum=<%= endPage + 1 %>">[다음]</a>
                         <% } 
                     } %>
+                </div>
                 </div>
             </article>
         </section>

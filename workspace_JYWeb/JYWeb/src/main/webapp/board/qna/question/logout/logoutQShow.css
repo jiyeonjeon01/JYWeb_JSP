@@ -1,7 +1,7 @@
 @charset "UTF-8";
 
 /* 전체 Article 스타일 */
-.loginQShowArti{
+.logoutQShowArti{
     max-width: 700px;
     margin: 50px auto;
     background-color: #fff;
@@ -12,7 +12,7 @@
 }
 
 /* 제목 스타일 */
-.loginQShowTableTitle {
+.logoutQShowTableTitle {
     text-align: center;
     color: #1b1b1c;
     background-color: #d2e5ee;
@@ -23,42 +23,42 @@
 }
 
 /* 테이블 스타일 */
-.loginQShowTableTop {
+.logoutQShowTableTop {
     width: 100%;
     border-collapse: collapse;
     border-bottom: hidden;
 }
-.loginQShowTableBottom {
+.logoutQShowTableBottom {
     width: 100%;
     border-collapse: collapse;
 }
 
-.loginQShowTableTop th, .loginQShowTableTop td,
-.loginQShowTableBottom  th, .loginQShowTableBottom  td  {
+.logoutQShowTableTop th, .logoutQShowTableTop td,
+.logoutQShowTableBottom  th, .logoutQShowTableBottom  td  {
     padding: 10px;
     text-align: left;
     border: 1px solid #cdcdcd;
 }
 
-.loginQShowTableTop th,.loginQShowTableBottom  th {
+.logoutQShowTableTop th,.logoutQShowTableBottom  th {
 	background-color: #d2e5ee;
 }
 
-.loginQShowNum, .loginQShowWriter,
-.loginQShowViews, .loginQShowDate {
+.logoutQShowNum, .logoutQShowWriter,
+.logoutQShowViews, .logoutQShowDate {
 	text-align: center;
 	width: 15%;
 }
-.loginQShowNum2, .loginQShowWriter2,
-.loginQShowViews2, .loginQShowDate2 {
+.logoutQShowNum2, .logoutQShowWriter2,
+.logoutQShowViews2, .logoutQShowDate2 {
 	width: 35%;
 }
 
-.loginQShowTitle, .loginQShowContent, .loginQShowFile {
+.logoutQShowTitle, .logoutQShowContent, .logoutQShowFile {
 	text-align: center;
 	width: 15%;
 }
-.loginQShowTitle2, .loginQShowContent2, .loginQShowFile2 {
+.logoutQShowTitle2, .logoutQShowContent2,.logoutQShowFile2 {
 	width: 85%;
 }
 .attached-image {
@@ -70,12 +70,12 @@
 
 
 /* 버튼 그룹 스타일 */
-.loginQShowBtnTd {
+.logoutQShowBtnTd {
     text-align: center; /* 텍스트 중앙 정렬 */
     margin-top: 20px;
 }
 
-.loginQShowBtnWrapper {
+.logoutQShowBtnWrapper {
     display: flex; /* 버튼들을 플렉스 컨테이너로 배치 */
     justify-content: center; /* 수평 중앙 정렬 */
     gap: 10px; /* 버튼 간 간격 */
@@ -84,7 +84,7 @@
     text-align: center; /* 텍스트 정렬 */
 }
   
-.loginQShowBtn {
+.logoutQShowBtn {
     padding: 10px 20px;
     background-color: #d2e5ee;
     color: black;
@@ -95,7 +95,7 @@
     transition: background-color 0.3s;
 }
 
-.loginQShowBtn:hover {
+.logoutQShowBtn:hover {
     background-color: #8fb1d5;
     color: white;
 }

@@ -297,6 +297,43 @@ public class LogoutBoardDAO {
         return 0; // 오류 발생 시 0 반환
     }
 
-    
+    public List<LogoutBoardVO> getCombinedPosts(int start, int pageSize) {
+        List<LogoutBoardVO> combinedPosts = new ArrayList<>();
+        String sql = "SELECT * " +
+                     "FROM LOGOUTBOARD " +
+                     "WHERE type = 'QUESTION' " +
+                     "ORDER BY ref ASC, step ASC, depth ASC " +
+                     "OFFSET ? ROWS FETCH NEXT ? ROWS ONLY";
+        try (Connection con = ConnectionPool.getInstance().dbCon();
+             PreparedStatement pstmt = con.prepareStatement(sql)) {
+            pstmt.setInt(1, start);
+            pstmt.setInt(2, pageSize);
+            try (ResultSet rs = pstmt.executeQuery()) {
+                while (rs.next()) {
+                    LogoutBoardVO post = new LogoutBoardVO();
+                    post.setNum(rs.getInt("num"));
+                    post.setType(rs.getString("type"));
+                    post.setWriter(rs.getString("writer"));
+                    post.setEmail(rs.getString("email"));
+                    post.setPass(rs.getString("pass"));
+                    post.setTitle(rs.getString("title"));
+                    post.setReadCount(rs.getInt("readcount"));
+                    post.setRegDate(rs.getTimestamp("regdate"));
+                    post.setContent(rs.getString("content"));
+                    post.setRef(rs.getInt("ref"));
+                    post.setStep(rs.getInt("step"));
+                    post.setDepth(rs.getInt("depth"));
+                    post.setIp(rs.getString("ip"));
+                    post.setOriginFile(rs.getString("originfile"));
+                    post.setSysFile(rs.getString("sysfile"));
+                    combinedPosts.add(post);
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return combinedPosts;
+    }
+
     
 }

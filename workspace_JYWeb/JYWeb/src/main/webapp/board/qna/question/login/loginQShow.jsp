@@ -5,6 +5,7 @@
 <%@ page contentType="text/html; charset=UTF-8"%>
 <%
     String userId = (String) session.getAttribute("userId");
+String role = (String) session.getAttribute("role");
 %>
 <%
 request.setCharacterEncoding("UTF-8");
@@ -13,13 +14,23 @@ request.setCharacterEncoding("UTF-8");
 int num = Integer.parseInt(request.getParameter("num"));
 String pageNum = request.getParameter("pageNum");
 
+
 // VO와 DAO 초기화
 LoginBoardDAO dao = LoginBoardDAO.getInstance();
 LoginBoardVO vo = new LoginBoardVO();
 vo.setNum(num);
 
-// 게시글 데이터 가져오기
+//게시글 데이터 가져오기
 LoginBoardVO post = dao.selectBoardDB(vo);
+String questionTitle = post != null ? post.getTitle() : null;
+
+//제목을 세션에 저장
+if (questionTitle != null) {
+ session.setAttribute("title", questionTitle);
+} else {
+ session.setAttribute("title", "제목 없음");
+}
+
 
 SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
@@ -109,17 +120,32 @@ int depth = post != null ? post.getDepth() : 0;
                             <% } %>
                         </td>
                     </tr>
-                    <tr>
-                        <td colspan="2" class="loginQShowBtnTd">
-                         <div class="loginQShowBtnWrapper">
-                            <button class="loginQShowBtn" onclick="document.location.href='<%=request.getContextPath()%>/board/qna/question/login/update/updateForm.jsp?num=<%= num %>&pageNum=<%= pageNum %>'">수정하기</button>
-                            <button class="loginQShowBtn" onclick="document.location.href='<%=request.getContextPath()%>/board/qna/question/login/delete/deleteProc.jsp?num=<%= num %>&pageNum=<%= pageNum %>'">삭제하기</button>
-                            <button class="loginQShowBtn" onclick="document.location.href='<%=request.getContextPath()%>/board/qna/answer/write/answerForm.jsp?num=<%= num %>&ref=<%= ref %>&step=<%= step %>&depth=<%= depth %>'">답변하기</button>
-                            <button class="loginQShowBtn" onclick="document.location.href='<%=request.getContextPath()%>/board/qna/qnaList.jsp?pageNum=<%= pageNum %>'">목록으로</button>
-                        	</div>
-                        </td>
-                        
-                    </tr>
+					<tr>
+					    <td colspan="2" class="loginQShowBtnTd">
+					        <div class="loginQShowBtnWrapper">
+					            <button class="loginQShowBtn" onclick="document.location.href='<%=request.getContextPath()%>/board/qna/question/login/update/updateForm.jsp?num=<%= num %>&pageNum=<%= pageNum %>'">수정하기</button>
+					
+					            <% 
+					                // 삭제 버튼 조건: ADMIN이거나 studentId가 일치하는 경우
+					                boolean isOwner = post != null && post.getStudentId() != null && post.getStudentId().equals(userId);
+					                boolean isAdmin = "ADMIN".equals(role);
+					
+					                if (isOwner || isAdmin) { 
+					            %>
+					                <button class="loginQShowBtn" onclick="document.location.href='<%=request.getContextPath()%>/board/qna/question/login/delete/deleteProc.jsp?num=<%= num %>&pageNum=<%= pageNum %>'">삭제하기</button>
+					            <% } %>
+					
+					            <% if ("ADMIN".equals(role)) { %>
+					                <button class="loginQShowBtn" onclick="document.location.href='<%=request.getContextPath()%>/board/qna/answer/write/answerForm.jsp?num=<%= num %>&ref=<%= ref %>&step=<%= step %>&depth=<%= depth %>'">답변하기</button>
+					            <% } %>
+					
+					            <button class="loginQShowBtn" onclick="document.location.href='<%=request.getContextPath()%>/board/qna/qnaList.jsp?pageNum=<%= pageNum %>'">목록으로</button>
+					        </div>
+					    </td>
+					</tr>
+
+
+
                 </table>
                 
                 </div>

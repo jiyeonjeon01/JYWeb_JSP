@@ -96,7 +96,7 @@ String userId = (String) session.getAttribute("userId"); */
 <article class="write-board-article">
 
     <h2 class="write-board-title">QNA 질문하기</h2>
-    <form name="writeForm" method="post" action="normalProc.jsp" enctype="multipart/form-data" onsubmit="return validateForm()" class="write-board-form">
+    <form name="writeForm" method="post" action="loginQProc.jsp" enctype="multipart/form-data" onsubmit="return validateForm()" class="write-board-form">
         <input type="hidden" name="type" value="QUESTION">
         <input type="hidden" name="studentId" value="<%= userId %>">
         <input type="hidden" name="num" value="<%= num %>">
