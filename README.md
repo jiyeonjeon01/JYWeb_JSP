@@ -2,6 +2,8 @@
 <p>
 JSP로 만든 JYWeb. <br>
 회원(어드민, 로그인, 비로그인 사용자), 글쓰기, 답변하기, 상품보기, 장바구니 담기 등의 기능이 담긴 커뮤니티 사이트이다
+  ![image](https://github.com/user-attachments/assets/93b521e0-86ce-4ecd-9573-5a8a693b7626)
+
 </p> 
 <br>
 
