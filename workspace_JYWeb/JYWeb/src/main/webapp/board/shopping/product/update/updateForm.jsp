@@ -1,31 +1,38 @@
-<%@page import="co.kr.dev.board.login.LoginBoardVO"%>
-<%@page import="co.kr.dev.board.login.LoginBoardDAO"%>
-<%@page import="java.text.SimpleDateFormat"%>
-<%@page contentType="text/html; charset=UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<%@ page import="co.kr.dev.board.login.shopping.ProductDAO" %>
+<%@ page import="co.kr.dev.board.login.shopping.ProductVO" %>
 <%
-    request.setCharacterEncoding("UTF-8");
+    // 로그인 상태와 role 확인
+    String userId = (String) session.getAttribute("userId");
+    String role = (String) session.getAttribute("role");
 
-    // 세션에서 로그인한 사용자 정보 가져오기
-    String loggedInUser = (String) session.getAttribute("userId");
-    String userRole = (String) session.getAttribute("role"); // 사용자 역할 (e.g., 'ADMIN')
+    // 디버깅: 로그인 정보 출력
+    System.out.println("updateForm.jsp 접근: userId=" + userId + ", role=" + role);
 
-    // 게시글 번호 가져오기
-    int num = Integer.parseInt(request.getParameter("num"));
-    String pageNum = request.getParameter("pageNum");
-
-    // DAO 초기화 및 게시글 데이터 가져오기
-    LoginBoardDAO dao = LoginBoardDAO.getInstance();
-    LoginBoardVO post = dao.selectOne(num);
-
-    // 게시글 존재 여부 확인
-    if (post == null) {
-        out.println("<script>alert('해당 게시글이 존재하지 않습니다.'); history.back();</script>");
+    // 로그인되지 않거나 admin이 아닌 경우 로그인 페이지로 리다이렉트
+    if (userId == null || userId.isEmpty() || !"ADMIN".equalsIgnoreCase(role)) {
+        session.setAttribute("redirectUrl", request.getRequestURI());
+        response.sendRedirect(request.getContextPath() + "/student/user/login/loginForm.jsp");
         return;
     }
 
-    // 권한 확인: role이 'ADMIN'이거나 작성자인 경우에만 접근 허용
-    if (loggedInUser == null || (!loggedInUser.equals(post.getStudentId()) && !"ADMIN".equals(userRole))) {
-        out.println("<script>alert('권한이 없습니다.'); history.back();</script>");
+    // 상품 번호 가져오기
+    String productNumParam = request.getParameter("productNum");
+    if (productNumParam == null || productNumParam.isEmpty()) {
+        response.sendRedirect(request.getContextPath() + "/board/shopping/product/productList.jsp");
+        return;
+    }
+
+    int productNum = Integer.parseInt(productNumParam);
+
+    // DAO를 통해 상품 정보 가져오기
+    ProductDAO productDAO = ProductDAO.getInstance();
+    ProductVO product = productDAO.selectOne(productNum);
+
+    // 상품 정보가 없으면 목록으로 이동
+    if (product == null) {
+        response.sendRedirect(request.getContextPath() + "/board/shopping/product/productList.jsp");
         return;
     }
 %>
@@ -33,41 +40,82 @@
 <html lang="ko">
 <head>
     <meta charset="UTF-8">
-    <title>게시글 수정</title>
+    <title>상품 수정</title>
+    <link rel="stylesheet" href="<%=request.getContextPath()%>/common/common.css">
+    <link rel="stylesheet" href="<%=request.getContextPath()%>/board/shopping/product/write/productForm.css">
+    <script>
+        function validateForm() {
+            const name = document.productForm.name.value.trim();
+            const price = document.productForm.price.value.trim();
+
+            if (name === "") {
+                alert("상품 이름을 입력하세요.");
+                document.productForm.name.focus();
+                return false;
+            }
+
+            if (price === "" || isNaN(price)) {
+                alert("상품 가격을 올바르게 입력하세요.");
+                document.productForm.price.focus();
+                return false;
+            }
+
+            return true;
+        }
+    </script>
 </head>
 <body>
-    <h2 style="text-align: center;">게시글 수정</h2>
-    <form action="<%=request.getContextPath()%>/board/normal/update/updateProc.jsp" method="post" enctype="multipart/form-data">
-        <input type="hidden" name="num" value="<%= post.getNum() %>">
-        <input type="hidden" name="pageNum" value="<%= pageNum %>">
-
-        <table border="1" align="center" cellpadding="10">
-            <tr>
-                <th>제목</th>
-                <td><input type="text" name="title" size="50" maxlength="100" value="<%= post.getTitle() %>"></td>
-            </tr>
-            <tr>
-                <th>내용</th>
-                <td><textarea name="content" rows="15" cols="60"><%= post.getContent() %></textarea></td>
-            </tr>
-            <tr>
-                <th>첨부파일</th>
-                <td>
-                    <% if (post.getOriginFile() != null && !post.getOriginFile().isEmpty()) { %>
-                        <p>현재 파일: <%= post.getOriginFile() %></p>
-                    <% } else { %>
-                        <p>첨부파일 없음</p>
-                    <% } %>
-                    <input type="file" name="originFile">
-                </td>
-            </tr>
-            <tr>
-                <td colspan="2" align="center">
-                    <button type="submit">수정</button>
-                    <button type="button" onclick="location.href='<%=request.getContextPath()%>/board/normal/normalShow.jsp?num=<%= post.getNum() %>&pageNum=<%= pageNum %>'">취소</button>
-                </td>
-            </tr>
-        </table>
-    </form>
+    <!-- 헤더 -->
+    <header>
+        <jsp:include page="/include/header/admin/adminHeader.jsp" />
+    </header>
+    
+    <!-- 메인 -->
+    <main>
+        <section>
+            <article class="productFormArticle">
+                <h2 class="productTitle">상품 수정</h2>
+                <form name="productForm" method="post" action="updateProc.jsp" enctype="multipart/form-data" onsubmit="return validateForm()">
+                    <!-- 작성자 ID 및 상품 번호 hidden 필드로 설정 -->
+                    <input type="hidden" name="studentId" value="<%= product.getStudentId() %>">
+                    <input type="hidden" name="productNum" value="<%= product.getNum() %>">
+                    <table class="productTable">
+                        <tr>
+                            <th>상품 이름</th>
+                            <td>
+                                <input type="text" name="name" class="inputField" maxlength="40" value="<%= product.getName() %>">
+                            </td>
+                        </tr>
+                        <tr>
+                            <th>상품 가격</th>
+                            <td>
+                                <input type="text" name="price" class="inputField" maxlength="15" value="<%= product.getPrice() %>">
+                            </td>
+                        </tr>
+                        <tr>
+                            <th>상품 설명</th>
+                            <td>
+                                <textarea name="detail" class="textArea" rows="5" maxlength="300"><%= product.getDetail() %></textarea>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th>새로운 첨부파일</th>
+                            <td>
+                                <input type="file" name="originFile" class="inputField" accept="image/*">
+                            </td>
+                        </tr>
+                    </table>
+                    <div class="productButtonGroup">
+                        <button type="submit" class="productButton submit">수정</button>
+                        <button type="button" class="productButton list" onclick="window.location='<%= request.getContextPath() %>/board/shopping/product/productList.jsp'">목록</button>
+                    </div>
+                </form>
+            </article>
+        </section>
+    </main>
+    
+    <footer>
+        <jsp:include page="/include/footer/footer.jsp" />
+    </footer>
 </body>
 </html>

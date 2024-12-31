@@ -1,3 +1,5 @@
+<%@page import="co.kr.dev.board.login.shopping.ProductVO"%>
+<%@page import="co.kr.dev.board.login.shopping.ProductDAO"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ page import="java.util.*" %>
@@ -16,9 +18,11 @@
 
     // DAO 인스턴스 생성
     LoginBoardDAO loginBoardDAO = LoginBoardDAO.getInstance();
+    ProductDAO productDAO = ProductDAO.getInstance();
 
     // 사용자 작성 글 목록 가져오기
     List<LoginBoardVO> loginBoardPosts = loginBoardDAO.getPostsByUserId(userId);
+    List<ProductVO> productPosts = productDAO.getPostsByUserId(userId);
 %>
 <!DOCTYPE html>
 <html lang="ko">
@@ -67,6 +71,13 @@
                             <li>
                                 <a href="<%=request.getContextPath()%>/board/normal/normalShow.jsp?num=<%= post.getNum() %>">
                                     <strong>[<%= post.getTitle() %>]</strong> 작성일: <%= post.getRegDate() %>
+                                </a>
+                            </li>
+                        <% } %>
+                        <% for (ProductVO post2 : productPosts) { %>
+                            <li>
+                                <a href="<%=request.getContextPath()%>/board/shopping/product/productList.jsp">
+                                    <strong>[<%= post2.getName() %>]</strong>
                                 </a>
                             </li>
                         <% } %>

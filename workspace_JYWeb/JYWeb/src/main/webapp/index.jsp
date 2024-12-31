@@ -99,20 +99,36 @@
   
              
                 <tr class="recentPostRow">
-                    <td class="postType">[<%= displayType %>]</td>
-                    <td class="postTitle">
-    <a href="<%=request.getContextPath()%>/board/<%=post.getType().toLowerCase()%>/<%=post.getType().toLowerCase()%>Show.jsp?num=<%= post.getNum() %>">
-        <%= post.getTitle() %>
-    </a>
-</td>
+				    <td class="postType">[<%= displayType %>]</td>
+				    <td class="postTitle">
+				        <a href="
+				            <%
+				                String link = "";
+				                if ("QUESTION".equals(post.getType())) {
+				                    if (post.getStudentId() != null && !post.getStudentId().isEmpty()) {
+				                        link = request.getContextPath() + "/board/qna/question/login/loginQShow.jsp?num=" + post.getNum();
+				                    } else {
+				                        link = request.getContextPath() + "/board/qna/question/logout/logoutQShow.jsp?num=" + post.getNum();
+				                    }
+				                } else if ("ANSWER".equals(post.getType())) {
+				                    link = request.getContextPath() + "/board/qna/answer/answerShow.jsp?num=" + post.getNum();
+				                } else {
+				                    link = request.getContextPath() + "/board/" + post.getType().toLowerCase() + "/" + post.getType().toLowerCase() + "Show.jsp?num=" + post.getNum();
+				                }
+				                out.print(link);
+				            %>
+				        ">
+				            <%= post.getTitle() %>
+				        </a>
+				    </td>
+				    <td class="postWriter"><%= post.getStudentId() %></td>
+				    <%
+				        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm");
+				    %>
+				    <td class="postDate"><%= dateFormat.format(post.getRegDate()) %></td>
+				    <td class="postViews"><%= post.getReadCount() %></td>
+				</tr>
 
-                    <td class="postWriter"><%= post.getStudentId() %></td>
-                    <%
-    SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm");
-%>
-                    <td class="postDate"><%= dateFormat.format(post.getRegDate()) %></td>
-                    <td class="postViews"><%= post.getReadCount() %></td>
-                </tr>
                 <% }
                     } else { 
                 %>

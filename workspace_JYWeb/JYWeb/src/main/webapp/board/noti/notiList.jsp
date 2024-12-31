@@ -86,7 +86,7 @@ String userId = (String) session.getAttribute("userId");
             <article class="notiListArti">
                 <div class="notiListDiv">
                     <div class="notiBoardTitle">
-                        <span class="notiBoardTitleSpan">자유게시판 목록</span>
+                        <span class="notiBoardTitleSpan">공지사항 게시판 목록</span>
                     </div>
 
                     <table class="notiBoardTable">
@@ -134,9 +134,12 @@ String userId = (String) session.getAttribute("userId");
                             <% } %>
                         </tbody>
                     </table>
-                    <div class="notiBorderWriteLinkDiv">
-                        <a href="<%=request.getContextPath()%>/board/noti/write/notiForm.jsp" class="notiBoardWriteLink">글쓰기</a>
-                    </div>
+                   <div class="notiBorderWriteLinkDiv">
+					    <% if ("admin".equalsIgnoreCase((String) session.getAttribute("role"))) { %>
+					        <a href="<%=request.getContextPath()%>/board/noti/write/notiForm.jsp" class="notiBoardWriteLink">글쓰기</a>
+					    <% } %>
+					</div>
+
 
                     <div class="notiBoardPage">
                         <% if (count > 0) { %>

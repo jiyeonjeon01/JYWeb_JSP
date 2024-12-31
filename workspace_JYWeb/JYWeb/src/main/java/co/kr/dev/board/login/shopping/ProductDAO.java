@@ -7,28 +7,21 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import co.kr.dev.board.login.LoginBoardVO;
 import co.kr.dev.common.ConnectionPool;
 
-//private int num;
-//private String name;
-//private int price;
-//private String detail;
-//private String originFile;
-//private String sysFile;
-
 public class ProductDAO {
-    // 싱글톤1
+    // 싱글톤 패턴
     private static ProductDAO instance;
 
-    // 싱글톤2
-    private ProductDAO() {
-    }
+    private ProductDAO() {}
 
-    // 싱글톤3
     public static ProductDAO getInstance() {
         if (instance == null) {
             synchronized (ProductDAO.class) {
-                instance = new ProductDAO();
+                if (instance == null) {
+                    instance = new ProductDAO();
+                }
             }
         }
         return instance;
@@ -37,8 +30,9 @@ public class ProductDAO {
     // SQL 정의
     private final String SELECT_ALL_SQL = "SELECT * FROM PRODUCT ORDER BY NUM DESC";
     private final String SELECT_ONE_SQL = "SELECT * FROM PRODUCT WHERE NUM = ?";
-    private final String INSERT_SQL = "INSERT INTO PRODUCT (NUM, NAME, PRICE, DETAIL, ORIGINFILE, SYSFILE) "
-                                     + "VALUES (PRODUCT_SEQ.NEXTVAL, ?, ?, ?, ?, ?)";
+    private final String SELECT_BY_STUDENT_SQL = "SELECT * FROM PRODUCT WHERE STUDENT_ID = ? ORDER BY NUM DESC";
+    private final String INSERT_SQL = "INSERT INTO PRODUCT (NUM, STUDENT_ID, NAME, PRICE, DETAIL, ORIGINFILE, SYSFILE) "
+                                     + "VALUES (PRODUCT_SEQ.NEXTVAL, ?, ?, ?, ?, ?, ?)";
     private final String UPDATE_SQL = "UPDATE PRODUCT SET NAME = ?, PRICE = ?, DETAIL = ?, ORIGINFILE = ?, SYSFILE = ? WHERE NUM = ?";
     private final String DELETE_SQL = "DELETE FROM PRODUCT WHERE NUM = ?";
     private final String SELECT_MAX_NUM_SQL = "SELECT MAX(NUM) AS NUM FROM PRODUCT";
@@ -77,17 +71,36 @@ public class ProductDAO {
         return product;
     }
 
+    // 특정 작성자의 모든 제품 조회
+    public List<ProductVO> selectByStudentId(String studentId) {
+        List<ProductVO> productList = new ArrayList<>();
+        try (Connection con = ConnectionPool.getInstance().dbCon();
+             PreparedStatement pstmt = con.prepareStatement(SELECT_BY_STUDENT_SQL)) {
+
+            pstmt.setString(1, studentId);
+            try (ResultSet rs = pstmt.executeQuery()) {
+                while (rs.next()) {
+                    productList.add(extractVO(rs));
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return productList;
+    }
+
     // 제품 추가
     public boolean insert(ProductVO vo) {
         int result = 0;
         try (Connection con = ConnectionPool.getInstance().dbCon();
              PreparedStatement pstmt = con.prepareStatement(INSERT_SQL)) {
 
-            pstmt.setString(1, vo.getName());
-            pstmt.setInt(2, vo.getPrice());
-            pstmt.setString(3, vo.getDetail());
-            pstmt.setString(4, vo.getOriginFile());
-            pstmt.setString(5, vo.getSysFile());
+            pstmt.setString(1, vo.getStudentId());
+            pstmt.setString(2, vo.getName());
+            pstmt.setInt(3, vo.getPrice());
+            pstmt.setString(4, vo.getDetail());
+            pstmt.setString(5, vo.getOriginFile());
+            pstmt.setString(6, vo.getSysFile());
 
             result = pstmt.executeUpdate();
         } catch (SQLException e) {
@@ -150,6 +163,7 @@ public class ProductDAO {
     private ProductVO extractVO(ResultSet rs) throws SQLException {
         return new ProductVO(
                 rs.getInt("NUM"),
+                rs.getString("STUDENT_ID"),
                 rs.getString("NAME"),
                 rs.getInt("PRICE"),
                 rs.getString("DETAIL"),
@@ -158,6 +172,25 @@ public class ProductDAO {
         );
     }
     
-    
+ // 특정 사용자가 작성한 게시글 조회
+    public List<ProductVO> getPostsByUserId(String userId) {
+        List<ProductVO> posts = new ArrayList<>();
+        // STUDENT_ID를 기준으로 게시글 조회
+        String sql = "SELECT * FROM PRODUCT WHERE STUDENT_ID = ? ORDER BY PRICE";
+
+        try (Connection con = ConnectionPool.getInstance().dbCon();
+             PreparedStatement pstmt = con.prepareStatement(sql)) {
+            pstmt.setString(1, userId);
+
+            try (ResultSet rs = pstmt.executeQuery()) {
+                while (rs.next()) {
+                    posts.add(extractVO(rs));
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return posts;
+    }
     
 }

@@ -79,6 +79,20 @@ public class CartDAO {
         }
         return result > 0;
     }
+    
+ // 장바구니에서 특정 상품 삭제 (사용자 ID와 상품 번호를 기준으로)
+    public boolean deleteCartItem(String userId, int productNum) {
+        String sql = "DELETE FROM CART WHERE STUDENT_ID = ? AND PRODUCT_NUM = ?";
+        try (Connection con = ConnectionPool.getInstance().dbCon();
+             PreparedStatement pstmt = con.prepareStatement(sql)) {
+            pstmt.setString(1, userId);
+            pstmt.setInt(2, productNum);
+            return pstmt.executeUpdate() > 0;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
 
     // 장바구니 수량 업데이트
     public boolean update(int num, int quantity) {
@@ -94,9 +108,8 @@ public class CartDAO {
         }
         return result > 0;
     }
-    
-    
- // 수량 감소
+
+    // 수량 감소
     public boolean decreaseQuantity(String userId, int productNum) {
         String sql = "UPDATE CART SET QUANTITY = QUANTITY - 1 WHERE STUDENT_ID = ? AND PRODUCT_NUM = ?";
         try (Connection con = ConnectionPool.getInstance().dbCon();
@@ -138,4 +151,16 @@ public class CartDAO {
         return false;
     }
 
+    // 장바구니 비우기 (추가 함수)
+    public boolean clearCart(String userId) {
+        String sql = "DELETE FROM CART WHERE STUDENT_ID = ?";
+        try (Connection con = ConnectionPool.getInstance().dbCon();
+             PreparedStatement pstmt = con.prepareStatement(sql)) {
+            pstmt.setString(1, userId);
+            return pstmt.executeUpdate() > 0;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
 }

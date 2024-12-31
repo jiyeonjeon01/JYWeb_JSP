@@ -24,7 +24,7 @@ public final class ConnectionPool {
 	private ArrayList<Connection> free;
 	private ArrayList<Connection> used; // 사용중인 커넥션을 저장하는 변수
 	private int initialCons = 10; // 최초로 초기 커넥션수
-	private int maxCons = 50; // 최대 커넥션수
+	private int maxCons = 500; // 최대 커넥션수
 	private int numCons = 0; // 총 Connection 수
 	private String id = null;
 	private String pw = null;

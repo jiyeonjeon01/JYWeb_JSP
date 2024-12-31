@@ -71,6 +71,7 @@
                 <form action="<%=request.getContextPath()%>/board/qna/answer/update/updateProc.jsp" method="post" enctype="multipart/form-data" class="update-board-form">
                     <input type="hidden" name="num" value="<%= post.getNum() %>">
                     <input type="hidden" name="pageNum" value="<%= pageNum %>">
+                     <input type="hidden" name="type" value="<%= post.getType() %>"> <!-- type 값 추가 -->
 
                     <table class="update-board-table">
                         <tr>

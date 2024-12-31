@@ -13,7 +13,7 @@
         System.out.println("Session role is null. Please check loginProc.jsp or session management.");
         out.println("<script>");
         out.println("alert('권한 확인 중 문제가 발생했습니다. 다시 로그인해주세요.');");
-        out.println("location.href='" + request.getContextPath() + "/student/login/loginForm.jsp';");
+        out.println("location.href='" + request.getContextPath() + "/student/user/login/loginForm.jsp';");
         out.println("</script>");
         return;
     }
@@ -25,7 +25,7 @@
     if (userId == null) {
         out.println("<script>");
         out.println("alert('로그인이 필요합니다.');");
-        out.println("location.href='" + request.getContextPath() + "/student/login/loginForm.jsp';");
+        out.println("location.href='" + request.getContextPath() + "/student/user/login/loginForm.jsp';");
         out.println("</script>");
         return;
     }

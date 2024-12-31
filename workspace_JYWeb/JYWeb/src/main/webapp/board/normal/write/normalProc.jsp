@@ -104,7 +104,7 @@
     boolean flag = dao.insert(vo);
 
     if (flag) {
-    	response.sendRedirect(request.getContextPath() + "/board/noti/notiList.jsp");
+    	response.sendRedirect(request.getContextPath() + "/board/normal/normalList.jsp");
     } else {
         out.println("<script>alert('게시글 등록 실패'); history.back();</script>");
     }

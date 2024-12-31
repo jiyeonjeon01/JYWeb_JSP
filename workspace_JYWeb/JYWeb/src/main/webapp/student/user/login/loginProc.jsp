@@ -22,6 +22,12 @@
             // 로그인 성공 - 사용자 정보 가져오기
             svo = sdao.selectOneDB(id);
 
+            // 프로필 이미지가 없으면 기본 이미지로 설정
+            String profileImage = svo.getSysFile();
+            if (profileImage == null || profileImage.isEmpty()) {
+                profileImage = "default-image.jpg"; // 기본 이미지
+            }
+
             // 세션에 사용자 정보 저장
             session.setAttribute("userId", svo.getId());
             session.setAttribute("userName", svo.getName());
@@ -32,23 +38,13 @@
             session.setAttribute("userZipcode", svo.getZipcode());
             session.setAttribute("userAddress1", svo.getAddress1());
             session.setAttribute("userAddress2", svo.getAddress2());
-            session.setAttribute("profileImage", svo.getSysFile());
-            session.setAttribute("role", svo.getRole()); // 역할 정보 추가
-            
-            System.out.println("로그인 성공 후 세션 확인: userId=" + session.getAttribute("userId") + ", userRole=" + session.getAttribute("userRole"));
-
-            
+            session.setAttribute("profileImage", profileImage); // 수정된 부분
+            session.setAttribute("role", svo.getRole());
 
             // 디버깅 로그
             System.out.println("로그인 성공:");
             System.out.println("User ID: " + svo.getId());
-            System.out.println("User Name: " + svo.getName());
-            System.out.println("User Role: " + svo.getRole());
-            System.out.println("Profile Image: " + svo.getSysFile());
-            System.out.println("Phone: " + svo.getPhone1() + "-" + svo.getPhone2() + "-" + svo.getPhone3());
-            System.out.println("Email: " + svo.getEmail());
-            System.out.println("Address: " + svo.getAddress1() + " " + svo.getAddress2());
-            System.out.println("Session role set to: " + session.getAttribute("role"));
+            System.out.println("Profile Image: " + profileImage);
 
             // 메인 페이지로 이동
             response.sendRedirect(request.getContextPath() + "/index.jsp");

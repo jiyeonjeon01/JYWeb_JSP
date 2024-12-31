@@ -60,30 +60,10 @@
 <head>
     <meta charset="UTF-8">
     <title>장바구니</title>
-    
     <link rel="stylesheet" href="<%=request.getContextPath()%>/common/common.css">
-    <link rel="stylesheet" href="<%=request.getContextPath()%>/custom/recentPosts.css">
     <link rel="stylesheet" href="<%=request.getContextPath()%>/board/shopping/cart/cartList.css">
-    <script>
-        // 수량 감소 처리
-        function decreaseQuantity(productNum, quantity) {
-            if (quantity === 1) {
-                if (confirm("이 상품을 장바구니에서 제거하시겠습니까?")) {
-                    location.href = `<%=request.getContextPath()%>/board/shopping/cart/decreaseProc.jsp?productNum=${productNum}&remove=true`;
-                }
-            } else {
-                location.href = `<%=request.getContextPath()%>/board/shopping/cart/decreaseProc.jsp?productNum=${productNum}`;
-            }
-        }
-
-        // 수량 증가 처리
-        function increaseQuantity(productNum) {
-            location.href = `<%=request.getContextPath()%>/board/shopping/cart/increaseProc.jsp?productNum=${productNum}`;
-        }
-    </script>
 </head>
-
-    <body>
+<body>
     <!-- 헤더 -->
     <header>
         <% 
@@ -125,20 +105,22 @@
                         if (product != null) {
             %>
             <div class="cart-item">
-                <div class="product-image">
-                    <img src="<%=request.getContextPath()%>/uploads/<%= product.getSysFile() %>" alt="상품 이미지">
-                </div>
-                <div class="product-details">
-                    <p class="product-name"><%= product.getName() %></p>
-                    <p class="product-price">가격: <%= product.getPrice() %>원</p>
-                    <div class="quantity-controls">
-                        <button onclick="decreaseQuantity(<%= productNum %>, <%= quantity %>)">-</button>
-                        <span><%= quantity %></span>
-                        <button onclick="increaseQuantity(<%= productNum %>)">+</button>
-                    </div>
-                    <p class="product-total-price">합계: <%= product.getPrice() * quantity %>원</p>
-                </div>
-            </div>
+			    <div class="product-image">
+			        <img src="<%=request.getContextPath()%>/uploads/<%= product.getSysFile() %>" alt="상품 이미지">
+			    </div>
+			    <div class="product-details">
+			        <p class="product-name"><%= product.getName() %></p>
+			        <p class="product-quantity">개수: <%= quantity %>개</p>
+			        <p class="product-price">가격: <%= product.getPrice() %>원</p>
+			        <p class="product-total-price">합계: <%= product.getPrice() * quantity %>원</p>
+			        <!-- 삭제 버튼 -->
+			        <form method="post" action="<%= request.getContextPath() %>/board/shopping/cart/cartDelete.jsp" style="margin-top: 10px;">
+			            <input type="hidden" name="productNum" value="<%= productNum %>">
+			            <button type="submit" class="delete-cart-button">삭제하기</button>
+			        </form>
+			    </div>
+			</div>
+
             <%
                         }
                     }

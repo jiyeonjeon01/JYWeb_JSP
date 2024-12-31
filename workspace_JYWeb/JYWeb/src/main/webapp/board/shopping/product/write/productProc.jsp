@@ -11,6 +11,16 @@
     // 요청 인코딩 설정
     request.setCharacterEncoding("UTF-8");
 
+    // 로그인 상태 확인
+    String userId = (String) session.getAttribute("userId");
+    String role = (String) session.getAttribute("role");
+
+    // 로그인되지 않거나 admin이 아닌 경우 접근 제한
+    if (userId == null || userId.isEmpty() || !"ADMIN".equalsIgnoreCase(role)) {
+        response.sendRedirect(request.getContextPath() + "/student/user/login/loginForm.jsp");
+        return;
+    }
+
     // 업로드 설정
     String uploadPath = application.getRealPath("/uploads"); // 파일 저장 경로
     int maxFileSize = 10 * 1024 * 1024; // 10MB 파일 크기 제한
@@ -25,6 +35,8 @@
 
     // 상품 데이터 초기화
     ProductVO vo = new ProductVO();
+    vo.setStudentId(userId); // 작성자 ID 자동 설정
+
     boolean isMultipart = ServletFileUpload.isMultipartContent(request);
 
     if (isMultipart) {
@@ -59,7 +71,13 @@
                             vo.setName(fieldValue);
                             break;
                         case "price":
-                            vo.setPrice(Integer.parseInt(fieldValue));
+                            try {
+                                vo.setPrice(Integer.parseInt(fieldValue));
+                            } catch (NumberFormatException e) {
+                                e.printStackTrace();
+                                out.println("<script>alert('상품 가격은 숫자만 입력 가능합니다.'); history.back();</script>");
+                                return;
+                            }
                             break;
                         case "detail":
                             vo.setDetail(fieldValue);

@@ -1,94 +1,105 @@
-<%@ page import="co.kr.dev.board.login.LoginBoardDAO" %>
-<%@ page import="co.kr.dev.board.login.LoginBoardVO" %>
-<%@ page import="java.sql.Timestamp" %>
-<%@ page import="com.oreilly.servlet.MultipartRequest" %>
-<%@ page import="com.oreilly.servlet.multipart.DefaultFileRenamePolicy" %>
-<%@ page contentType="text/html; charset=UTF-8"%>
+<%@ page contentType="text/html; charset=UTF-8" %>
+<%@ page import="java.util.*" %>
+<%@ page import="java.io.*" %>
+<%@ page import="org.apache.commons.fileupload.disk.DiskFileItemFactory" %>
+<%@ page import="org.apache.commons.fileupload.servlet.ServletFileUpload" %>
+<%@ page import="org.apache.commons.fileupload.FileItem" %>
+<%@ page import="co.kr.dev.board.login.shopping.ProductDAO" %>
+<%@ page import="co.kr.dev.board.login.shopping.ProductVO" %>
+
 <%
-    request.setCharacterEncoding("UTF-8");
-
-    // 세션에서 사용자 정보 가져오기
+    // 로그인 상태와 role 확인
     String userId = (String) session.getAttribute("userId");
-    String userRole = (String) session.getAttribute("role");
+    String role = (String) session.getAttribute("role");
 
-    // 디버깅 메시지 출력
-    System.out.println("Session userId: " + userId);
-    System.out.println("Session role: " + userRole);
-
-    if (userId == null) {
-        out.println("<script>");
-        out.println("alert('로그인이 필요합니다.');");
-        out.println("location.href='" + request.getContextPath() + "/student/login/loginForm.jsp';");
-        out.println("</script>");
+    // 로그인되지 않거나 admin이 아닌 경우 접근 제한
+    if (userId == null || userId.isEmpty() || !"ADMIN".equalsIgnoreCase(role)) {
+        response.sendRedirect(request.getContextPath() + "/student/user/login/loginForm.jsp");
         return;
     }
 
-    // DAO와 VO 초기화
-    LoginBoardDAO dao = LoginBoardDAO.getInstance();
-    LoginBoardVO vo = new LoginBoardVO();
-
     // 업로드 설정
-    String uploadPath = application.getRealPath("/uploads");
-    int maxFileSize = 10 * 1024 * 1024; // 10MB
+    String uploadPath = application.getRealPath("/uploads"); // 파일 저장 경로
+    int maxFileSize = 10 * 1024 * 1024; // 10MB 파일 크기 제한
+    String originFile = ""; // 원본 파일명
+    String sysFile = ""; // 시스템 파일명
 
-    try {
-        // MultipartRequest 처리
-        MultipartRequest multi = new MultipartRequest(request, uploadPath, maxFileSize, "UTF-8", new DefaultFileRenamePolicy());
+    // 업로드 디렉토리 생성
+    File uploadDir = new File(uploadPath);
+    if (!uploadDir.exists()) {
+        uploadDir.mkdir(); // 디렉토리 생성
+    }
 
-        // 게시글 번호 가져오기
-        int num = Integer.parseInt(multi.getParameter("num"));
-        vo.setNum(num);
+    // 상품 데이터 초기화
+    ProductVO vo = new ProductVO();
+    boolean isMultipart = ServletFileUpload.isMultipartContent(request);
 
-        // 기존 게시글 정보 가져오기
-        LoginBoardVO existingPost = dao.selectOne(num);
+    if (isMultipart) {
+        DiskFileItemFactory factory = new DiskFileItemFactory();
+        factory.setRepository(new File(System.getProperty("java.io.tmpdir"))); // 임시 디렉토리 설정
+        ServletFileUpload upload = new ServletFileUpload(factory);
+        upload.setSizeMax(maxFileSize); // 최대 파일 크기 설정
 
-        if (existingPost == null) {
-            out.println("<script>");
-            out.println("alert('해당 게시글이 존재하지 않습니다.');");
-            out.println("history.back();");
-            out.println("</script>");
+        try {
+            List<FileItem> items = upload.parseRequest(request);
+            for (FileItem item : items) {
+                if (!item.isFormField()) {
+                    // 파일 처리
+                    String originalFileName = new File(item.getName()).getName();
+                    if (!originalFileName.isEmpty()) {
+                        // 고유한 파일 이름 생성
+                        String uniqueFileName = System.currentTimeMillis() + "_" + originalFileName;
+                        String filePath = uploadPath + File.separator + uniqueFileName;
+                        File storeFile = new File(filePath);
+                        item.write(storeFile);
+
+                        // 파일 이름 설정
+                        originFile = originalFileName; // 원본 파일 이름
+                        sysFile = uniqueFileName;      // 저장된 파일 이름
+                    }
+                } else {
+                    // 폼 데이터 처리
+                    String fieldName = item.getFieldName();
+                    String fieldValue = item.getString("UTF-8");
+                    switch (fieldName) {
+                        case "productNum":
+                            vo.setNum(Integer.parseInt(fieldValue));
+                            break;
+                        case "studentId":
+                            vo.setStudentId(fieldValue);
+                            break;
+                        case "name":
+                            vo.setName(fieldValue);
+                            break;
+                        case "price":
+                            vo.setPrice(Integer.parseInt(fieldValue));
+                            break;
+                        case "detail":
+                            vo.setDetail(fieldValue);
+                            break;
+                    }
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            out.println("<script>alert('파일 업로드 중 오류가 발생했습니다.'); history.back();</script>");
             return;
         }
+    }
 
-        // 권한 확인: role이 'ADMIN'이거나 작성자인 경우에만 허용
-        if (!"ADMIN".equals(userRole) && !userId.equals(existingPost.getStudentId())) {
-            out.println("<script>");
-            out.println("alert('권한이 없습니다.');");
-            out.println("history.back();");
-            out.println("</script>");
-            return;
-        }
+    // 기존 파일 유지 여부 확인
+    if (!originFile.isEmpty() && !sysFile.isEmpty()) {
+        vo.setOriginFile(originFile);
+        vo.setSysFile(sysFile);
+    }
 
-        // 게시글 수정 데이터 설정
-        vo.setTitle(multi.getParameter("title"));
-        vo.setContent(multi.getParameter("content"));
-        vo.setRegDate(new Timestamp(System.currentTimeMillis()));
+    // DAO를 사용하여 상품 업데이트
+    ProductDAO dao = ProductDAO.getInstance();
+    boolean flag = dao.update(vo);
 
-        // 파일 처리
-        String originFile = multi.getOriginalFileName("originFile");
-        String sysFile = multi.getFilesystemName("originFile");
-        vo.setOriginFile(originFile != null ? originFile : existingPost.getOriginFile());
-        vo.setSysFile(sysFile != null ? sysFile : existingPost.getSysFile());
-
-        // 게시글 수정
-        boolean flag = dao.update(vo);
-
-        if (flag) {
-            out.println("<script>");
-            out.println("alert('게시글이 성공적으로 수정되었습니다.');");
-            out.println("location.href='" + request.getContextPath() + "/board/normal/normalShow.jsp?num=" + vo.getNum() + "&pageNum=" + multi.getParameter("pageNum") + "';");
-            out.println("</script>");
-        } else {
-            out.println("<script>");
-            out.println("alert('게시글 수정에 실패했습니다.');");
-            out.println("history.back();");
-            out.println("</script>");
-        }
-    } catch (Exception e) {
-        e.printStackTrace();
-        out.println("<script>");
-        out.println("alert('게시글 수정 중 오류가 발생했습니다.');");
-        out.println("history.back();");
-        out.println("</script>");
+    if (flag) {
+        response.sendRedirect(request.getContextPath() + "/board/shopping/product/productList.jsp");
+    } else {
+        out.println("<script>alert('상품 수정 실패'); history.back();</script>");
     }
 %>

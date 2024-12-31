@@ -59,6 +59,9 @@
             return;
         }
 
+        // 기존 게시글의 type 값을 유지
+        vo.setType(existingPost.getType());
+
         // 게시글 수정 데이터 설정
         vo.setTitle(multi.getParameter("title"));
         vo.setContent(multi.getParameter("content"));

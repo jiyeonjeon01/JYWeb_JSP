@@ -80,6 +80,7 @@
 						<div class="dropdownMenuAdmin">
 							<a href="<%=request.getContextPath()%>/board/shopping/product/productList.jsp">상품보기</a>
 							<a href="<%=request.getContextPath()%>/board/shopping/cart/cartList.jsp">장바구니</a>
+							<a href="<%=request.getContextPath()%>/board/shopping/product/write/productForm.jsp">상품등록</a>
 						</div>
 					</div>
 				</td>

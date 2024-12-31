@@ -59,18 +59,15 @@
             return;
         }
 
-        // 게시글 수정 데이터 설정
+     // 수정 데이터 설정
         vo.setTitle(multi.getParameter("title"));
         vo.setContent(multi.getParameter("content"));
+        vo.setType(multi.getParameter("type") != null ? multi.getParameter("type") : existingPost.getType());
+        vo.setOriginFile(multi.getOriginalFileName("originFile") != null ? multi.getOriginalFileName("originFile") : existingPost.getOriginFile());
+        vo.setSysFile(multi.getFilesystemName("originFile") != null ? multi.getFilesystemName("originFile") : existingPost.getSysFile());
         vo.setRegDate(new Timestamp(System.currentTimeMillis()));
+        vo.setIp(request.getRemoteAddr());
 
-        // 파일 처리
-        String originFile = multi.getOriginalFileName("originFile");
-        String sysFile = multi.getFilesystemName("originFile");
-        vo.setOriginFile(originFile != null ? originFile : existingPost.getOriginFile());
-        vo.setSysFile(sysFile != null ? sysFile : existingPost.getSysFile());
-
-        // 게시글 수정
         boolean flag = dao.update(vo);
 
         if (flag) {

@@ -33,7 +33,7 @@ public class LoginBoardDAO {
 	private final String SELECT_SQL = "SELECT * FROM LOGINBOARD ORDER BY NUM DESC";
 	private final String SELECT_START_END_SQL = "SELECT * FROM "
 			+ "(SELECT ROWNUM AS RNUM, NUM, TYPE, STUDENT_ID, TITLE, READCOUNT, REGDATE, CONTENT, REF, STEP, DEPTH, IP, ORIGINFILE, SYSFILE"
-			+ "FROM (SELECT * FROM LOGINTBOARD ORDER BY REF DESC, STEP ASC)) WHERE NUM RNUM >= ? AND RNUM <= ?";
+			+ "FROM (SELECT * FROM LOGINBOARD ORDER BY REF DESC, STEP ASC)) WHERE NUM RNUM >= ? AND RNUM <= ?";
 	private final String SELECT_COUNT_SQL = "SELECT COUNT(*) AS COUNT FROM LOGINBOARD";
 	private final String SELECT_MAX_NUM_SQL = "SELECT MAX(NUM) AS NUM FROM LOGINBOARD";
 	private final String SELECT_ONE_SQL = "SELECT * FROM LOGINBOARD WHERE NUM = ?";
@@ -41,7 +41,8 @@ public class LoginBoardDAO {
 	private final String INSERT_SQL = "INSERT INTO LOGINBOARD(NUM, TYPE, STUDENT_ID, TITLE, READCOUNT, REGDATE, CONTENT, REF, STEP, DEPTH, IP, ORIGINFILE, SYSFILE )"
 			+ "VALUES (LOGINBOARD_SEQ.NEXTVAL, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 	private final String DELETE_SQL = "DELETE FROM LOGINBOARD WHERE NUM = ?";
-	private final String UPDATE_SQL = "UPDATE LOGINBOARD SET TITLE = ?, CONTENT = ?, ORIGINFILE = ?, SYSFILE = ? WHERE NUM = ?";
+	private final String UPDATE_SQL = "UPDATE LOGINBOARD SET TITLE = ?, CONTENT = ?, ORIGINFILE = ?, SYSFILE = ?, TYPE = ? WHERE NUM = ?";
+
 	private final String UPDATE_STEP_SQL = "UPDATE LOGINBOARD SET STEP=STEP+1 WHERE REF = ? AND STEP > ? ";
 	private final String UPDATE_READCOUNT_SQL = "UPDATE LOGINBOARD SET READCOUNT = READCOUNT + 1 WHERE NUM = ?";
 	// SQL 선언 부분 (LoginBoardDAO 클래스 내부)
@@ -204,7 +205,9 @@ public class LoginBoardDAO {
             pstmt.setString(2, vo.getContent());
             pstmt.setString(3, vo.getOriginFile());
             pstmt.setString(4, vo.getSysFile());
-            pstmt.setInt(5, vo.getNum());
+            pstmt.setString(5, vo.getType()); // TYPE
+            pstmt.setInt(6, vo.getNum());     // NUM
+
 
             count = pstmt.executeUpdate();
         } catch (SQLException e) {
@@ -293,7 +296,6 @@ public class LoginBoardDAO {
         return maxNum;
     }
 
-    // Extract VO from ResultSet
     private LoginBoardVO extractVO(ResultSet rs) throws SQLException {
         return new LoginBoardVO(
             rs.getInt("NUM"),
@@ -311,6 +313,7 @@ public class LoginBoardDAO {
             rs.getString("SYSFILE")
         );
     }
+
     
  // 모든 게시글(질문 + 답변) 가져오기
     public ArrayList<LoginBoardVO> getAllPosts(int start, int end) {
