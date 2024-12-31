@@ -74,8 +74,8 @@ JSP로 만든 JYWeb. <br>
 <br>
 
 ## 🖥️Test
-[구현 내용 동영상으로 확인하기기](링크)
-
+[구현 내용 동영상으로 확인하기](링크)
+<br>
 
 
 ## 💾 Project Implementation
