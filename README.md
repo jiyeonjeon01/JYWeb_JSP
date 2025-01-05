@@ -79,7 +79,7 @@ JSP로 만든 JYWeb. <br>
 ## 🖥️Test
 <p>
   
-[구현 내용 동영상으로 확인하기](링크)
+[구현 내용 동영상으로 확인하기](https://www.youtube.com/watch?v=ZCGweFpDIi4)
   
 </p>
 <br>
