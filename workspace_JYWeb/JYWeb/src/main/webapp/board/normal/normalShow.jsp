@@ -110,16 +110,34 @@ int depth = post != null ? post.getDepth() : 0;
                         </td>
                     </tr>
                     <tr>
-                        <td colspan="2" class="normalShowBtnTd">
-                         <div class="normalShowBtnWrapper">
-                            <button class="normalShowBtn" onclick="document.location.href='<%=request.getContextPath()%>/board/normal/update/updateForm.jsp?num=<%= num %>&pageNum=<%= pageNum %>'">수정하기</button>
-                            <button class="normalShowBtn" onclick="document.location.href='<%=request.getContextPath()%>/board/normal/delete/deleteProc.jsp?num=<%= num %>&pageNum=<%= pageNum %>'">삭제하기</button>
-                            <button class="normalShowBtn" onclick="document.location.href='<%=request.getContextPath()%>/board/normal/write/normalForm.jsp?num=<%= num %>&ref=<%= ref %>&step=<%= step %>&depth=<%= depth %>'">답글쓰기</button>
-                            <button class="normalShowBtn" onclick="document.location.href='<%=request.getContextPath()%>/board/normal/normalList.jsp?pageNum=<%= pageNum %>'">목록으로</button>
-                        	</div>
-                        </td>
-                        
-                    </tr>
+					    <td colspan="2" class="normalShowBtnTd">
+					        <div class="normalShowBtnWrapper">
+					            <% 
+					                // 글 작성자 확인
+					                boolean isWriter = post != null && post.getStudentId() != null && post.getStudentId().equals(userId);
+					                // 관리자 확인
+					                boolean isAdmin = "admin".equals(userId);
+					                
+					                // 수정/삭제 버튼 조건
+					                if (isWriter || isAdmin) { 
+					            %>
+					                <button class="normalShowBtn" onclick="document.location.href='<%=request.getContextPath()%>/board/normal/update/updateForm.jsp?num=<%= num %>&pageNum=<%= pageNum %>'">수정하기</button>
+					                <button class="normalShowBtn" onclick="document.location.href='<%=request.getContextPath()%>/board/normal/delete/deleteProc.jsp?num=<%= num %>&pageNum=<%= pageNum %>'">삭제하기</button>
+					            <% } %>
+					
+					            <% 
+					                // 로그인 확인
+					                if (userId != null && !userId.isEmpty()) { 
+					            %>
+					                <button class="normalShowBtn" onclick="document.location.href='<%=request.getContextPath()%>/board/normal/write/normalForm.jsp?num=<%= num %>&ref=<%= ref %>&step=<%= step %>&depth=<%= depth %>'">답글쓰기</button>
+					            <% } %>
+					            
+					            <button class="normalShowBtn" onclick="document.location.href='<%=request.getContextPath()%>/board/normal/normalList.jsp?pageNum=<%= pageNum %>'">목록으로</button>
+					        </div>
+					    </td>
+					</tr>
+
+
                 </table>
                 
                 </div>

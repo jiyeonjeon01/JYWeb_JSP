@@ -68,9 +68,10 @@
         <section>
             <article class="update-board-article">
                 <h2 class="update-board-title">게시글 수정</h2>
-                <form action="<%=request.getContextPath()%>/board/noti/update/updateProc.jsp" method="post" enctype="multipart/form-data" class="update-board-form">
-                    <input type="hidden" name="num" value="<%= post.getNum() %>">
-                    <input type="hidden" name="pageNum" value="<%= pageNum %>">
+                <form action="<%=request.getContextPath()%>/board/noti/update/updateProc.jsp" method="post" enctype="multipart/form-data">
+				    <input type="hidden" name="num" value="<%= post.getNum() %>">
+				    <input type="hidden" name="pageNum" value="<%= pageNum %>">
+				    <input type="hidden" name="type" value="<%= post.getType() %>">
 
                     <table class="update-board-table">
                         <tr>

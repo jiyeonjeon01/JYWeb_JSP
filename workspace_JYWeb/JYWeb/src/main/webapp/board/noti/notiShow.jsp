@@ -110,15 +110,17 @@ int depth = post != null ? post.getDepth() : 0;
                         </td>
                     </tr>
                     <tr>
-                        <td colspan="2" class="notiShowBtnTd">
-                         <div class="notiShowBtnWrapper">
-                            <button class="notiShowBtn" onclick="document.location.href='<%=request.getContextPath()%>/board/noti/update/updateForm.jsp?num=<%= num %>&pageNum=<%= pageNum %>'">수정하기</button>
-                            <button class="notiShowBtn" onclick="document.location.href='<%=request.getContextPath()%>/board/noti/delete/deleteProc.jsp?num=<%= num %>&pageNum=<%= pageNum %>'">삭제하기</button>
-                            <button class="notiShowBtn" onclick="document.location.href='<%=request.getContextPath()%>/board/noti/notiList.jsp?pageNum=<%= pageNum %>'">목록으로</button>
-                        	</div>
-                        </td>
-                        
-                    </tr>
+					    <td colspan="2" class="notiShowBtnTd">
+					        <div class="notiShowBtnWrapper">
+					            <% if ("admin".equals(userId)) { %>
+					                <button class="notiShowBtn" onclick="document.location.href='<%=request.getContextPath()%>/board/noti/update/updateForm.jsp?num=<%= num %>&pageNum=<%= pageNum %>'">수정하기</button>
+					                <button class="notiShowBtn" onclick="document.location.href='<%=request.getContextPath()%>/board/noti/delete/deleteProc.jsp?num=<%= num %>&pageNum=<%= pageNum %>'">삭제하기</button>
+					            <% } %>
+					            <button class="notiShowBtn" onclick="document.location.href='<%=request.getContextPath()%>/board/noti/notiList.jsp?pageNum=<%= pageNum %>'">목록으로</button>
+					        </div>
+					    </td>
+					</tr>
+
                 </table>
                 
                 

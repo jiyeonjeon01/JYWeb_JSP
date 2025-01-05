@@ -192,7 +192,6 @@ public class LoginBoardDAO {
     }
 
 
-    // Update a post
     public boolean update(LoginBoardVO vo) {
         Connection con = null;
         PreparedStatement pstmt = null;
@@ -201,15 +200,26 @@ public class LoginBoardDAO {
         try {
             con = ConnectionPool.getInstance().dbCon();
             pstmt = con.prepareStatement(UPDATE_SQL);
+
+            // 디버깅 메시지 추가
+            System.out.println("Executing UPDATE query...");
+            System.out.println("SQL Query: " + UPDATE_SQL);
+            System.out.println("TITLE: " + vo.getTitle());
+            System.out.println("CONTENT: " + vo.getContent());
+            System.out.println("ORIGINFILE: " + vo.getOriginFile());
+            System.out.println("SYSFILE: " + vo.getSysFile());
+            System.out.println("TYPE: " + vo.getType());
+            System.out.println("NUM: " + vo.getNum());
+
             pstmt.setString(1, vo.getTitle());
             pstmt.setString(2, vo.getContent());
             pstmt.setString(3, vo.getOriginFile());
             pstmt.setString(4, vo.getSysFile());
-            pstmt.setString(5, vo.getType()); // TYPE
-            pstmt.setInt(6, vo.getNum());     // NUM
-
+            pstmt.setString(5, vo.getType());
+            pstmt.setInt(6, vo.getNum());
 
             count = pstmt.executeUpdate();
+            System.out.println("Rows affected: " + count); // 실행 결과 확인
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {
@@ -217,6 +227,7 @@ public class LoginBoardDAO {
         }
         return count > 0;
     }
+
 
     // Delete a post
     public boolean delete(int num) {

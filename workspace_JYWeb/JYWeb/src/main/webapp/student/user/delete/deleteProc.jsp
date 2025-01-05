@@ -44,11 +44,10 @@
 </head>
 <body>
     <main>
-        <font>
-            회원정보가 삭제되었습니다. <br><br>
-            안녕히 가세요! ㅠ.ㅠ <br><br>
-            3초 후에 로그인 페이지로 이동합니다.
-        </font>
+<script>
+	alert("회원정보가 삭제되었습니다. 로그인 페이지로 이동합니다.");
+</script>
+
     </main>
 </body>
 </html>

@@ -123,23 +123,28 @@ int depth = post != null ? post.getDepth() : 0;
 					<tr>
 					    <td colspan="2" class="answerShowBtnTd">
 					        <div class="answerShowBtnWrapper">
-					            <button class="answerShowBtn" onclick="document.location.href='<%=request.getContextPath()%>/board/qna/answer/update/updateForm.jsp?num=<%= num %>&pageNum=<%= pageNum %>'">수정하기</button>
+					            <% 
+					                // 관리자 확인
+					                boolean isAdmin = "ADMIN".equals(role);
+					                
+					                // 수정하기 버튼 조건: 관리자만
+					                if (isAdmin) { 
+					            %>
+					                <button class="answerShowBtn" onclick="document.location.href='<%=request.getContextPath()%>/board/qna/answer/update/updateForm.jsp?num=<%= num %>&pageNum=<%= pageNum %>'">수정하기</button>
+					            <% } %>
 					
 					            <% 
-					                // 삭제 버튼 조건: ADMIN이거나 studentId가 일치하는 경우
-					                boolean isOwner = post != null && post.getStudentId() != null && post.getStudentId().equals(userId);
-					                boolean isAdmin = "ADMIN".equals(role);
-					
-					                if (isOwner || isAdmin) { 
+					                // 삭제하기 버튼 조건: 관리자만
+					                if (isAdmin) { 
 					            %>
 					                <button class="answerShowBtn" onclick="document.location.href='<%=request.getContextPath()%>/board/qna/answer/delete/deleteProc.jsp?num=<%= num %>&pageNum=<%= pageNum %>'">삭제하기</button>
 					            <% } %>
-				
 					
 					            <button class="answerShowBtn" onclick="document.location.href='<%=request.getContextPath()%>/board/qna/qnaList.jsp?pageNum=<%= pageNum %>'">목록으로</button>
 					        </div>
 					    </td>
 					</tr>
+
 
 
 

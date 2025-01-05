@@ -37,58 +37,53 @@
 
         // 게시글 번호 가져오기
         int num = Integer.parseInt(multi.getParameter("num"));
+        System.out.println("게시글 번호(num): " + num);
+
         vo.setNum(num);
 
         // 기존 게시글 정보 가져오기
         LoginBoardVO existingPost = dao.selectOne(num);
 
         if (existingPost == null) {
-            out.println("<script>");
-            out.println("alert('해당 게시글이 존재하지 않습니다.');");
-            out.println("history.back();");
-            out.println("</script>");
-            return;
+            throw new Exception("해당 게시글이 존재하지 않습니다.");
         }
 
-        // 권한 확인: role이 'ADMIN'이거나 작성자인 경우에만 허용
+        // 권한 확인
         if (!"ADMIN".equals(userRole) && !userId.equals(existingPost.getStudentId())) {
-            out.println("<script>");
-            out.println("alert('권한이 없습니다.');");
-            out.println("history.back();");
-            out.println("</script>");
-            return;
+            throw new Exception("권한이 없습니다.");
         }
 
-        // 게시글 수정 데이터 설정
+        // 데이터 처리
         vo.setTitle(multi.getParameter("title"));
         vo.setContent(multi.getParameter("content"));
-        vo.setRegDate(new Timestamp(System.currentTimeMillis()));
+        
+        // type 처리
+        String type = multi.getParameter("type");
+        if (type == null || type.isEmpty()) {
+            type = "NOTI"; // 기본값 설정
+        }
+        vo.setType(type);
+
+        // 디버깅: type 확인
+        System.out.println("게시글 유형(type): " + type);
 
         // 파일 처리
         String originFile = multi.getOriginalFileName("originFile");
         String sysFile = multi.getFilesystemName("originFile");
+        System.out.println("파일 이름(originFile): " + originFile);
+        System.out.println("파일 시스템 이름(sysFile): " + sysFile);
+
         vo.setOriginFile(originFile != null ? originFile : existingPost.getOriginFile());
         vo.setSysFile(sysFile != null ? sysFile : existingPost.getSysFile());
 
         // 게시글 수정
-        boolean flag = dao.update(vo);
-
-        if (flag) {
-            out.println("<script>");
-            out.println("alert('게시글이 성공적으로 수정되었습니다.');");
-            out.println("location.href='" + request.getContextPath() + "/board/noti/notiShow.jsp?num=" + vo.getNum() + "&pageNum=" + multi.getParameter("pageNum") + "';");
-            out.println("</script>");
+        if (dao.update(vo)) {
+            response.sendRedirect(request.getContextPath() + "/board/noti/notiShow.jsp?num=" + vo.getNum() + "&pageNum=" + multi.getParameter("pageNum"));
         } else {
-            out.println("<script>");
-            out.println("alert('게시글 수정에 실패했습니다.');");
-            out.println("history.back();");
-            out.println("</script>");
+            throw new Exception("게시글 수정에 실패했습니다.");
         }
     } catch (Exception e) {
         e.printStackTrace();
-        out.println("<script>");
-        out.println("alert('게시글 수정 중 오류가 발생했습니다.');");
-        out.println("history.back();");
-        out.println("</script>");
+        out.println("<script>alert('" + e.getMessage() + "'); history.back();</script>");
     }
 %>

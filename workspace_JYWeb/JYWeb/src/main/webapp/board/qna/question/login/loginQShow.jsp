@@ -123,19 +123,29 @@ int depth = post != null ? post.getDepth() : 0;
 					<tr>
 					    <td colspan="2" class="loginQShowBtnTd">
 					        <div class="loginQShowBtnWrapper">
-					            <button class="loginQShowBtn" onclick="document.location.href='<%=request.getContextPath()%>/board/qna/question/login/update/updateForm.jsp?num=<%= num %>&pageNum=<%= pageNum %>'">수정하기</button>
+					            <% 
+					                // 글 작성자 확인
+					                boolean isOwner = post != null && post.getStudentId() != null && post.getStudentId().equals(userId);
+					                // 관리자 확인
+					                boolean isAdmin = "ADMIN".equals(role);
+					                
+					                // 수정 버튼 조건: 작성자이거나 관리자
+					                if (isOwner || isAdmin) { 
+					            %>
+					                <button class="loginQShowBtn" onclick="document.location.href='<%=request.getContextPath()%>/board/qna/question/login/update/updateForm.jsp?num=<%= num %>&pageNum=<%= pageNum %>'">수정하기</button>
+					            <% } %>
 					
 					            <% 
-					                // 삭제 버튼 조건: ADMIN이거나 studentId가 일치하는 경우
-					                boolean isOwner = post != null && post.getStudentId() != null && post.getStudentId().equals(userId);
-					                boolean isAdmin = "ADMIN".equals(role);
-					
+					                // 삭제 버튼 조건: 작성자이거나 관리자
 					                if (isOwner || isAdmin) { 
 					            %>
 					                <button class="loginQShowBtn" onclick="document.location.href='<%=request.getContextPath()%>/board/qna/question/login/delete/deleteProc.jsp?num=<%= num %>&pageNum=<%= pageNum %>'">삭제하기</button>
 					            <% } %>
 					
-					            <% if ("ADMIN".equals(role)) { %>
+					            <% 
+					                // 답변하기 버튼 조건: 관리자만
+					                if (isAdmin) { 
+					            %>
 					                <button class="loginQShowBtn" onclick="document.location.href='<%=request.getContextPath()%>/board/qna/answer/write/answerForm.jsp?num=<%= num %>&ref=<%= ref %>&step=<%= step %>&depth=<%= depth %>'">답변하기</button>
 					            <% } %>
 					
@@ -143,6 +153,7 @@ int depth = post != null ? post.getDepth() : 0;
 					        </div>
 					    </td>
 					</tr>
+					
 
 
 

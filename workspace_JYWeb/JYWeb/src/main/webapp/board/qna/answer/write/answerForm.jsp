@@ -15,22 +15,30 @@
         return;
     }
 
-    // 질문 번호 가져오기
+ 	// 질문 번호 가져오기
     int questionNum = Integer.parseInt(request.getParameter("num"));
 
-    // 로그인 여부 확인 및 DAO 호출
-    String questionTitle = "";
-    if (userId != null) {
-        // 로그인 사용자의 질문
+    // 질문 제목 초기화
+    String questionTitle = "제목 없음";
+
+    // 게시글 조회
+    LogoutBoardDAO logoutBoardDAO = LogoutBoardDAO.getInstance();
+    LogoutBoardVO logoutBoard = logoutBoardDAO.selectOne(questionNum);
+
+    if (logoutBoard != null) {
+        // 로그아웃 사용자의 질문이 존재하는 경우
+        questionTitle = logoutBoard.getTitle();
+    } else {
+        // 로그아웃 게시판에 없는 경우, 로그인 사용자의 질문 조회
         LoginBoardDAO loginBoardDAO = LoginBoardDAO.getInstance();
         LoginBoardVO loginBoard = loginBoardDAO.selectOne(questionNum);
-        questionTitle = (loginBoard != null) ? loginBoard.getTitle() : "제목 없음";
-    } else {
-        // 로그아웃 사용자의 질문
-        LogoutBoardDAO logoutBoardDAO = LogoutBoardDAO.getInstance();
-        LogoutBoardVO logoutBoard = logoutBoardDAO.selectOne(questionNum);
-        questionTitle = (logoutBoard != null) ? logoutBoard.getTitle() : "제목 없음";
+        if (loginBoard != null) {
+            questionTitle = loginBoard.getTitle();
+        }
     }
+
+    // 디버깅 메시지 출력
+    System.out.println("[DEBUG] 질문 제목: " + questionTitle);
 
 %>
 <%

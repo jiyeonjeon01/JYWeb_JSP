@@ -135,8 +135,11 @@ String userId = (String) session.getAttribute("userId");
                         </tbody>
                     </table>
                     <div class="normalBorderWriteLinkDiv">
-                        <a href="<%=request.getContextPath()%>/board/normal/write/normalForm.jsp" class="normalBoardWriteLink">글쓰기</a>
-                    </div>
+					    <% if (userId != null && !userId.isEmpty()) { %>
+					        <a href="<%=request.getContextPath()%>/board/normal/write/normalForm.jsp" class="normalBoardWriteLink">글쓰기</a>
+					    <% } %>
+					</div>
+
 
                     <div class="normalBoardPage">
                         <% if (count > 0) { %>

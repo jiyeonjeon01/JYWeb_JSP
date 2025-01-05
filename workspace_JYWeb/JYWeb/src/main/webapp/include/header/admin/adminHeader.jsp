@@ -73,7 +73,7 @@
 					<!-- 쇼핑 메뉴 -->
 					<div class="shoppingMenuAdmin">
 						<a
-							href="<%=request.getContextPath()%>/board/shopping/productList.jsp">
+							href="<%=request.getContextPath()%>/board/shopping/product/productList.jsp">
 							<span>쇼핑</span>
 						</a>
 						<!-- 드롭다운 메뉴 -->
