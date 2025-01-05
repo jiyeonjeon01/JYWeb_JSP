@@ -77,9 +77,10 @@ JSP로 만든 JYWeb. <br>
 <br>
 
 ## 🖥️Test
+<p>
 [구현 내용 동영상으로 확인하기](링크)
+</p>
 <br>
-
 
 
 ## 💾 Project Implementation
